@@ -22,12 +22,16 @@ export const fetchTransaction = async (
       chainId = '1';
       url = 'http://localhost:8081/v0/eth/mainnet/transaction';
       break;
+    // Polygon Mainnet
     case 'eip155:89':
       chainId = '137';
       url = 'http://localhost:8081/v0/polygon/mainnet/transaction';
+      break;
+    // Arbitrum Mainnet
     case 'eip155:a4b1':
       chainId = '42161';
       url = 'http://localhost:8081/v0/arb/mainnet/transaction';
+      break;
   }
 
   // Make a request to the simulator
