@@ -64,6 +64,7 @@ export const onTransaction: OnTransactionHandler = async ({
   if (response.warningType === 'WARN' || response.warningType === 'INFO') {
     return {
       content: panel([
+        heading('Overview Message'),
         text(response.warningMessage),
         divider(),
         ...StateChangeComponent(response.stateChanges),
