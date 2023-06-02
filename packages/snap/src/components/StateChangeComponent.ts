@@ -9,6 +9,10 @@ import { NewComponentArray } from './ComponentArray';
  * @returns A MetaMask Snap component based on the results of the API call.
  */
 export const StateChangeComponent = (stateChanges: StateChange[]) => {
+  if (stateChanges === null) {
+    return NewComponentArray('No state changes');
+  }
+
   console.log('stateChanges', JSON.stringify(stateChanges));
   var receiveComponents = NewComponentArray('You will receive:');
   var transferComponents = NewComponentArray('You will send:');
