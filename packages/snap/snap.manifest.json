@@ -1,13 +1,13 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example Snap",
+  "description": "Wallet Guard's simulator inside of a MetaMask Snap.",
+  "proposedName": "Wallet Guard",
   "repository": {
     "type": "git",
     "url": "https://github.com/MetaMask/template-snap-monorepo.git"
   },
   "source": {
-    "shasum": "gYuVZiPVHxVXwNvy/FY6em4ZDYlcLZroYEab1yaXDQI=",
+    "shasum": "AC35FR++EbClMMdqObCYvaQxkb1MGCqoZQ3eqyXRnic=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
