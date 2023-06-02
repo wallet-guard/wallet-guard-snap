@@ -17,10 +17,17 @@ export const fetchTransaction = async (
 ) => {
   var url = "";
   switch (chainId) {
+    // Ethereum Mainnet
     case 'eip155:1':
       chainId = '1';
       url = 'http://localhost:8081/v0/eth/mainnet/transaction';
       break;
+    case 'eip155:89':
+      chainId = '137';
+      url = 'http://localhost:8081/v0/polygon/mainnet/transaction';
+    case 'eip155:a4b1':
+      chainId = '42161';
+      url = 'http://localhost:8081/v0/arb/mainnet/transaction';
   }
 
   // Make a request to the simulator
