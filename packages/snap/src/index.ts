@@ -1,13 +1,14 @@
 import {
+  OnCronjobHandler,
   OnRpcRequestHandler,
   OnTransactionHandler,
 } from '@metamask/snaps-types';
-import { NodeType, divider, heading, panel, text } from '@metamask/snaps-ui';
-import { Json } from '@metamask/utils';
-import { SimulateRequestParams, StateChange } from './types/simulateApi';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
 import { StateChangeComponent } from './components/stateChangeComponent';
 
+
+const WALLET_ADDRESS_KEY = 'wgWalletAddress';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -18,8 +19,71 @@ import { StateChangeComponent } from './components/stateChangeComponent';
  * @returns The result of `snap_dialog`.
  * @throws If the request method is not valid for this snap.
  */
-export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
+
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  origin,
+  request,
+}) => {
+  if (request.method === 'revokePrompt') {
+    const walletAddress = await snap.request({
+      method: 'snap_dialog', // todo: also look into notifications
+      params: {
+        type: 'prompt',
+        content: panel([
+          heading('What is the wallet address?'),
+          text('Please enter the wallet address to be monitored'),
+        ]),
+        placeholder: '0x123...',
+      },
+    });
+
+    snap.request({
+      method: 'snap_manageState',
+      params: {
+        operation: 'update',
+        newState: { [WALLET_ADDRESS_KEY]: walletAddress },
+      },
+    });
+
+    return null;
+  }
+
   switch (request.method) {
+    case 'notifyInApp':
+      return snap.request({
+        method: 'snap_notify',
+        params: {
+          type: 'inApp',
+          message: 'Hello, world!',
+        },
+      });
+    case 'notifyNative':
+      return snap.request({
+        method: 'snap_notify',
+        params: {
+          type: 'native',
+          message: 'Hello, world!',
+        },
+      });
+    case 'getAddress':
+      return snap.request({
+        method: 'snap_manageState',
+        params: {
+          operation: 'get',
+        },
+      });
+    case 'revokePrompt':
+      return snap.request({
+        method: 'snap_dialog', // todo: also look into notifications
+        params: {
+          type: 'prompt',
+          content: panel([
+            heading('What is the wallet address?'),
+            text('Please enter the wallet address to be monitored'),
+          ]),
+          placeholder: '0x123...',
+        },
+      });
     case 'hello':
       return snap.request({
         method: 'snap_dialog',
@@ -29,7 +93,7 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
             text(`Hello, **${origin}**!`),
             text('This custom confirmation is just for display purposes.'),
             text(
-              'But you can edit the snap source code to make it do something, if you want to!',
+              'But you can edit the snap source code to make it do something, if you want to! ✅',
             ),
           ]),
         },
@@ -75,4 +139,31 @@ export const onTransaction: OnTransactionHandler = async ({
   return {
     content: panel(StateChangeComponent(response.stateChanges)),
   };
+};
+
+export const onCronjob: OnCronjobHandler = async ({ request }) => {
+  if (request.method === 'checkApprovals') {
+    // todo: consider making this a notification instead
+    // todo: fetch from John's API. Only alert if there's
+    // a bad approval out that puts money at risk
+    // todo: fetch wallet address from local storage
+
+    await snap.request({
+      method: 'snap_dialog',
+      params: {
+        type: 'alert',
+        content: panel([
+          heading(
+            'You have an open approval that puts your Pudgy Penguin at risk',
+          ),
+          text(
+            'Open approvals are abused by gasless signature scams. Bad actors can steal your NFTs and tokens if you sign a malicious signature. To revoke this open approval you can visit',
+          ),
+          copyable('https://dashboard.walletguard.app'),
+        ]),
+      },
+    });
+
+    return null;
+  }
 };
