@@ -4,20 +4,20 @@ import { NewComponentArray } from './ComponentArray';
 
 /**
  * Creates a MetaMask Snap component based on a state change.
- *  
+ *
  * @param stateChanges - The state changes from the Wallet Guard API.
  * @returns A MetaMask Snap component based on the results of the API call.
  */
-export const StateChangeComponent = (stateChanges: StateChange[]) => {
+export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
   if (stateChanges === null) {
     return NewComponentArray('No state changes');
   }
 
   console.log('stateChanges', JSON.stringify(stateChanges));
-  var receiveComponents = NewComponentArray('You will receive:');
-  var transferComponents = NewComponentArray('You will send:');
-  var approveComponents = NewComponentArray('You will be approving:');
-  var revokeApproveComponents = NewComponentArray(
+  const receiveComponents = NewComponentArray('You will receive:');
+  const transferComponents = NewComponentArray('You will send:');
+  const approveComponents = NewComponentArray('You will be approving:');
+  const revokeApproveComponents = NewComponentArray(
     'You will be revoking approval for:',
   );
 
@@ -52,7 +52,7 @@ export const StateChangeComponent = (stateChanges: StateChange[]) => {
   });
 
   // Add the components to the return array if they exist.
-  var returnComponents = NewComponentArray('');
+  const returnComponents = NewComponentArray('');
   if (approveComponents.length > 1) {
     returnComponents.push(...approveComponents, divider());
   }

@@ -14,6 +14,35 @@ export type SimulateRequestParams = {
   };
 };
 
+// The only method supported by Snaps on launch is eth_sendTransaction
+export enum SimulationMethodType {
+  EthSendTransaction = 'eth_sendTransaction',
+}
+
+export enum SimulationWarningType {
+  None = 'NONE',
+  Info = 'INFO',
+  Warn = 'WARN',
+}
+
+export type SimulationResponse = {
+  warningType: SimulationWarningType;
+  message?: string[];
+  stateChanges: StateChange[] | null;
+  addressDetails: SimulationAddressDetails;
+  method: SimulationMethodType | string;
+  decodedMessage?: string;
+  scanResult: PhishingResponse;
+  error: SimulationError | null;
+};
+
+export type SimulationAddressDetails = {
+  address: string;
+  addressType: string;
+  etherscanVerified: boolean;
+  etherscanLink: string;
+};
+
 /*
  * State change object that is within the response returned by the Wallet Guard Simulate API.
  */
@@ -39,3 +68,56 @@ export type StateChange = {
   message: string;
   fiatValue: string;
 };
+
+export type PhishingResponse = {
+  domainName: string;
+  phishing: PhishingResult;
+  warnings: Warning[] | null;
+  verified: boolean;
+};
+
+export type Warning = {
+  level: WarningLevel;
+  type: WarningType;
+  value: string;
+};
+
+export enum WarningType {
+  Similarity = 'SIMILARITY',
+  RecentlyCreated = 'RECENTLY_CREATED',
+  Malware = 'MALWARE',
+  Homoglyph = 'HOMOGLYPH',
+  Blocklisted = 'BLOCKLISTED',
+  MLInference = 'ML_INFERENCE',
+  Drainer = 'DRAINER',
+}
+
+export enum WarningLevel {
+  Info = 'INFO',
+  Low = 'LOW',
+  Medium = 'MEDIUM',
+  High = 'HIGH',
+  Critical = 'CRITICAL',
+}
+
+export enum PhishingResult {
+  Phishing = 'PHISHING',
+  NotPhishing = 'NOT_PHISHING',
+  Unknown = 'UNKNOWN',
+}
+
+export type SimulationError = {
+  type: ErrorType;
+  message: string;
+  extraData: object | null;
+};
+
+export enum ErrorType {
+  Unauthorized = 'UNAUTHORIZED',
+  InsufficientFunds = 'INSUFFICIENT_FUNDS',
+  MaxFeePerGasLessThanBlockBaseFee = 'MAX_FEE_PER_GAS_LESS_THAN_BLOCK_BASE_FEE',
+  Revert = 'REVERT',
+  TooManyRequests = 'TOO_MANY_REQUESTS',
+  GeneralError = 'ERROR',
+  UnknownError = 'UNKNOWN_ERROR',
+}

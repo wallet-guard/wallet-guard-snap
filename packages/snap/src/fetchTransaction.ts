@@ -1,8 +1,8 @@
 import { Json } from '@metamask/snaps-types';
-import { SimulateRequestParams } from './types/simulateApi';
+import { SimulateRequestParams, SimulationResponse } from './types/simulateApi';
 
 /**
- * Makes a fetch request to the Wallet Guard Simulate API based on the transaction. 
+ * Makes a fetch request to the Wallet Guard Simulate API based on the transaction.
  * @param transaction - The transaction to simulate.
  * @param chainId - The chain ID of the transaction.
  * @param transactionOrigin - The origin of the transaction.
@@ -14,7 +14,7 @@ export const fetchTransaction = async (
   },
   chainId: string,
   transactionOrigin: string | undefined,
-) => {
+): Promise<SimulationResponse> => {
   const mappedChainId = mapChainId(chainId);
   const requestURL = getURLForChainId(chainId);
 
@@ -39,6 +39,11 @@ export const fetchTransaction = async (
   return json;
 };
 
+/**
+ * Maps the chainId to the relevant base URL for our API
+ * @param chainId - the chainId of the request sent from the Metamask Snap
+ * @returns the mapped chainId for our API
+ */
 function getURLForChainId(chainId: string): string {
   switch (chainId) {
     // Ethereum Mainnet
@@ -56,7 +61,7 @@ function getURLForChainId(chainId: string): string {
 }
 
 /**
- * Maps the chainId to conform to our API
+ * Maps the chainId to conform to our API.
  * @param chainId - the chainId of the request sent from the Metamask Snap
  * @returns the mapped chainId for our API
  */
