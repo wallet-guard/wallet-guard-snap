@@ -10,50 +10,68 @@ import { SimulateRequestParams } from './types/simulateApi';
  */
 export const fetchTransaction = async (
   transaction: {
-    [key: string]: Json
+    [key: string]: Json;
   },
   chainId: string,
   transactionOrigin: string | undefined,
 ) => {
-  var url = "";
-  switch (chainId) {
-    // Ethereum Mainnet
-    case 'eip155:1':
-      chainId = '1';
-      url = 'http://localhost:8081/v0/eth/mainnet/transaction';
-      break;
-    // Polygon Mainnet
-    case 'eip155:89':
-      chainId = '137';
-      url = 'http://localhost:8081/v0/polygon/mainnet/transaction';
-      break;
-    // Arbitrum Mainnet
-    case 'eip155:a4b1':
-      chainId = '42161';
-      url = 'http://localhost:8081/v0/arb/mainnet/transaction';
-      break;
-  }
+  const mappedChainId = mapChainId(chainId);
+  const requestURL = getURLForChainId(chainId);
 
   // Make a request to the simulator
   const simulateRequest: SimulateRequestParams = {
-    id: '1',
-    chainID: chainId,
+    id: `snap:${crypto.randomUUID()}`,
+    chainID: mappedChainId,
     signer: transaction.from as string,
     origin: transactionOrigin as string,
     method: 'eth_sendTransaction',
-    transaction: transaction,
+    transaction,
   };
 
-  const response = await fetch(
-    url,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(simulateRequest),
+  const response = await fetch(requestURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify(simulateRequest),
+  });
   const json = await response.json();
   return json;
 };
+
+function getURLForChainId(chainId: string): string {
+  switch (chainId) {
+    // Ethereum Mainnet
+    case 'eip155:1':
+      return 'http://localhost:8081/v0/eth/mainnet/transaction';
+    // Polygon Mainnet
+    case 'eip155:89':
+      return 'http://localhost:8081/v0/polygon/mainnet/transaction';
+    // Arbitrum Mainnet
+    case 'eip155:a4b1':
+      return 'http://localhost:8081/v0/arb/mainnet/transaction';
+    default:
+    // throw ; TODO
+  }
+}
+
+/**
+ * Maps the chainId to conform to our API
+ * @param chainId - the chainId of the request sent from the Metamask Snap
+ * @returns the mapped chainId for our API
+ */
+function mapChainId(chainId: string): string {
+  switch (chainId) {
+    // Ethereum Mainnet
+    case 'eip155:1':
+      return '1';
+    // Polygon Mainnet
+    case 'eip155:89':
+      return '137';
+    // Arbitrum Mainnet
+    case 'eip155:a4b1':
+      return '42161';
+    default:
+    // return '1'; TODO
+  }
+}
