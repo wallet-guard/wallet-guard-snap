@@ -2,7 +2,7 @@ import { OnTransactionHandler } from '@metamask/snaps-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
 import { StateChangeComponent } from './components/stateChangeComponent';
-import { SimulationWarningType, WarningType } from './types/simulateApi';
+import { SimulationWarningType } from './types/simulateApi';
 
 // Handle outgoing transactions.
 export const onTransaction: OnTransactionHandler = async ({
@@ -19,7 +19,7 @@ export const onTransaction: OnTransactionHandler = async ({
   // Handle transactions with errors.
   if (response.error) {
     return {
-      content: panel([text('Error: ' + response.error.message)]),
+      content: panel([text(`Error: ${response.error.message}`)]),
     };
   }
 
