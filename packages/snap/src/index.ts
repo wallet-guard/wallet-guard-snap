@@ -1,10 +1,16 @@
-import { OnTransactionHandler, OnTransactionResponse } from '@metamask/snaps-types';
-import { Panel, divider, heading, panel, text } from '@metamask/snaps-ui';
+import {
+  OnTransactionHandler,
+  OnTransactionResponse,
+} from '@metamask/snaps-types';
+import { divider, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
 import { StateChangeComponent } from './components/StateChangeComponent';
 import { ErrorType, SimulationWarningType } from './types/simulateApi';
 import {
+  ErrorComponent,
   InsufficientFundsComponent,
+  RevertComponent,
+  TooManyRequestsComponent,
   UnauthorizedComponent,
 } from './components/stateChanges';
 
@@ -22,17 +28,8 @@ export const onTransaction: OnTransactionHandler = async ({
 
   if (response.error) {
     return getErrorComponent(response.error.type);
-  } else if (response.simulation?.error) {
-    // todo;
-    return null;
-  }
-
-
-  if (!response.simulation) {
-    return {
-      // todo change this to unknown error component
-      content: panel([text('Unknown response')]),
-    };
+  } else if (!response.simulation || response.simulation?.error) {
+    return getErrorComponent(ErrorType.GeneralError);
   }
 
   if (
@@ -54,23 +51,25 @@ export const onTransaction: OnTransactionHandler = async ({
   };
 };
 
+/**
+ * Maps an error from the Wallet Guard API to a component
+ * @param errorType - the mapped error response based on status code or any simulation related issues
+ * @returns OnTransactionResposnse - the output for OnTransaction hook
+ */
 function getErrorComponent(errorType: ErrorType): OnTransactionResponse {
   switch (errorType) {
     case ErrorType.Revert:
-      return null;
+      return RevertComponent();
     case ErrorType.InsufficientFunds:
       return InsufficientFundsComponent();
-    case ErrorType.GeneralError:
-      return null;
     case ErrorType.TooManyRequests:
-      return null;
+      return TooManyRequestsComponent();
     case ErrorType.Unauthorized:
-      return component(UnauthorizedComponent);
+      return UnauthorizedComponent();
     case ErrorType.MaxFeePerGasLessThanBlockBaseFee:
-      return null;
-    case ErrorType.UnknownError:
-      return null;
+      // todo: see if we can get better messaging for this
+      return ErrorComponent();
     default:
-      return null;
+      return ErrorComponent();
   }
 }
