@@ -1,7 +1,7 @@
 import { OnTransactionHandler } from '@metamask/snaps-types';
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
-import { StateChangeComponent } from './components/stateChangeComponent';
+import { StateChangeComponent } from './components/StateChangeComponent';
 import { SimulationWarningType } from './types/simulateApi';
 
 // Handle outgoing transactions.

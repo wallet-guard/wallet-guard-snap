@@ -1,5 +1,6 @@
 import { Json } from '@metamask/snaps-types';
 import { SimulateRequestParams, SimulationResponse } from './types/simulateApi';
+import { SERVER_BASE_URL } from './environment';
 
 /**
  * Makes a fetch request to the Wallet Guard Simulate API based on the transaction.
@@ -50,15 +51,16 @@ function getURLForChainId(chainId: string): string {
   switch (chainId) {
     // Ethereum Mainnet
     case 'eip155:1':
-      return 'http://localhost:8081/v0/eth/mainnet/transaction';
+      return `${SERVER_BASE_URL}/v0/eth/mainnet/transaction`;
     // Polygon Mainnet
     case 'eip155:89':
-      return 'http://localhost:8081/v0/polygon/mainnet/transaction';
+      return `${SERVER_BASE_URL}/v0/polygon/mainnet/transaction`;
     // Arbitrum Mainnet
     case 'eip155:a4b1':
-      return 'http://localhost:8081/v0/arb/mainnet/transaction';
+      return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
     default:
-    // throw ; TODO
+      // throw ; TODO
+      throw new Error('chain not supported');
   }
 }
 
@@ -80,6 +82,7 @@ function mapChainId(chainId: string): string {
     case 'eip155:a4b1':
       return '42161';
     default:
-    // return '1'; TODO
+      // return '1'; TODO
+      throw new Error('chain not supported');
   }
 }
