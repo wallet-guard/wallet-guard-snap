@@ -1,5 +1,23 @@
 import { Json } from '@metamask/utils';
 
+export type ApiResponse = {
+  readonly type: ResponseType;
+  // Only set on success.
+  readonly simulation?: SimulationResponse;
+  // Might be set on error.
+  readonly error?: SimulationError;
+};
+
+export enum ResponseType {
+  Success = 'success',
+  Revert = 'revert',
+  Errored = 'error',
+}
+
+export type SimulationErrorResponse = {
+  error: SimulationError;
+};
+
 /**
  * Parameters for the request to the Wallet Guard Simulate API.
  */

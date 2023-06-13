@@ -1,8 +1,12 @@
-import { OnTransactionHandler } from '@metamask/snaps-types';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { OnTransactionHandler, OnTransactionResponse } from '@metamask/snaps-types';
+import { Panel, divider, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
 import { StateChangeComponent } from './components/StateChangeComponent';
-import { SimulationWarningType } from './types/simulateApi';
+import { ErrorType, SimulationWarningType } from './types/simulateApi';
+import {
+  InsufficientFundsComponent,
+  UnauthorizedComponent,
+} from './components/stateChanges';
 
 // Handle outgoing transactions.
 export const onTransaction: OnTransactionHandler = async ({
@@ -16,31 +20,57 @@ export const onTransaction: OnTransactionHandler = async ({
     transactionOrigin,
   );
 
-  // Handle transactions with errors.
   if (response.error) {
+    return getErrorComponent(response.error.type);
+  } else if (response.simulation?.error) {
+    // todo;
+    return null;
+  }
+
+
+  if (!response.simulation) {
     return {
-      content: panel([text(`Error: ${response.error.message}`)]),
+      // todo change this to unknown error component
+      content: panel([text('Unknown response')]),
     };
   }
 
-  // TODO: add switch statement for response.error and response.simulation.error here
-
-  // Add warning if simulation warning is present.
   if (
-    response.warningType === SimulationWarningType.Info ||
-    response.warningType === SimulationWarningType.Warn
+    response.simulation.warningType === SimulationWarningType.Info ||
+    response.simulation.warningType === SimulationWarningType.Warn
   ) {
     return {
       content: panel([
         heading('Overview Message'),
-        text(response.message?.join(' ') || ''),
+        text(response.simulation.message?.join(' ') || ''),
         divider(),
-        ...StateChangeComponent(response.stateChanges),
+        ...StateChangeComponent(response.simulation.stateChanges),
       ]),
     };
   }
 
   return {
-    content: panel(StateChangeComponent(response.stateChanges)),
+    content: panel(StateChangeComponent(response.simulation.stateChanges)),
   };
 };
+
+function getErrorComponent(errorType: ErrorType): OnTransactionResponse {
+  switch (errorType) {
+    case ErrorType.Revert:
+      return null;
+    case ErrorType.InsufficientFunds:
+      return InsufficientFundsComponent();
+    case ErrorType.GeneralError:
+      return null;
+    case ErrorType.TooManyRequests:
+      return null;
+    case ErrorType.Unauthorized:
+      return component(UnauthorizedComponent);
+    case ErrorType.MaxFeePerGasLessThanBlockBaseFee:
+      return null;
+    case ErrorType.UnknownError:
+      return null;
+    default:
+      return null;
+  }
+}
