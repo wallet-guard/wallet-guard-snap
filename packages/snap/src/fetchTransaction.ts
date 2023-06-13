@@ -1,5 +1,5 @@
 import { Json } from '@metamask/snaps-types';
-import { SimulateRequestParams, SimulationResponse } from './types/simulateApi';
+import { SimulateRequestParams, SimulationMethodType, SimulationResponse } from './types/simulateApi';
 import { SERVER_BASE_URL } from './environment';
 
 /**
@@ -26,7 +26,7 @@ export const fetchTransaction = async (
     chainID: mappedChainId,
     signer: transaction.from as string,
     origin: transactionOrigin as string,
-    method: 'eth_sendTransaction',
+    method: SimulationMethodType.EthSendTransaction,
     transaction,
   };
 
@@ -37,7 +37,12 @@ export const fetchTransaction = async (
     },
     body: JSON.stringify(simulateRequest),
   });
+
+  // todo: add mapper fn for errors (add try catch here?)
+  // test this with different errors
+
   const json = await response.json();
+
   return json;
 };
 

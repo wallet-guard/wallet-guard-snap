@@ -13,7 +13,6 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
     return NewComponentArray('No state changes');
   }
 
-  console.log('stateChanges', JSON.stringify(stateChanges));
   const receiveComponents = NewComponentArray('You will receive:');
   const transferComponents = NewComponentArray('You will send:');
   const approveComponents = NewComponentArray('You will be approving:');
@@ -37,17 +36,19 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
         revokeApproveComponents.push(text(stateChange.message));
         break;
       case 'TRANSFER':
-        var component = TransferComponent(stateChange);
+        const component = TransferComponent(stateChange);
         if (component) {
           transferComponents.push(component);
         }
         break;
       case 'RECEIVE':
-        var component = ReceiveComponent(stateChange);
-        if (component) {
-          receiveComponents.push(component);
+        const receiveComponent = ReceiveComponent(stateChange);
+        if (receiveComponent) {
+          receiveComponents.push(receiveComponent);
         }
         break;
+      default:
+        throw new Error('unknown change type'); // todo: may want to handle this incase new change types come in the future
     }
   });
 
@@ -56,12 +57,15 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
   if (approveComponents.length > 1) {
     returnComponents.push(...approveComponents, divider());
   }
+
   if (receiveComponents.length > 1) {
     returnComponents.push(...receiveComponents, divider());
   }
+
   if (transferComponents.length > 1) {
     returnComponents.push(...transferComponents, divider());
   }
+
   if (revokeApproveComponents.length > 1) {
     returnComponents.push(...revokeApproveComponents, divider());
   }
@@ -71,15 +75,19 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
 
 // processStateChange is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
 const processStateChange = (stateChange: StateChange) => {
+  const fiatValue = Number(stateChange.fiatValue).toFixed(2);
   switch (stateChange.assetType) {
     case 'NATIVE':
     case 'ERC1155':
     case 'ERC20':
       return text(
-        `${stateChange.amount} ${stateChange.symbol} ($${stateChange.fiatValue})`,
+        `${stateChange.amount} ${stateChange.symbol} ($${fiatValue})`,
       );
     case 'ERC721':
-      return text(`${stateChange.tokenName} ($${stateChange.fiatValue})`);
+      return text(`${stateChange.tokenName} ($${fiatValue})`);
+    default:
+      return '';
+    // todo
   }
 };
 

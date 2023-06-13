@@ -32,7 +32,7 @@ export type SimulationResponse = {
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string;
-  scanResult: PhishingResponse;
+  scanResult: ScanResult;
   error: SimulationError | null;
 };
 
@@ -69,7 +69,7 @@ export type StateChange = {
   fiatValue: string;
 };
 
-export type PhishingResponse = {
+export type ScanResult = {
   domainName: string;
   phishing: PhishingResult;
   warnings: Warning[] | null;

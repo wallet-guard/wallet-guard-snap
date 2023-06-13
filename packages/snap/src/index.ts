@@ -23,6 +23,8 @@ export const onTransaction: OnTransactionHandler = async ({
     };
   }
 
+  // TODO: add switch statement for response.error and response.simulation.error here
+
   // Add warning if simulation warning is present.
   if (
     response.warningType === SimulationWarningType.Info ||
