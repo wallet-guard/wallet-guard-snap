@@ -139,3 +139,14 @@ export enum ErrorType {
   GeneralError = 'ERROR',
   UnknownError = 'UNKNOWN_ERROR',
 }
+
+export enum StateChangeType {
+  // Supported types
+  Receive = 'RECEIVE',
+  Transfer = 'TRANSFER',
+  // Not supported by Snaps yet
+  RevokeApprove = 'REVOKE_APPROVE',
+  RevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
+  Approve = 'APPROVE',
+  ApprovalForAll = 'APPROVAL_FOR_ALL',
+}

@@ -1,5 +1,5 @@
 import { divider, text } from '@metamask/snaps-ui';
-import { StateChange } from '../types/simulateApi';
+import { StateChange, StateChangeType } from '../types/simulateApi';
 import { NewComponentArray } from './ComponentArray';
 
 /**
@@ -20,28 +20,39 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
     'You will be revoking approval for:',
   );
 
-  // Sort state changes into the receive, transfer, approve, and revoke approve arrays. 
+  // const transfer = stateChanges.filter((stateChange) => stateChange.changeType === StateChangeType.Transfer);
+
+
+  // Idea for new flow here:
+  // currently we create components for all these, append to them, then map them to the response
+  // the new flow should be to filter out all types, then return the ones that exist. we only support receive and transfer on launch. so these mapper functions can be significantly reduced
+  // match this entire file with the way the extension maps state changes in StateChangesComponent.tsx
+
+  // consider refactoring ComponentArray.ts too. that file is very confusing
+
+
+  // Sort state changes into the receive, transfer, approve, and revoke approve arrays.
   stateChanges.forEach((stateChange: StateChange) => {
     switch (stateChange.changeType) {
-      case 'REVOKE_APPROVAL_FOR_ALL':
+      case StateChangeType.RevokeApprovalForAll:
         revokeApproveComponents.push(text(stateChange.message));
         break;
-      case 'APPROVAL_FOR_ALL':
+      case StateChangeType.ApprovalForAll:
         approveComponents.push(text(stateChange.message));
         break;
-      case 'APPROVE':
+      case StateChangeType.Approve:
         approveComponents.push(text(stateChange.message));
         break;
-      case 'REVOKE_APPROVE':
+      case StateChangeType.RevokeApprove:
         revokeApproveComponents.push(text(stateChange.message));
         break;
-      case 'TRANSFER':
+      case StateChangeType.Transfer:
         const component = TransferComponent(stateChange);
         if (component) {
           transferComponents.push(component);
         }
         break;
-      case 'RECEIVE':
+      case StateChangeType.Receive:
         const receiveComponent = ReceiveComponent(stateChange);
         if (receiveComponent) {
           receiveComponents.push(receiveComponent);
@@ -53,6 +64,7 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
   });
 
   // Add the components to the return array if they exist.
+  // todo: consider refactoring this entire function to use the .some function
   const returnComponents = NewComponentArray('');
   if (approveComponents.length > 1) {
     returnComponents.push(...approveComponents, divider());
@@ -76,6 +88,7 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
 // processStateChange is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
 const processStateChange = (stateChange: StateChange) => {
   const fiatValue = Number(stateChange.fiatValue).toFixed(2);
+
   switch (stateChange.assetType) {
     case 'NATIVE':
     case 'ERC1155':
