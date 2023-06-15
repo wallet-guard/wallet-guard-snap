@@ -1,5 +1,12 @@
 import { Json } from '@metamask/snaps-types';
-import { SimulateRequestParams, SimulationMethodType, SimulationResponse } from './types/simulateApi';
+import {
+  ApiResponse,
+  ErrorType,
+  ResponseType,
+  SimulateRequestParams,
+  SimulationMethodType,
+  SimulationResponse,
+} from './types/simulateApi';
 import { SERVER_BASE_URL } from './environment';
 
 /**
@@ -16,34 +23,78 @@ export const fetchTransaction = async (
   },
   chainId: string,
   transactionOrigin: string | undefined,
-): Promise<SimulationResponse> => {
-  const mappedChainId = mapChainId(chainId);
-  const requestURL = getURLForChainId(chainId);
+): Promise<ApiResponse> => {
+  try {
+    const mappedChainId = mapChainId(chainId);
+    const requestURL = getURLForChainId(chainId);
 
-  // Make a request to the simulator
-  const simulateRequest: SimulateRequestParams = {
-    id: `snap:${crypto.randomUUID()}`,
-    chainID: mappedChainId,
-    signer: transaction.from as string,
-    origin: transactionOrigin as string,
-    method: SimulationMethodType.EthSendTransaction,
-    transaction,
-  };
+    // Make a request to the simulator
+    const simulateRequest: SimulateRequestParams = {
+      id: `snap:${crypto.randomUUID()}`,
+      chainID: mappedChainId,
+      signer: transaction.from as string,
+      origin: transactionOrigin as string,
+      method: SimulationMethodType.EthSendTransaction,
+      transaction,
+    };
 
-  const response = await fetch(requestURL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(simulateRequest),
-  });
+    const response = await fetch(requestURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(simulateRequest),
+    });
 
-  // todo: add mapper fn for errors (add try catch here?)
-  // test this with different errors
+    if (response.status === 200) {
+      const data: SimulationResponse = await response.json();
 
-  const json = await response.json();
+      if (data.error?.type === ErrorType.Revert) {
+        return {
+          type: ResponseType.Revert,
+          error: data.error,
+        };
+      }
 
-  return json;
+      return {
+        type: ResponseType.Success,
+        simulation: data,
+      };
+    } else if (response.status === 403) {
+      return {
+        type: ResponseType.Errored,
+        error: {
+          type: ErrorType.Unauthorized,
+          message: 'Unauthorized',
+          extraData: null,
+        },
+      };
+    } else if (response.status === 429) {
+      return {
+        type: ResponseType.Errored,
+        error: {
+          type: ErrorType.TooManyRequests,
+          message: 'TooManyRequests',
+          extraData: null,
+        },
+      };
+    }
+
+    // todo: add mapper fn for errors (add try catch here?)
+    // test this with different errors
+
+    const data: SimulationResponse = await response.json();
+    return { type: ResponseType.Errored, error: data.error };
+  } catch (e: any) {
+    return {
+      error: {
+        type: ErrorType.UnknownError,
+        message: 'An unknown error occurred',
+        extraData: e,
+      },
+      type: ResponseType.Errored,
+    };
+  }
 };
 
 /**
