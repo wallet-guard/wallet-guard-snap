@@ -66,9 +66,6 @@ function getErrorComponent(errorType: ErrorType): OnTransactionResponse {
       return TooManyRequestsComponent();
     case ErrorType.Unauthorized:
       return UnauthorizedComponent();
-    case ErrorType.MaxFeePerGasLessThanBlockBaseFee:
-      // todo: see if we can get better messaging for this
-      return ErrorComponent();
     default:
       return ErrorComponent();
   }
