@@ -10,6 +10,7 @@ import { NewComponentArray } from './ComponentArray';
  */
 export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
   if (stateChanges === null) {
+    // todo: create a no state changes component
     return NewComponentArray('No state changes');
   }
 
