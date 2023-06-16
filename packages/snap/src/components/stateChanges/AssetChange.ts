@@ -1,4 +1,5 @@
-import { heading, text } from '@metamask/snaps-ui';
+/* eslint-disable default-case */
+import { Component, Panel, heading, panel, text } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../../types/simulateApi';
 
 // processStateChange is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
@@ -20,19 +21,29 @@ const processStateChange = (stateChange: StateChange) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
+const getHeaderText = (changeType: StateChangeType): string => {
+  // add more ChangeType mappings here as they are supported
+  switch (changeType) {
+    case StateChangeType.Receive:
+      return 'You will receive:';
+    case StateChangeType.Transfer:
+      return 'You will send:';
+  }
+};
+
 export const AssetChange = (
   type: StateChangeType,
   stateChanges: StateChange[],
-) => {
-  const headerText =
-    type === StateChangeType.Receive ? 'You will receive:' : 'You will send:';
+): Panel => {
+  const headerText = getHeaderText(type);
 
-  const output: any[] = [heading(headerText)]; // todo: create a type for UI components
+  const output: Component[] = [heading(headerText)]; // todo: create a type for UI components
 
   stateChanges.forEach((stateChange) => {
     const stateChangeComponent = processStateChange(stateChange);
     output.push(stateChangeComponent);
   });
 
-  return output;
+  return panel(output);
 };

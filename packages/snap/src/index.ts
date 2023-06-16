@@ -51,9 +51,10 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 /**
- * Maps an error from the Wallet Guard API to a component
- * @param errorType - the mapped error response based on status code or any simulation related issues
- * @returns OnTransactionResposnse - the output for OnTransaction hook
+ * Maps an error from the Wallet Guard API to a component.
+ *
+ * @param errorType - The mapped error response based on status code or any simulation related issues.
+ * @returns OnTransactionResposnse - the output for OnTransaction hook.
  */
 function showErrorResponse(errorType: ErrorType): OnTransactionResponse {
   switch (errorType) {

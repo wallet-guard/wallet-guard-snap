@@ -1,3 +1,3 @@
-import { heading } from '@metamask/snaps-ui';
+import { heading, panel } from '@metamask/snaps-ui';
 
-export const NoStateChanges = heading('No state changes');
+export const NoStateChanges = panel([heading('No state changes detected')]);
