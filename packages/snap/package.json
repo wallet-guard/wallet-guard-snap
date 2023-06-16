@@ -1,6 +1,6 @@
 {
   "name": "wallet-guard-snap",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Wallet Guard's simulator inside of a MetaMask Snap.",
   "repository": {
     "type": "git",
