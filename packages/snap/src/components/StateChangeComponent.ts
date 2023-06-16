@@ -1,6 +1,8 @@
-import { divider, text } from '@metamask/snaps-ui';
+import { Parent, divider, text } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../types/simulateApi';
 import { NewComponentArray } from './ComponentArray';
+import { AssetChange } from './stateChanges/AssetChange';
+import { NoStateChanges } from './stateChanges/NoChangesComponent';
 
 /**
  * Creates a MetaMask Snap component based on a state change.
@@ -8,10 +10,31 @@ import { NewComponentArray } from './ComponentArray';
  * @param stateChanges - The state changes from the Wallet Guard API.
  * @returns A MetaMask Snap component based on the results of the API call.
  */
-export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
+export const StateChangeComponent = (
+  stateChanges: StateChange[] | null,
+): any[] => {
   if (stateChanges === null) {
     // todo: create a no state changes component
-    return NewComponentArray('No state changes');
+    // return NewComponentArray('No state changes');
+    return [];
+  }
+
+  const output = [];
+
+  const receiveChanges = stateChanges.filter(
+    (stateChange) => stateChange.changeType === StateChangeType.Receive,
+  );
+
+  const transferChanges = stateChanges.filter(
+    (stateChange) => stateChange.changeType === StateChangeType.Transfer,
+  );
+
+  if (receiveChanges?.length > 0) {
+    output.push(AssetChange(StateChangeType.Receive, receiveChanges));
+  }
+
+  if (transferChanges?.length > 0) {
+    output.push(AssetChange(StateChangeType.Transfer, transferChanges));
   }
 
   const receiveComponents = NewComponentArray('You will receive:');
@@ -23,7 +46,6 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
 
   // const transfer = stateChanges.filter((stateChange) => stateChange.changeType === StateChangeType.Transfer);
 
-
   // Idea for new flow here:
   // currently we create components for all these, append to them, then map them to the response
   // the new flow should be to filter out all types, then return the ones that exist. we only support receive and transfer on launch. so these mapper functions can be significantly reduced
@@ -31,38 +53,37 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
 
   // consider refactoring ComponentArray.ts too. that file is very confusing
 
-
   // Sort state changes into the receive, transfer, approve, and revoke approve arrays.
-  stateChanges.forEach((stateChange: StateChange) => {
-    switch (stateChange.changeType) {
-      case StateChangeType.RevokeApprovalForAll:
-        revokeApproveComponents.push(text(stateChange.message));
-        break;
-      case StateChangeType.ApprovalForAll:
-        approveComponents.push(text(stateChange.message));
-        break;
-      case StateChangeType.Approve:
-        approveComponents.push(text(stateChange.message));
-        break;
-      case StateChangeType.RevokeApprove:
-        revokeApproveComponents.push(text(stateChange.message));
-        break;
-      case StateChangeType.Transfer:
-        const component = TransferComponent(stateChange);
-        if (component) {
-          transferComponents.push(component);
-        }
-        break;
-      case StateChangeType.Receive:
-        const receiveComponent = ReceiveComponent(stateChange);
-        if (receiveComponent) {
-          receiveComponents.push(receiveComponent);
-        }
-        break;
-      default:
-        throw new Error('unknown change type'); // todo: may want to handle this incase new change types come in the future
-    }
-  });
+  // stateChanges.forEach((stateChange: StateChange) => {
+  //   switch (stateChange.changeType) {
+  //     case StateChangeType.RevokeApprovalForAll:
+  //       revokeApproveComponents.push(text(stateChange.message));
+  //       break;
+  //     case StateChangeType.ApprovalForAll:
+  //       approveComponents.push(text(stateChange.message));
+  //       break;
+  //     case StateChangeType.Approve:
+  //       approveComponents.push(text(stateChange.message));
+  //       break;
+  //     case StateChangeType.RevokeApprove:
+  //       revokeApproveComponents.push(text(stateChange.message));
+  //       break;
+  //     case StateChangeType.Transfer:
+  //       const component = TransferComponent(stateChange);
+  //       if (component) {
+  //         transferComponents.push(component);
+  //       }
+  //       break;
+  //     case StateChangeType.Receive:
+  //       const receiveComponent = ReceiveComponent(stateChange);
+  //       if (receiveComponent) {
+  //         receiveComponents.push(receiveComponent);
+  //       }
+  //       break;
+  //     default:
+  //       throw new Error('unknown change type'); // todo: may want to handle this incase new change types come in the future
+  //   }
+  // });
 
   // Add the components to the return array if they exist.
   // todo: consider refactoring this entire function to use the .some function

@@ -84,6 +84,11 @@ export const fetchTransaction = async (
     // test this with different errors
 
     const data: SimulationResponse = await response.json();
+
+    if (!data.error) {
+      throw Error('unrecognized response from api');
+    }
+
     return { type: ResponseType.Errored, error: data.error };
   } catch (e: any) {
     return {

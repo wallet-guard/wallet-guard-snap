@@ -13,6 +13,7 @@ import {
   TooManyRequestsComponent,
   UnauthorizedComponent,
 } from './components/stateChanges';
+import { SimulationOverview } from './components/SimulationOverview';
 
 // Handle outgoing transactions.
 export const onTransaction: OnTransactionHandler = async ({
@@ -32,23 +33,32 @@ export const onTransaction: OnTransactionHandler = async ({
     return getErrorComponent(ErrorType.GeneralError);
   }
 
-  if (
-    response.simulation.warningType === SimulationWarningType.Info ||
-    response.simulation.warningType === SimulationWarningType.Warn
-  ) {
-    return {
-      content: panel([
-        heading('Overview Message'),
-        text(response.simulation.message?.join(' ') || ''),
-        divider(),
-        ...StateChangeComponent(response.simulation.stateChanges),
-      ]),
-    };
-  }
+  // if (
+  //   response.simulation.warningType === SimulationWarningType.Info ||
+  //   response.simulation.warningType === SimulationWarningType.Warn
+  // ) {
+  //   return {
+  //     content: panel([
+  //       SimulationOverview(response.simulation.message),
+  //       // heading('Overview Message'),
+  //       // text(response.simulation.message?.join(' ') || ''),
+  //       divider(),
+  //       ...StateChangeComponent(response.simulation.stateChanges),
+  //     ]),
+  //   };
+  // }
 
   return {
-    content: panel(StateChangeComponent(response.simulation.stateChanges)),
+    content: panel([panel([heading('hello')])]),
   };
+
+  return {
+    content: panel([heading('hello')]),
+  };
+
+  // return {
+  //   content: panel(StateChangeComponent(response.simulation.stateChanges)),
+  // };
 };
 
 /**
