@@ -9,7 +9,7 @@ import { NoStateChanges } from './stateChanges/NoChangesComponent';
  * @param stateChanges - The state changes from the Wallet Guard API.
  * @returns A MetaMask Snap component based on the results of the API call.
  */
-export const StateChangeComponent = (
+export const StateChangesComponent = (
   stateChanges: StateChange[] | null,
 ): Panel => {
   if (stateChanges === null) {

@@ -4,7 +4,7 @@ import {
 } from '@metamask/snaps-types';
 import { panel } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
-import { StateChangeComponent } from './components/StateChangeComponent';
+import { StateChangesComponent } from './components/StateChangesComponent';
 import { ErrorType, SimulationWarningType } from './types/simulateApi';
 import {
   ErrorComponent,
@@ -40,13 +40,13 @@ export const onTransaction: OnTransactionHandler = async ({
     return {
       content: panel([
         SimulationOverview(response.simulation.message),
-        StateChangeComponent(response.simulation.stateChanges),
+        StateChangesComponent(response.simulation.stateChanges),
       ]),
     };
   }
 
   return {
-    content: StateChangeComponent(response.simulation.stateChanges),
+    content: StateChangesComponent(response.simulation.stateChanges),
   };
 };
 
