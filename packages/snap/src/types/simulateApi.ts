@@ -31,6 +31,7 @@ export type SimulateRequestParams = {
   transaction: {
     [key: string]: Json;
   };
+  source: 'snap';
 };
 
 // The only method supported by Snaps on launch is eth_sendTransaction

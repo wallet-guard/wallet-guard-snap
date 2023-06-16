@@ -4,7 +4,6 @@ import {
   ErrorType,
   ResponseType,
   SimulateRequestParams,
-  SimulationMethodType,
   SimulationResponse,
 } from './types/simulateApi';
 import { SERVER_BASE_URL } from './environment';
@@ -31,12 +30,13 @@ export const fetchTransaction = async (
 
     // Make a request to the simulator
     const simulateRequest: SimulateRequestParams = {
-      id: `snap:${crypto.randomUUID()}`,
+      id: crypto.randomUUID(),
       chainID: mappedChainId,
       signer: transaction.from as string,
       origin: transactionOrigin as string,
-      method: SimulationMethodType.EthSendTransaction,
+      method: transaction.method as string,
       transaction,
+      source: 'snap',
     };
 
     const response = await fetch(requestURL, {
