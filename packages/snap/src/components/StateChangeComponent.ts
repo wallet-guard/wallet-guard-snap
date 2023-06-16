@@ -22,7 +22,6 @@ export const StateChangeComponent = (stateChanges: StateChange[] | null) => {
 
   // const transfer = stateChanges.filter((stateChange) => stateChange.changeType === StateChangeType.Transfer);
 
-
   // Idea for new flow here:
   // currently we create components for all these, append to them, then map them to the response
   // the new flow should be to filter out all types, then return the ones that exist. we only support receive and transfer on launch. so these mapper functions can be significantly reduced

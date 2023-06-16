@@ -2,10 +2,9 @@ import {
   OnTransactionHandler,
   OnTransactionResponse,
 } from '@metamask/snaps-types';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
-import { StateChangeComponent } from './components/StateChangeComponent';
-import { ErrorType, SimulationWarningType } from './types/simulateApi';
+import { ErrorType } from './types/simulateApi';
 import {
   ErrorComponent,
   InsufficientFundsComponent,
@@ -32,22 +31,13 @@ export const onTransaction: OnTransactionHandler = async ({
     return getErrorComponent(ErrorType.GeneralError);
   }
 
-  if (
-    response.simulation.warningType === SimulationWarningType.Info ||
-    response.simulation.warningType === SimulationWarningType.Warn
-  ) {
-    return {
-      content: panel([
-        heading('Overview Message'),
-        text(response.simulation.message?.join(' ') || ''),
-        divider(),
-        ...StateChangeComponent(response.simulation.stateChanges),
-      ]),
-    };
-  }
-
   return {
-    content: panel(StateChangeComponent(response.simulation.stateChanges)),
+    content: panel(
+      [panel([heading('hello')]), text('this is a ui test'),
+      text('hello 2'),
+      panel([heading('hello again'), text('world')]),
+      ],
+    ),
   };
 };
 
