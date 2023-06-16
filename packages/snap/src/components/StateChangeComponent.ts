@@ -1,4 +1,4 @@
-import { Parent, divider, text } from '@metamask/snaps-ui';
+import { Panel, Parent, divider, panel, text } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../types/simulateApi';
 import { NewComponentArray } from './ComponentArray';
 import { AssetChange } from './stateChanges/AssetChange';
@@ -12,11 +12,11 @@ import { NoStateChanges } from './stateChanges/NoChangesComponent';
  */
 export const StateChangeComponent = (
   stateChanges: StateChange[] | null,
-): any[] => {
+): Panel => {
   if (stateChanges === null) {
     // todo: create a no state changes component
     // return NewComponentArray('No state changes');
-    return [];
+    return panel([]);
   }
 
   const output = [];

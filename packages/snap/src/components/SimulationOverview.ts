@@ -1,9 +1,13 @@
-import { heading, panel, text } from '@metamask/snaps-ui';
+import { Panel, divider, heading, panel, text } from '@metamask/snaps-ui';
 
-export const SimulationOverview = (message: string[] | undefined) => {
-  if (!message) {
-    return '';
+export const SimulationOverview = (messages: string[] | undefined): Panel => {
+  if (!messages || messages.length === 0) {
+    return panel([]);
   }
 
-  return panel([heading('Overview Message'), text(message?.join(' ') || '')]);
+  return panel([
+    heading('Overview Message'),
+    text(messages.join(' ')),
+    divider(),
+  ]);
 };
