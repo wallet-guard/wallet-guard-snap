@@ -1,19 +1,30 @@
 /* eslint-disable default-case */
-import { Component, Panel, heading, panel, text } from '@metamask/snaps-ui';
-import { StateChange, StateChangeType } from '../../types/simulateApi';
+import {
+  Component,
+  Panel,
+  Text,
+  heading,
+  panel,
+  text,
+} from '@metamask/snaps-ui';
+import {
+  SimulationAssetTypes,
+  StateChange,
+  StateChangeType,
+} from '../../types/simulateApi';
 
 // processStateChange is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
-const processStateChange = (stateChange: StateChange) => {
+const processStateChange = (stateChange: StateChange): Text => {
   const fiatValue = Number(stateChange.fiatValue).toFixed(2);
 
   switch (stateChange.assetType) {
-    case 'NATIVE':
-    case 'ERC1155':
-    case 'ERC20':
+    case SimulationAssetTypes.Native:
+    case SimulationAssetTypes.ERC1155:
+    case SimulationAssetTypes.ERC20:
       return text(
         `${stateChange.amount} ${stateChange.symbol} ($${fiatValue})`,
       );
-    case 'ERC721':
+    case SimulationAssetTypes.ERC721:
       return text(`${stateChange.tokenName} ($${fiatValue})`);
     default:
       return text('');
