@@ -1,6 +1,6 @@
-/* eslint-disable default-case */
 import {
   Component,
+  Heading,
   Panel,
   Text,
   heading,
@@ -13,8 +13,8 @@ import {
   StateChangeType,
 } from '../../types/simulateApi';
 
-// processStateChange is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
-const processStateChange = (stateChange: StateChange): Text => {
+// getAssetChangeText is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
+const getAssetChangeText = (stateChange: StateChange): Text => {
   const fiatValue = Number(stateChange.fiatValue).toFixed(2);
 
   switch (stateChange.assetType) {
@@ -28,18 +28,18 @@ const processStateChange = (stateChange: StateChange): Text => {
       return text(`${stateChange.tokenName} ($${fiatValue})`);
     default:
       return text('');
-    // todo
   }
 };
 
-// eslint-disable-next-line consistent-return
-const getHeaderText = (changeType: StateChangeType): string => {
+const getHeader = (changeType: StateChangeType): Heading => {
   // add more ChangeType mappings here as they are supported
   switch (changeType) {
     case StateChangeType.Receive:
-      return 'You will receive:';
+      return heading('You will receive:');
     case StateChangeType.Transfer:
-      return 'You will send:';
+      return heading('You will send:');
+    default:
+      return heading('');
   }
 };
 
@@ -47,13 +47,12 @@ export const AssetChange = (
   type: StateChangeType,
   stateChanges: StateChange[],
 ): Panel => {
-  const headerText = getHeaderText(type);
-
-  const output: Component[] = [heading(headerText)]; // todo: create a type for UI components
+  const header = getHeader(type);
+  const output: Component[] = [header];
 
   stateChanges.forEach((stateChange) => {
-    const stateChangeComponent = processStateChange(stateChange);
-    output.push(stateChangeComponent);
+    const stateChangeText = getAssetChangeText(stateChange);
+    output.push(stateChangeText);
   });
 
   return panel(output);
