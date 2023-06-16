@@ -81,9 +81,6 @@ export const fetchTransaction = async (
       };
     }
 
-    // todo: add mapper fn for errors (add try catch here?)
-    // test this with different errors
-
     const data: SimulationResponse = await response.json();
 
     if (!data.error) {
@@ -111,13 +108,10 @@ export const fetchTransaction = async (
  */
 function getURLForChainId(chainId: string): string {
   switch (chainId) {
-    // Ethereum Mainnet
     case ChainId.EthereumMainnet:
       return `${SERVER_BASE_URL}/v0/eth/mainnet/transaction`;
-    // Polygon Mainnet
     case ChainId.PolygonMainnet:
       return `${SERVER_BASE_URL}/v0/polygon/mainnet/transaction`;
-    // Arbitrum Mainnet
     case ChainId.ArbitrumMainnet:
       return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
     default:
@@ -134,13 +128,10 @@ function getURLForChainId(chainId: string): string {
  */
 function mapChainId(chainId: string): string {
   switch (chainId) {
-    // Ethereum Mainnet
     case ChainId.EthereumMainnet:
       return '1';
-    // Polygon Mainnet
     case ChainId.PolygonMainnet:
       return '137';
-    // Arbitrum Mainnet
     case ChainId.ArbitrumMainnet:
       return '42161';
     default:
