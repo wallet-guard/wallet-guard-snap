@@ -36,7 +36,7 @@ export const fetchTransaction = async (
       origin: transactionOrigin as string,
       method: transaction.method as string,
       transaction,
-      source: 'snap',
+      source: 'SNAP',
     };
 
     const response = await fetch(requestURL, {
