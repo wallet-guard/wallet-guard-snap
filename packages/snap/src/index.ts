@@ -2,7 +2,7 @@ import {
   OnTransactionHandler,
   OnTransactionResponse,
 } from '@metamask/snaps-types';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { panel } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
 import { StateChangeComponent } from './components/StateChangeComponent';
 import { ErrorType, SimulationWarningType } from './types/simulateApi';
@@ -12,7 +12,8 @@ import {
   RevertComponent,
   TooManyRequestsComponent,
   UnauthorizedComponent,
-} from './components/stateChanges';
+} from './components/errors';
+import { SimulationOverview } from './components/SimulationOverview';
 
 // Handle outgoing transactions.
 export const onTransaction: OnTransactionHandler = async ({
@@ -27,9 +28,9 @@ export const onTransaction: OnTransactionHandler = async ({
   );
 
   if (response.error) {
-    return getErrorComponent(response.error.type);
+    return showErrorResponse(response.error.type);
   } else if (!response.simulation || response.simulation?.error) {
-    return getErrorComponent(ErrorType.GeneralError);
+    return showErrorResponse(ErrorType.GeneralError);
   }
 
   if (
@@ -38,25 +39,24 @@ export const onTransaction: OnTransactionHandler = async ({
   ) {
     return {
       content: panel([
-        heading('Overview Message'),
-        text(response.simulation.message?.join(' ') || ''),
-        divider(),
-        ...StateChangeComponent(response.simulation.stateChanges),
+        SimulationOverview(response.simulation.message),
+        StateChangeComponent(response.simulation.stateChanges),
       ]),
     };
   }
 
   return {
-    content: panel(StateChangeComponent(response.simulation.stateChanges)),
+    content: StateChangeComponent(response.simulation.stateChanges),
   };
 };
 
 /**
- * Maps an error from the Wallet Guard API to a component
- * @param errorType - the mapped error response based on status code or any simulation related issues
- * @returns OnTransactionResposnse - the output for OnTransaction hook
+ * Maps an error from the Wallet Guard API to a component.
+ *
+ * @param errorType - The mapped error response based on status code or any simulation related issues.
+ * @returns OnTransactionResposnse - the output for OnTransaction hook.
  */
-function getErrorComponent(errorType: ErrorType): OnTransactionResponse {
+function showErrorResponse(errorType: ErrorType): OnTransactionResponse {
   switch (errorType) {
     case ErrorType.Revert:
       return RevertComponent();
