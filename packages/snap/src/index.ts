@@ -65,8 +65,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     }
 
     updateWalletAddress(walletAddress);
-
-    return null;
   }
 };
 
@@ -140,7 +138,5 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
         ]),
       },
     });
-
-    return null;
   }
 };

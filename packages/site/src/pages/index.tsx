@@ -113,8 +113,6 @@ const Index = () => {
       throw new Error('Must accept wallet connection request.');
     }
 
-    // TODO
-
     setAccount(account);
   };
 
