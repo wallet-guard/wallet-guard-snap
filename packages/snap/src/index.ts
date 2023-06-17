@@ -2,11 +2,23 @@ import {
   OnCronjobHandler,
   OnRpcRequestHandler,
   OnTransactionHandler,
+  OnTransactionResponse,
 } from '@metamask/snaps-types';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
+import { copyable, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './fetchTransaction';
-import { StateChangeComponent } from './components/stateChangeComponent';
-
+import { StateChangesComponent } from './components/StateChangesComponent';
+import { ErrorType, SimulationWarningType } from './types/simulateApi';
+import {
+  ErrorComponent,
+  InsufficientFundsComponent,
+  RevertComponent,
+  TooManyRequestsComponent,
+  UnauthorizedComponent,
+} from './components/errors';
+import { SimulationOverview } from './components/SimulationOverview';
+import { SUPPORTED_CHAINS } from './config';
+import { ChainId } from './types/chains';
+import { UnsupportedChainComponent } from './components/errors/UnsupportedChain';
 
 const WALLET_ADDRESS_KEY = 'wgWalletAddress';
 /**
@@ -109,7 +121,9 @@ export const onTransaction: OnTransactionHandler = async ({
   chainId,
   transactionOrigin,
 }) => {
-  console.log('transaction', transaction);
+  if (!SUPPORTED_CHAINS.includes(chainId as ChainId)) {
+    return UnsupportedChainComponent();
+  }
 
   const response = await fetchTransaction(
     transaction,
@@ -117,27 +131,26 @@ export const onTransaction: OnTransactionHandler = async ({
     transactionOrigin,
   );
 
-  // Handle transactions with errors.
   if (response.error) {
-    return {
-      content: panel([text('Error: ' + response.error.message)]),
-    };
+    return showErrorResponse(response.error.type);
+  } else if (!response.simulation || response.simulation?.error) {
+    return showErrorResponse(ErrorType.GeneralError);
   }
 
-  // Add warning if simulation warning is present.
-  if (response.warningType === 'WARN' || response.warningType === 'INFO') {
+  if (
+    response.simulation.warningType === SimulationWarningType.Info ||
+    response.simulation.warningType === SimulationWarningType.Warn
+  ) {
     return {
       content: panel([
-        heading('Overview Message'),
-        text(response.warningMessage),
-        divider(),
-        ...StateChangeComponent(response.stateChanges),
+        SimulationOverview(response.simulation.message),
+        StateChangesComponent(response.simulation.stateChanges),
       ]),
     };
   }
 
   return {
-    content: panel(StateChangeComponent(response.stateChanges)),
+    content: StateChangesComponent(response.simulation.stateChanges),
   };
 };
 
@@ -167,3 +180,24 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     return null;
   }
 };
+
+/**
+ * Maps an error from the Wallet Guard API to a component.
+ *
+ * @param errorType - The mapped error response based on status code or any simulation related issues.
+ * @returns OnTransactionResposnse - the output for OnTransaction hook.
+ */
+function showErrorResponse(errorType: ErrorType): OnTransactionResponse {
+  switch (errorType) {
+    case ErrorType.Revert:
+      return RevertComponent();
+    case ErrorType.InsufficientFunds:
+      return InsufficientFundsComponent();
+    case ErrorType.TooManyRequests:
+      return TooManyRequestsComponent();
+    case ErrorType.Unauthorized:
+      return UnauthorizedComponent();
+    default:
+      return ErrorComponent();
+  }
+}

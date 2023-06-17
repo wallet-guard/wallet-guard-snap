@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.0.3",
   "description": "Wallet Guard's simulator inside of a MetaMask Snap.",
   "proposedName": "Wallet Guard",
   "repository": {
@@ -11,8 +11,8 @@
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "iconPath": "images/icon.svg",
-        "packageName": "snap",
+        "iconPath": "images/shield.svg",
+        "packageName": "wallet-guard-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }
