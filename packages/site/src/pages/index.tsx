@@ -106,6 +106,19 @@ const ErrorMessage = styled.div`
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
 
+  const connectWallet = async () => {
+    const accounts = await window.ethereum.request<string[]>({
+      method: 'eth_requestAccounts',
+    });
+
+    const account = accounts?.[0];
+    if (!account) {
+      throw new Error('Must accept wallet connection request.');
+    }
+
+    // TODO
+  };
+
   const handleConnectClick = async () => {
     try {
       await connectSnap();
@@ -196,6 +209,20 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )}
+        <Card
+          content={{
+            title: 'Connect Wallet',
+            description:
+              'Manage your approvals and get notifications on risky open approvals',
+            button: (
+              <ConnectButton
+                onClick={connectWallet}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+        />
         <Card
           content={{
             title: 'Send Hello message',

@@ -155,6 +155,21 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
+  const walletAddress = await snap.request({
+    method: 'snap_manageState',
+    params: {
+      operation: 'get',
+    },
+  });
+
+  // User has not setup their approvals checking yet
+  // TODO: consider showing a notification as a reminder to set this up
+
+  // TODO NEXT: integrate this with our webflow - both flows. Either monitoring via address entry or personal_sign
+  if (!walletAddress) {
+    return;
+  }
+
   if (request.method === 'checkApprovals') {
     // todo: consider making this a notification instead
     // todo: fetch from John's API. Only alert if there's
