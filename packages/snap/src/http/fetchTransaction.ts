@@ -5,9 +5,9 @@ import {
   ResponseType,
   SimulateRequestParams,
   SimulationResponse,
-} from './types/simulateApi';
-import { SERVER_BASE_URL } from './utils/environment';
-import { ChainId } from './types/chains';
+} from '../types/simulateApi';
+import { SERVER_BASE_URL } from '../utils/environment';
+import { ChainId } from '../types/chains';
 
 /**
  * Makes a fetch request to the Wallet Guard Simulate API based on the transaction.

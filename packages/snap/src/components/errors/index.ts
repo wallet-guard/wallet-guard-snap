@@ -4,3 +4,4 @@ export * from './Revert';
 export * from './TooManyRequests';
 export * from './Error';
 export * from './UnsupportedChain';
+export * from './mapper';

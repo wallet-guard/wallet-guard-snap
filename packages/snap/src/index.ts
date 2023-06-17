@@ -2,24 +2,19 @@ import {
   OnCronjobHandler,
   OnRpcRequestHandler,
   OnTransactionHandler,
-  OnTransactionResponse,
 } from '@metamask/snaps-types';
 import { copyable, heading, panel, text } from '@metamask/snaps-ui';
-import { fetchTransaction } from './fetchTransaction';
+import { fetchTransaction } from './http/fetchTransaction';
 import { StateChangesComponent } from './components/StateChangesComponent';
 import { ErrorType, SimulationWarningType } from './types/simulateApi';
-import {
-  ErrorComponent,
-  InsufficientFundsComponent,
-  RevertComponent,
-  TooManyRequestsComponent,
-  UnauthorizedComponent,
-  UnsupportedChainComponent,
-} from './components/errors';
 import { SimulationOverviewComponent } from './components/SimulationOverviewComponent';
 import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
 import { getWalletAddress, updateWalletAddress } from './utils/account';
+import {
+  UnsupportedChainComponent,
+  showErrorResponse,
+} from './components/errors';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -119,7 +114,6 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 
   // TODO: consider showing a notification as a reminder to set this up
 
-
   // User has not setup their approvals checking yet
   if (!walletAddress) {
     return;
@@ -150,24 +144,3 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     return null;
   }
 };
-
-/**
- * Maps an error from the Wallet Guard API to a component.
- *
- * @param errorType - The mapped error response based on status code or any simulation related issues.
- * @returns OnTransactionResposnse - the output for OnTransaction hook.
- */
-function showErrorResponse(errorType: ErrorType): OnTransactionResponse {
-  switch (errorType) {
-    case ErrorType.Revert:
-      return RevertComponent();
-    case ErrorType.InsufficientFunds:
-      return InsufficientFundsComponent();
-    case ErrorType.TooManyRequests:
-      return TooManyRequestsComponent();
-    case ErrorType.Unauthorized:
-      return UnauthorizedComponent();
-    default:
-      return ErrorComponent();
-  }
-}
