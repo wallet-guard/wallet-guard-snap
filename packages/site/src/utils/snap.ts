@@ -54,13 +54,6 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
  * Invoke the "hello" method from the example snap.
  */
 
-export const sendHello = async () => {
-  await window.ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'hello' } },
-  });
-};
-
 export const sendRevokePrompt = async () => {
   await window.ethereum.request({
     method: 'wallet_invokeSnap',
@@ -68,25 +61,16 @@ export const sendRevokePrompt = async () => {
   });
 };
 
-export const getAddress = async () => {
-  const obj = await window.ethereum.request({
+export const setAccount = (walletAddress: string) => {
+  window.ethereum.request({
     method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'getAddress' } },
-  });
-  console.log(obj);
-};
-
-export const notifyInApp = async () => {
-  await window.ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'notifyInApp' } },
-  });
-};
-
-export const notifyNative = async () => {
-  await window.ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'notifyNative' } },
+    params: {
+      snapId: defaultSnapOrigin,
+      request: {
+        method: 'updateAccount',
+        walletAddress,
+      },
+    },
   });
 };
 

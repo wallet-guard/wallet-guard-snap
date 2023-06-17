@@ -19,8 +19,8 @@ import { SimulationOverview } from './components/SimulationOverview';
 import { SUPPORTED_CHAINS } from './config';
 import { ChainId } from './types/chains';
 import { UnsupportedChainComponent } from './components/errors/UnsupportedChain';
+import { getWalletAddress, updateWalletAddress } from './utils/account';
 
-const WALLET_ADDRESS_KEY = 'wgWalletAddress';
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -36,82 +36,42 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
-  if (request.method === 'revokePrompt') {
-    const walletAddress = await snap.request({
-      method: 'snap_dialog', // todo: also look into notifications
-      params: {
-        type: 'prompt',
-        content: panel([
-          heading('What is the wallet address?'),
-          text('Please enter the wallet address to be monitored'),
-        ]),
-        placeholder: '0x123...',
-      },
-    });
+  // TODO: Bring this back if we want inApp notifications to add revoking reminders. Otherwise remove it
+  // For example, if we detect that they haven't set this up yet, remind them.
+  // give them the option to "remind me later" or "dont show again"
+  // Do this with a confirmation flow (yes or no) => (if yes) prompt input
 
-    snap.request({
-      method: 'snap_manageState',
-      params: {
-        operation: 'update',
-        newState: { [WALLET_ADDRESS_KEY]: walletAddress },
-      },
-    });
+  // if (request.method === 'revokePrompt') {
+  //   const walletAddress = await snap.request({
+  //     method: 'snap_dialog', // todo: also look into notifications
+  //     params: {
+  //       type: 'prompt',
+  //       content: panel([
+  //         heading('What is the wallet address?'),
+  //         text('Please enter the wallet address to be monitored'),
+  //       ]),
+  //       placeholder: '0x123...',
+  //     },
+  //   });
+
+  //   // updateWalletAddress(walletAddress);
+
+  //   return null;
+  // } else
+  if (
+    request.method === 'updateAccount' &&
+    'walletAddress' in request.params &&
+    typeof request.params.walletAddress === 'string'
+  ) {
+    const { walletAddress } = request.params;
+
+    if (!walletAddress) {
+      throw new Error('no wallet address provided');
+    }
+
+    updateWalletAddress(walletAddress);
 
     return null;
-  }
-
-  switch (request.method) {
-    case 'notifyInApp':
-      return snap.request({
-        method: 'snap_notify',
-        params: {
-          type: 'inApp',
-          message: 'Hello, world!',
-        },
-      });
-    case 'notifyNative':
-      return snap.request({
-        method: 'snap_notify',
-        params: {
-          type: 'native',
-          message: 'Hello, world!',
-        },
-      });
-    case 'getAddress':
-      return snap.request({
-        method: 'snap_manageState',
-        params: {
-          operation: 'get',
-        },
-      });
-    case 'revokePrompt':
-      return snap.request({
-        method: 'snap_dialog', // todo: also look into notifications
-        params: {
-          type: 'prompt',
-          content: panel([
-            heading('What is the wallet address?'),
-            text('Please enter the wallet address to be monitored'),
-          ]),
-          placeholder: '0x123...',
-        },
-      });
-    case 'hello':
-      return snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            text(`Hello, **${origin}**!`),
-            text('This custom confirmation is just for display purposes.'),
-            text(
-              'But you can edit the snap source code to make it do something, if you want to! ✅',
-            ),
-          ]),
-        },
-      });
-    default:
-      throw new Error('Method not found.');
   }
 };
 
@@ -155,17 +115,12 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  const walletAddress = await snap.request({
-    method: 'snap_manageState',
-    params: {
-      operation: 'get',
-    },
-  });
+  const walletAddress = await getWalletAddress();
 
-  // User has not setup their approvals checking yet
   // TODO: consider showing a notification as a reminder to set this up
 
-  // TODO NEXT: integrate this with our webflow - both flows. Either monitoring via address entry or personal_sign
+
+  // User has not setup their approvals checking yet
   if (!walletAddress) {
     return;
   }

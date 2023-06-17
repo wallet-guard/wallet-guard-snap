@@ -5,3 +5,5 @@ export const SUPPORTED_CHAINS = [
   ChainId.EthereumMainnet,
   ChainId.PolygonMainnet,
 ];
+
+export const WALLET_ADDRESS_KEY = 'wgWalletAddress';
