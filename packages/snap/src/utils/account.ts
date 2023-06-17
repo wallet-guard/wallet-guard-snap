@@ -1,4 +1,4 @@
-import { WALLET_ADDRESS_KEY } from '../config';
+import { WALLET_ADDRESS_KEY } from './config';
 
 export const getWalletAddress = async (): Promise<string | null> => {
   const data = await snap.request({

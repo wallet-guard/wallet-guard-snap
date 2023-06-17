@@ -6,7 +6,7 @@ import {
   SimulateRequestParams,
   SimulationResponse,
 } from './types/simulateApi';
-import { SERVER_BASE_URL } from './environment';
+import { SERVER_BASE_URL } from './utils/environment';
 import { ChainId } from './types/chains';
 
 /**

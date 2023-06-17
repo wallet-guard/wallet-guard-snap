@@ -14,11 +14,11 @@ import {
   RevertComponent,
   TooManyRequestsComponent,
   UnauthorizedComponent,
+  UnsupportedChainComponent,
 } from './components/errors';
-import { SimulationOverview } from './components/SimulationOverview';
-import { SUPPORTED_CHAINS } from './config';
+import { SimulationOverviewComponent } from './components/SimulationOverviewComponent';
+import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
-import { UnsupportedChainComponent } from './components/errors/UnsupportedChain';
 import { getWalletAddress, updateWalletAddress } from './utils/account';
 
 /**
@@ -103,7 +103,7 @@ export const onTransaction: OnTransactionHandler = async ({
   ) {
     return {
       content: panel([
-        SimulationOverview(response.simulation.message),
+        SimulationOverviewComponent(response.simulation.message),
         StateChangesComponent(response.simulation.stateChanges),
       ]),
     };
