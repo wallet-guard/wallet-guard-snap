@@ -12,10 +12,9 @@ export const ErrorComponent = (): OnTransactionResponse => {
   };
 };
 
-// TODO: consider this as an alternate component model. then wrap these in a component() wrapper that adds `return { content: input }` to it
-// export const ErrorComp = panel([
-//   heading('Error while simulating transaction'),
-//   text(
-//     'Please contact support@walletguard.app if you continue seeing this issue.',
-//   ),
-// ]);
+export const ErrorComp = panel([
+  heading('Error while simulating transaction'),
+  text(
+    'Please contact support@walletguard.app if you continue seeing this issue.',
+  ),
+]);

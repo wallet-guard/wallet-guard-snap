@@ -4,10 +4,10 @@ import {
   ErrorType,
   ResponseType,
   SimulateRequestParams,
-  SimulationMethodType,
   SimulationResponse,
 } from './types/simulateApi';
 import { SERVER_BASE_URL } from './environment';
+import { ChainId } from './types/chains';
 
 /**
  * Makes a fetch request to the Wallet Guard Simulate API based on the transaction.
@@ -30,12 +30,13 @@ export const fetchTransaction = async (
 
     // Make a request to the simulator
     const simulateRequest: SimulateRequestParams = {
-      id: `snap:${crypto.randomUUID()}`,
+      id: crypto.randomUUID(),
       chainID: mappedChainId,
       signer: transaction.from as string,
       origin: transactionOrigin as string,
-      method: SimulationMethodType.EthSendTransaction,
+      method: transaction.method as string,
       transaction,
+      source: 'SNAP',
     };
 
     const response = await fetch(requestURL, {
@@ -80,10 +81,12 @@ export const fetchTransaction = async (
       };
     }
 
-    // todo: add mapper fn for errors (add try catch here?)
-    // test this with different errors
-
     const data: SimulationResponse = await response.json();
+
+    if (!data.error) {
+      throw Error('unrecognized response from api');
+    }
+
     return { type: ResponseType.Errored, error: data.error };
   } catch (e: any) {
     return {
@@ -98,21 +101,18 @@ export const fetchTransaction = async (
 };
 
 /**
- * Maps the chainId to the relevant base URL for our API
+ * Maps the chainId to the relevant base URL for our API.
  *
- * @param chainId - the chainId of the request sent from the Metamask Snap
- * @returns the mapped chainId for our API
+ * @param chainId - The chainId of the request sent from the Metamask Snap.
+ * @returns The mapped chainId for our API.
  */
 function getURLForChainId(chainId: string): string {
   switch (chainId) {
-    // Ethereum Mainnet
-    case 'eip155:1':
+    case ChainId.EthereumMainnet:
       return `${SERVER_BASE_URL}/v0/eth/mainnet/transaction`;
-    // Polygon Mainnet
-    case 'eip155:89':
+    case ChainId.PolygonMainnet:
       return `${SERVER_BASE_URL}/v0/polygon/mainnet/transaction`;
-    // Arbitrum Mainnet
-    case 'eip155:a4b1':
+    case ChainId.ArbitrumMainnet:
       return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
     default:
       // throw ; TODO
@@ -123,19 +123,16 @@ function getURLForChainId(chainId: string): string {
 /**
  * Maps the chainId to conform to our API.
  *
- * @param chainId - the chainId of the request sent from the Metamask Snap
- * @returns the mapped chainId for our API
+ * @param chainId - The chainId of the request sent from the Metamask Snap.
+ * @returns The mapped chainId for our API.
  */
 function mapChainId(chainId: string): string {
   switch (chainId) {
-    // Ethereum Mainnet
-    case 'eip155:1':
+    case ChainId.EthereumMainnet:
       return '1';
-    // Polygon Mainnet
-    case 'eip155:89':
+    case ChainId.PolygonMainnet:
       return '137';
-    // Arbitrum Mainnet
-    case 'eip155:a4b1':
+    case ChainId.ArbitrumMainnet:
       return '42161';
     default:
       // return '1'; TODO

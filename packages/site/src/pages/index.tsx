@@ -3,8 +3,12 @@ import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
+  getAddress,
   getSnap,
+  notifyInApp,
+  notifyNative,
   sendHello,
+  sendRevokePrompt,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
@@ -102,6 +106,19 @@ const ErrorMessage = styled.div`
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
 
+  const connectWallet = async () => {
+    const accounts = await window.ethereum.request<string[]>({
+      method: 'eth_requestAccounts',
+    });
+
+    const account = accounts?.[0];
+    if (!account) {
+      throw new Error('Must accept wallet connection request.');
+    }
+
+    // TODO
+  };
+
   const handleConnectClick = async () => {
     try {
       await connectSnap();
@@ -120,6 +137,15 @@ const Index = () => {
   const handleSendHelloClick = async () => {
     try {
       await sendHello();
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+  const handleSendRevokePrompt = async () => {
+    try {
+      await sendRevokePrompt();
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -185,12 +211,99 @@ const Index = () => {
         )}
         <Card
           content={{
+            title: 'Connect Wallet',
+            description:
+              'Manage your approvals and get notifications on risky open approvals',
+            button: (
+              <ConnectButton
+                onClick={connectWallet}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+        />
+        <Card
+          content={{
             title: 'Send Hello message',
             description:
               'Display a custom message within a confirmation screen in MetaMask.',
             button: (
               <SendHelloButton
                 onClick={handleSendHelloClick}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Prompt Revoke UI',
+            description:
+              'Enter your ETH address to have us check for open approvals which put your assets at risk.',
+            button: (
+              <SendHelloButton
+                onClick={handleSendRevokePrompt}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Get Localstorage keys',
+            description: 'Get all localstorage objects',
+            button: (
+              <SendHelloButton
+                onClick={getAddress}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Notify In App',
+            description: 'Send a MetaMask notification',
+            button: (
+              <SendHelloButton
+                onClick={notifyInApp}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+          fullWidth={
+            state.isFlask &&
+            Boolean(state.installedSnap) &&
+            !shouldDisplayReconnectButton(state.installedSnap)
+          }
+        />
+        <Card
+          content={{
+            title: 'Notify Natively',
+            description: 'Send an OS native notification',
+            button: (
+              <SendHelloButton
+                onClick={notifyNative}
                 disabled={!state.installedSnap}
               />
             ),

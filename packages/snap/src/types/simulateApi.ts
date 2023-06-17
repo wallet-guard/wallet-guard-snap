@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { Json } from '@metamask/utils';
 
 export type ApiResponse = {
@@ -30,11 +31,19 @@ export type SimulateRequestParams = {
   transaction: {
     [key: string]: Json;
   };
+  source: 'SNAP';
 };
 
 // The only method supported by Snaps on launch is eth_sendTransaction
 export enum SimulationMethodType {
   EthSendTransaction = 'eth_sendTransaction',
+}
+
+export enum SimulationAssetTypes {
+  ERC20 = 'ERC20',
+  ERC721 = 'ERC721',
+  ERC1155 = 'ERC1155',
+  Native = 'NATIVE',
 }
 
 export enum SimulationWarningType {
@@ -141,12 +150,6 @@ export enum ErrorType {
 }
 
 export enum StateChangeType {
-  // Supported types
   Receive = 'RECEIVE',
   Transfer = 'TRANSFER',
-  // Not supported by Snaps yet
-  RevokeApprove = 'REVOKE_APPROVE',
-  RevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
-  Approve = 'APPROVE',
-  ApprovalForAll = 'APPROVAL_FOR_ALL',
 }
