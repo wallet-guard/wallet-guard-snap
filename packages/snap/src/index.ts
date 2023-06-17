@@ -14,6 +14,9 @@ import {
   UnauthorizedComponent,
 } from './components/errors';
 import { SimulationOverview } from './components/SimulationOverview';
+import { SUPPORTED_CHAINS } from './config';
+import { ChainId } from './types/chains';
+import { UnsupportedChainComponent } from './components/errors/UnsupportedChain';
 
 // Handle outgoing transactions.
 export const onTransaction: OnTransactionHandler = async ({
@@ -21,6 +24,10 @@ export const onTransaction: OnTransactionHandler = async ({
   chainId,
   transactionOrigin,
 }) => {
+  if (!SUPPORTED_CHAINS.includes(chainId as ChainId)) {
+    return UnsupportedChainComponent();
+  }
+
   const response = await fetchTransaction(
     transaction,
     chainId,
