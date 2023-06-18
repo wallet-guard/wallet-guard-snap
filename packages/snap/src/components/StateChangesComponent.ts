@@ -1,6 +1,6 @@
 import { Component, Panel, divider, panel } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../types/simulateApi';
-import { AssetChangeComponent } from './stateChanges/AssetChange';
+import { AssetChangeComponent } from './stateChanges/AssetChangeComponent';
 import { NoStateChanges } from './stateChanges/NoChanges';
 
 /**
