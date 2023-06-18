@@ -16,6 +16,9 @@ import {
 // getAssetChangeText is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
 const getAssetChangeText = (stateChange: StateChange): Text => {
   const fiatValue = Number(stateChange.fiatValue).toFixed(2);
+  const tokenName = stateChange.tokenName
+    ? stateChange.tokenName
+    : stateChange.tokenID;
 
   switch (stateChange.assetType) {
     case SimulationAssetTypes.Native:
@@ -25,7 +28,7 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
         `${stateChange.amount} ${stateChange.symbol} ($${fiatValue})`,
       );
     case SimulationAssetTypes.ERC721:
-      return text(`${stateChange.tokenName} ($${fiatValue})`);
+      return text(`${tokenName} ($${fiatValue})`);
     default:
       return text('');
   }
