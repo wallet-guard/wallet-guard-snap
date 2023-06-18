@@ -1,4 +1,4 @@
-import { WALLET_ADDRESS_KEY } from './config';
+import { LocalStorageKeys } from './config';
 
 export const getWalletAddress = async (): Promise<string | null> => {
   const data = await snap.request({
@@ -10,13 +10,13 @@ export const getWalletAddress = async (): Promise<string | null> => {
 
   if (
     !data ||
-    !(WALLET_ADDRESS_KEY in data) ||
-    typeof data[WALLET_ADDRESS_KEY] !== 'string'
+    !(LocalStorageKeys.WalletAddress in data) ||
+    typeof data[LocalStorageKeys.WalletAddress] !== 'string'
   ) {
     return null;
   }
 
-  return data[WALLET_ADDRESS_KEY];
+  return data[LocalStorageKeys.WalletAddress];
 };
 
 export const updateWalletAddress = (walletAddress: string | null) => {
@@ -24,7 +24,7 @@ export const updateWalletAddress = (walletAddress: string | null) => {
     method: 'snap_manageState',
     params: {
       operation: 'update',
-      newState: { [WALLET_ADDRESS_KEY]: walletAddress },
+      newState: { [LocalStorageKeys.WalletAddress]: walletAddress },
     },
   });
 };

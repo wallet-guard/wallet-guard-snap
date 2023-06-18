@@ -6,4 +6,7 @@ export const SUPPORTED_CHAINS = [
   ChainId.PolygonMainnet,
 ];
 
-export const WALLET_ADDRESS_KEY = 'wgWalletAddress';
+export enum LocalStorageKeys {
+  WalletAddress = 'wg-WalletAddress',
+  HasRemindedApprovals = 'wg-HasRemindedApprovals',
+}
