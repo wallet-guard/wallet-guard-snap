@@ -11,10 +11,3 @@ export const ErrorComponent = (): OnTransactionResponse => {
     ]),
   };
 };
-
-export const ErrorComp = panel([
-  heading('Error while simulating transaction'),
-  text(
-    'Please contact support@walletguard.app if you continue seeing this issue.',
-  ),
-]);

@@ -43,7 +43,7 @@ const getHeader = (changeType: StateChangeType): Heading => {
   }
 };
 
-export const AssetChange = (
+export const AssetChangeComponent = (
   type: StateChangeType,
   stateChanges: StateChange[],
 ): Panel => {

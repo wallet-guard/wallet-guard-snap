@@ -4,7 +4,8 @@ import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
   getSnap,
-  sendHello,
+  sendRevokePrompt,
+  setAccount,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
@@ -102,6 +103,19 @@ const ErrorMessage = styled.div`
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
 
+  const connectWallet = async () => {
+    const accounts = await window.ethereum.request<string[]>({
+      method: 'eth_requestAccounts',
+    });
+
+    const account = accounts?.[0];
+    if (!account) {
+      throw new Error('Must accept wallet connection request.');
+    }
+
+    setAccount(account);
+  };
+
   const handleConnectClick = async () => {
     try {
       await connectSnap();
@@ -117,9 +131,9 @@ const Index = () => {
     }
   };
 
-  const handleSendHelloClick = async () => {
+  const handleSendRevokePrompt = async () => {
     try {
-      await sendHello();
+      await sendRevokePrompt();
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -185,12 +199,27 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
+            title: 'Connect Wallet',
             description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+              'Manage your approvals and get notifications on risky open approvals',
+            button: (
+              <ConnectButton
+                onClick={connectWallet}
+                disabled={!state.installedSnap}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+        />
+
+        <Card
+          content={{
+            title: 'Prompt Revoke UI',
+            description:
+              'Enter your ETH address to have us check for open approvals which put your assets at risk.',
             button: (
               <SendHelloButton
-                onClick={handleSendHelloClick}
+                onClick={handleSendRevokePrompt}
                 disabled={!state.installedSnap}
               />
             ),
@@ -202,6 +231,7 @@ const Index = () => {
             !shouldDisplayReconnectButton(state.installedSnap)
           }
         />
+
         <Notice>
           <p>
             Please note that the <b>snap.manifest.json</b> and{' '}

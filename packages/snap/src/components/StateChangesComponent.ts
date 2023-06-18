@@ -1,7 +1,7 @@
 import { Component, Panel, divider, panel } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../types/simulateApi';
-import { AssetChange } from './stateChanges/AssetChange';
-import { NoStateChanges } from './stateChanges/NoChangesComponent';
+import { AssetChangeComponent } from './stateChanges/AssetChange';
+import { NoStateChanges } from './stateChanges/NoChanges';
 
 /**
  * Creates a MetaMask Snap component based on a state change.
@@ -28,12 +28,14 @@ export const StateChangesComponent = (
   );
 
   if (receiveChanges?.length > 0) {
-    output.push(AssetChange(StateChangeType.Receive, receiveChanges));
+    output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
     output.push(divider());
   }
 
   if (transferChanges?.length > 0) {
-    output.push(AssetChange(StateChangeType.Transfer, transferChanges));
+    output.push(
+      AssetChangeComponent(StateChangeType.Transfer, transferChanges),
+    );
   }
 
   return panel(output);
