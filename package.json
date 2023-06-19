@@ -48,5 +48,8 @@
   "packageManager": "yarn@3.2.1",
   "engines": {
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "@chainsafe/dappeteer": "^5.2.0"
   }
 }
