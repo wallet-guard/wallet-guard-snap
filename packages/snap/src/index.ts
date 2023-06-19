@@ -3,14 +3,19 @@ import {
   OnRpcRequestHandler,
   OnTransactionHandler,
 } from '@metamask/snaps-types';
-import { copyable, heading, panel, text } from '@metamask/snaps-ui';
+import { heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
 import { StateChangesComponent } from './components/StateChangesComponent';
 import { ErrorType, SimulationWarningType } from './types/simulateApi';
 import { SimulationOverviewComponent } from './components/SimulationOverviewComponent';
 import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
-import { getWalletAddress, updateWalletAddress } from './utils/account';
+import {
+  getWalletAddress,
+  setRemindedTrue,
+  shouldRemindApprovals,
+  updateWalletAddress,
+} from './utils/account';
 import {
   UnsupportedChainComponent,
   showErrorResponse,
@@ -31,28 +36,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
-  // TODO: Bring this back if we want inApp notifications to add revoking reminders. Otherwise remove it
-  // For example, if we detect that they haven't set this up yet, remind them.
-  // give them the option to "remind me later" or "dont show again"
-  // Do this with a confirmation flow (yes or no) => (if yes) prompt input
-
-  // if (request.method === 'revokePrompt') {
-  //   const walletAddress = await snap.request({
-  //     method: 'snap_dialog', // todo: also look into notifications
-  //     params: {
-  //       type: 'prompt',
-  //       content: panel([
-  //         heading('What is the wallet address?'),
-  //         text('Please enter the wallet address to be monitored'),
-  //       ]),
-  //       placeholder: '0x123...',
-  //     },
-  //   });
-
-  //   // updateWalletAddress(walletAddress);
-
-  //   return null;
-  // } else
   if (
     request.method === 'updateAccount' &&
     'walletAddress' in request.params &&
@@ -108,35 +91,70 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  const walletAddress = await getWalletAddress();
-
-  // TODO: consider showing a notification as a reminder to set this up
-
-  // User has not setup their approvals checking yet
-  if (!walletAddress) {
-    return;
-  }
-
   if (request.method === 'checkApprovals') {
+    const walletAddress = await getWalletAddress();
+
+    // User has not setup their approvals checking yet
+    if (!walletAddress) {
+      const shouldRemind = await shouldRemindApprovals();
+
+      if (!shouldRemind) {
+        return;
+      }
+
+      const userResponse = (await snap.request({
+        method: 'snap_dialog',
+        params: {
+          type: 'confirmation',
+          content: panel([
+            heading("We noticed you haven't setup approvals checking yet"),
+            text(
+              'Would you like to set this up? No wallet connection neccessary.',
+            ),
+          ]),
+        },
+      })) as boolean;
+
+      setRemindedTrue();
+
+      if (!userResponse) {
+        return;
+      }
+
+      const inputAddress: string = (await snap.request({
+        method: 'snap_dialog',
+        params: {
+          type: 'prompt',
+          content: panel([
+            heading('What is the wallet address?'),
+            text('Please enter the wallet address to be monitored'),
+          ]),
+          placeholder: '0x123...',
+        },
+      })) as string;
+
+      updateWalletAddress(inputAddress);
+    }
+
     // todo: consider making this a notification instead
     // todo: fetch from John's API. Only alert if there's
     // a bad approval out that puts money at risk
-    // todo: fetch wallet address from local storage
 
-    await snap.request({
-      method: 'snap_dialog',
-      params: {
-        type: 'alert',
-        content: panel([
-          heading(
-            'You have an open approval that puts your Pudgy Penguin at risk',
-          ),
-          text(
-            'Open approvals are abused by gasless signature scams. Bad actors can steal your NFTs and tokens if you sign a malicious signature. To revoke this open approval you can visit',
-          ),
-          copyable('https://dashboard.walletguard.app'),
-        ]),
-      },
-    });
+    //   await snap.request({
+    //     method: 'snap_dialog',
+    //     params: {
+    //       type: 'alert',
+    //       content: panel([
+    //         heading(
+    //           'You have an open approval that puts your Pudgy Penguin at risk',
+    //         ),
+    //         text(
+    //           'Open approvals are abused by gasless signature scams. Bad actors can steal your NFTs and tokens if you sign a malicious signature. To revoke this open approval you can visit',
+    //         ),
+    //         copyable('https://dashboard.walletguard.app'),
+    //       ]),
+    //     },
+    //   });
+    // }
   }
 };

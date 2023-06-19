@@ -28,3 +28,32 @@ export const updateWalletAddress = (walletAddress: string | null) => {
     },
   });
 };
+
+export const shouldRemindApprovals = async (): Promise<boolean> => {
+  const data = await snap.request({
+    method: 'snap_manageState',
+    params: {
+      operation: 'get',
+    },
+  });
+
+  if (
+    !data ||
+    !(LocalStorageKeys.HasRemindedApprovals in data) ||
+    typeof data[LocalStorageKeys.HasRemindedApprovals] !== 'boolean'
+  ) {
+    return false;
+  }
+
+  return data[LocalStorageKeys.HasRemindedApprovals];
+};
+
+export const setRemindedTrue = () => {
+  snap.request({
+    method: 'snap_manageState',
+    params: {
+      operation: 'update',
+      newState: { [LocalStorageKeys.HasRemindedApprovals]: true },
+    },
+  });
+};
