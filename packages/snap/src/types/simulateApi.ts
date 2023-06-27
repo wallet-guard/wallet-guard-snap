@@ -50,17 +50,26 @@ export enum SimulationWarningType {
   None = 'NONE',
   Info = 'INFO',
   Warn = 'WARN',
+  Verified = 'VERIFIED',
 }
 
 export type SimulationResponse = {
   warningType: SimulationWarningType;
   message?: string[];
+  overview: string; // todo: also consider typing this as: overview: { message: string, type: SimulationWarningType }
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string;
+  additionalContext: AdditionalContext[];
   scanResult: ScanResult;
   error: SimulationError | null;
+};
+
+export type AdditionalContext = {
+  severity: string; // todo: add types for this + label
+  label: string;
+  message: string;
 };
 
 export type SimulationAddressDetails = {
