@@ -137,6 +137,26 @@ export const onTransaction: OnTransactionHandler = async ({
 
   return {
     content: panel([
+      text('🚨 WARNING: You are sending all your ETH for nothing in return'),
+      SimulationOverviewComponent(['hello jacob', 'testing']),
+      StateChangesComponent(response.simulation.stateChanges),
+    ]),
+  };
+
+  if (
+    response.simulation.warningType === SimulationWarningType.Info ||
+    response.simulation.warningType === SimulationWarningType.Warn
+  ) {
+    return {
+      content: panel([
+        SimulationOverviewComponent(response.simulation.message),
+        StateChangesComponent(response.simulation.stateChanges),
+      ]),
+    };
+  }
+
+  return {
+    content: panel([
       panel([heading('hello')]),
       text('this is a ui test'),
       text('hello 2'),
