@@ -46,7 +46,7 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
-export enum SimulationWarningType {
+export enum SimulationOverviewType {
   None = 'NONE',
   Info = 'INFO',
   Warn = 'WARN',
@@ -54,19 +54,19 @@ export enum SimulationWarningType {
 }
 
 export type SimulationResponse = {
-  warningType: SimulationWarningType;
+  warningType: SimulationOverviewType;
   message?: string[];
-  overview: string; // todo: also consider typing this as: overview: { message: string, type: SimulationWarningType }
+  overview: string; // todo: also consider typing this as: overview: { message: string, type: SimulationOverviewType }
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string;
-  additionalContext: AdditionalContext[];
+  additionalWarnings: AdditionalWarnings[];
   scanResult: ScanResult;
   error: SimulationError | null;
 };
 
-export type AdditionalContext = {
+export type AdditionalWarnings = {
   severity: string; // todo: add types for this + label
   label: string;
   message: string;
