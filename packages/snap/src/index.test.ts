@@ -1,8 +1,4 @@
-import { expect } from '@jest/globals';
 import { installSnap } from '@metamask/snaps-jest';
-
-import { heading, panel, text } from '@metamask/snaps-ui';
-import { ChainId } from './types/chains';
 import { UnsupportedChainComponent } from './components';
 
 describe('onTransaction', () => {
@@ -19,12 +15,5 @@ describe('onTransaction', () => {
       expect(response).toRender(expected);
       await snap.close();
     });
-
-    // snap.sendTransaction({
-    //   chainId: ChainId.EthereumMainnet,
-
-    // })
-
-    // snap.mock
   });
 });
