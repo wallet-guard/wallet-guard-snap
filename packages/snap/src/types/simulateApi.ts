@@ -31,7 +31,7 @@ export type SimulateRequestParams = {
   transaction: {
     [key: string]: Json;
   };
-  source: 'SNAP';
+  source: 'SNAP'; // todo: consider sending this as a header instead
 };
 
 // The only method supported by Snaps on launch is eth_sendTransaction
@@ -46,27 +46,24 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
-export enum SimulationOverviewType {
+export enum WarningType {
   None = 'NONE',
-  Info = 'INFO',
   Warn = 'WARN',
-  Verified = 'VERIFIED',
+  Block = 'BLOCK',
 }
 
 export type SimulationResponse = {
-  warningType: SimulationOverviewType;
-  message?: string[];
-  overview: string; // todo: also consider typing this as: overview: { message: string, type: SimulationOverviewType }
+  warningType: WarningType;
+  overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string;
-  additionalWarnings: AdditionalWarnings[];
-  scanResult: ScanResult;
+  riskFactors: RiskFactor[];
   error: SimulationError | null;
 };
 
-export type AdditionalWarnings = {
+export type RiskFactor = {
   severity: string; // todo: add types for this + label
   label: string;
   message: string;
@@ -104,43 +101,6 @@ export type StateChange = {
   message: string;
   fiatValue: string;
 };
-
-export type ScanResult = {
-  domainName: string;
-  phishing: PhishingResult;
-  warnings: Warning[] | null;
-  verified: boolean;
-};
-
-export type Warning = {
-  level: WarningLevel;
-  type: WarningType;
-  value: string;
-};
-
-export enum WarningType {
-  Similarity = 'SIMILARITY',
-  RecentlyCreated = 'RECENTLY_CREATED',
-  Malware = 'MALWARE',
-  Homoglyph = 'HOMOGLYPH',
-  Blocklisted = 'BLOCKLISTED',
-  MLInference = 'ML_INFERENCE',
-  Drainer = 'DRAINER',
-}
-
-export enum WarningLevel {
-  Info = 'INFO',
-  Low = 'LOW',
-  Medium = 'MEDIUM',
-  High = 'HIGH',
-  Critical = 'CRITICAL',
-}
-
-export enum PhishingResult {
-  Phishing = 'PHISHING',
-  NotPhishing = 'NOT_PHISHING',
-  Unknown = 'UNKNOWN',
-}
 
 export type SimulationError = {
   type: ErrorType;

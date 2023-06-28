@@ -1,24 +1,18 @@
 import { Panel, divider, heading, panel, text } from '@metamask/snaps-ui';
-import { SimulationOverviewType } from '../types/simulateApi';
+import { WarningType } from '../types/simulateApi';
 
 export const SimulationOverviewComponent = (
   overview: string,
-  warningType: SimulationOverviewType,
+  warningType: WarningType,
 ): Panel => {
-  if (!overview || warningType === SimulationOverviewType.None) {
+  if (!overview || warningType === WarningType.None) {
     return panel([]);
   }
 
-  if (warningType === SimulationOverviewType.Info) {
-    return panel([heading('Overview Message'), text(overview), divider()]);
-  } else if (warningType === SimulationOverviewType.Verified) {
-    return panel([
-      heading('Overview Message'),
-      text('✅ ', overview),
-      divider(),
-    ]);
-  } else if (warningType === SimulationOverviewType.Warn) {
-    return panel([heading('Warning'), text('🚨 ', overview), divider()]);
+  if (warningType === WarningType.Warn) {
+    return panel([heading('Heads up'), text(overview), divider()]);
+  } else if (warningType === WarningType.Block) {
+    return panel([heading('🚨 Warning'), text(overview), divider()]);
   }
 
   return panel([]);

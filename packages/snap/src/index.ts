@@ -84,11 +84,11 @@ export const onTransaction: OnTransactionHandler = async ({
   return {
     content: panel([
       SimulationOverviewComponent(
-        response.simulation.overview,
+        response.simulation.overviewMessage,
         response.simulation.warningType,
       ),
       StateChangesComponent(response.simulation.stateChanges),
-      AdditionalWarningsComponent(response.simulation.additionalWarnings),
+      AdditionalWarningsComponent(response.simulation.riskFactors),
     ]),
   };
 };
