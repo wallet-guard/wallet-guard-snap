@@ -64,8 +64,8 @@ export type SimulationResponse = {
 };
 
 export type RiskFactor = {
-  severity: string; // todo: add types for this + label
-  label: string;
+  severity: Severity;
+  type: string;
   message: string;
 };
 
@@ -107,6 +107,12 @@ export type SimulationError = {
   message: string;
   extraData: object | null;
 };
+
+export enum Severity {
+  Low = 'LOW',
+  High = 'HIGH',
+  Critical = 'CRITICAL',
+}
 
 export enum ErrorType {
   Unauthorized = 'UNAUTHORIZED',

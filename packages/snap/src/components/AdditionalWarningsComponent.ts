@@ -8,26 +8,7 @@ export const AdditionalWarningsComponent = (
     return panel([]);
   }
 
-  const output: Text[] = riskFactors.map((warning) => {
-    const label = getWarningLabel(warning.severity);
-
-    return text(label, warning.message);
-  });
+  const output: Text[] = riskFactors.map((warning) => text(warning.message));
 
   return panel(output);
 };
-
-function getWarningLabel(severity: string) {
-  switch (severity) {
-    case 'CRITICAL':
-      return '🚨';
-    case 'HIGH':
-      return '‼️';
-    case 'MEDIUM':
-      return '❗️';
-    case 'LOW':
-      return '⚠️';
-    default:
-      return '';
-  }
-}
