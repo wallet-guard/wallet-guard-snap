@@ -5,9 +5,13 @@ import {
 } from '@metamask/snaps-types';
 import { heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
-import { StateChangesComponent } from './components/StateChangesComponent';
 import { ErrorType, SimulationWarningType } from './types/simulateApi';
-import { SimulationOverviewComponent } from './components/SimulationOverviewComponent';
+import {
+  StateChangesComponent,
+  SimulationOverviewComponent,
+  UnsupportedChainComponent,
+  showErrorResponse,
+} from './components';
 import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
 import {
@@ -16,10 +20,6 @@ import {
   shouldRemindApprovals,
   updateWalletAddress,
 } from './utils/account';
-import {
-  UnsupportedChainComponent,
-  showErrorResponse,
-} from './components/errors';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -58,7 +58,9 @@ export const onTransaction: OnTransactionHandler = async ({
   transactionOrigin,
 }) => {
   if (!SUPPORTED_CHAINS.includes(chainId as ChainId)) {
-    return UnsupportedChainComponent();
+    return {
+      content: UnsupportedChainComponent(),
+    };
   }
 
   const response = await fetchTransaction(
