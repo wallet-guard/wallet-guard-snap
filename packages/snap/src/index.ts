@@ -58,7 +58,9 @@ export const onTransaction: OnTransactionHandler = async ({
   transactionOrigin,
 }) => {
   if (!SUPPORTED_CHAINS.includes(chainId as ChainId)) {
-    return UnsupportedChainComponent();
+    return {
+      content: UnsupportedChainComponent(),
+    };
   }
 
   const response = await fetchTransaction(
