@@ -70,9 +70,13 @@ export const onTransaction: OnTransactionHandler = async ({
   );
 
   if (response.error) {
-    return showErrorResponse(response.error.type);
+    return {
+      content: showErrorResponse(response.error.type),
+    };
   } else if (!response.simulation || response.simulation?.error) {
-    return showErrorResponse(ErrorType.GeneralError);
+    return {
+      content: showErrorResponse(ErrorType.GeneralError),
+    };
   }
 
   if (
