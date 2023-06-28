@@ -1,8 +1,5 @@
-import { OnTransactionResponse } from '@metamask/snaps-types';
-import { heading, panel } from '@metamask/snaps-ui';
+import { heading, panel, Panel } from '@metamask/snaps-ui';
 
-export const InsufficientFundsComponent = (): OnTransactionResponse => {
-  return {
-    content: panel([heading('Insufficient funds')]),
-  };
+export const InsufficientFundsComponent = (): Panel => {
+  return panel([heading('Insufficient funds')]);
 };

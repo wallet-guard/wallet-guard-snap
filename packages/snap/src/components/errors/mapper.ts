@@ -1,4 +1,4 @@
-import { OnTransactionResponse } from '@metamask/snaps-types';
+import { Panel } from '@metamask/snaps-ui';
 import { ErrorType } from '../../types/simulateApi';
 import {
   ErrorComponent,
@@ -14,7 +14,7 @@ import {
  * @param errorType - The mapped error response based on status code or any simulation related issues.
  * @returns OnTransactionResposnse - the output for OnTransaction hook.
  */
-export function showErrorResponse(errorType: ErrorType): OnTransactionResponse {
+export function showErrorResponse(errorType: ErrorType): Panel {
   switch (errorType) {
     case ErrorType.Revert:
       return RevertComponent();
