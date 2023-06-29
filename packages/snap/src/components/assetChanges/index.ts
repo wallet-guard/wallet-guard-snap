@@ -1,2 +1,2 @@
 export * from './AssetChangeComponent';
-export * from './NoChanges';
+export * from './NoChangesComponent';
