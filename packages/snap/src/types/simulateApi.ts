@@ -31,7 +31,7 @@ export type SimulateRequestParams = {
   transaction: {
     [key: string]: Json;
   };
-  source: 'SNAP';
+  source: 'SNAP'; // todo: consider sending this as a header instead
 };
 
 // The only method supported by Snaps on launch is eth_sendTransaction
@@ -46,21 +46,27 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
-export enum SimulationWarningType {
+export enum WarningType {
   None = 'NONE',
-  Info = 'INFO',
   Warn = 'WARN',
+  Block = 'BLOCK',
 }
 
 export type SimulationResponse = {
-  warningType: SimulationWarningType;
-  message?: string[];
+  warningType: WarningType;
+  overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string;
-  scanResult: ScanResult;
+  riskFactors: RiskFactor[];
   error: SimulationError | null;
+};
+
+export type RiskFactor = {
+  severity: Severity;
+  type: string;
+  message: string;
 };
 
 export type SimulationAddressDetails = {
@@ -96,48 +102,17 @@ export type StateChange = {
   fiatValue: string;
 };
 
-export type ScanResult = {
-  domainName: string;
-  phishing: PhishingResult;
-  warnings: Warning[] | null;
-  verified: boolean;
-};
-
-export type Warning = {
-  level: WarningLevel;
-  type: WarningType;
-  value: string;
-};
-
-export enum WarningType {
-  Similarity = 'SIMILARITY',
-  RecentlyCreated = 'RECENTLY_CREATED',
-  Malware = 'MALWARE',
-  Homoglyph = 'HOMOGLYPH',
-  Blocklisted = 'BLOCKLISTED',
-  MLInference = 'ML_INFERENCE',
-  Drainer = 'DRAINER',
-}
-
-export enum WarningLevel {
-  Info = 'INFO',
-  Low = 'LOW',
-  Medium = 'MEDIUM',
-  High = 'HIGH',
-  Critical = 'CRITICAL',
-}
-
-export enum PhishingResult {
-  Phishing = 'PHISHING',
-  NotPhishing = 'NOT_PHISHING',
-  Unknown = 'UNKNOWN',
-}
-
 export type SimulationError = {
   type: ErrorType;
   message: string;
   extraData: object | null;
 };
+
+export enum Severity {
+  Low = 'LOW',
+  High = 'HIGH',
+  Critical = 'CRITICAL',
+}
 
 export enum ErrorType {
   Unauthorized = 'UNAUTHORIZED',

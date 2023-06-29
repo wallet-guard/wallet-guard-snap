@@ -5,12 +5,13 @@ import {
 } from '@metamask/snaps-types';
 import { heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
-import { ErrorType, SimulationWarningType } from './types/simulateApi';
+import { ErrorType } from './types/simulateApi';
 import {
   StateChangesComponent,
   SimulationOverviewComponent,
   UnsupportedChainComponent,
   showErrorResponse,
+  AdditionalWarningsComponent,
 } from './components';
 import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
@@ -32,7 +33,8 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({
+export const onRpcRequest: OnRpcRequestHandler = async ({ // TODO: this might be a bad pattern bc it's not easy
+  // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
   origin,
   request,
 }) => {
@@ -79,20 +81,15 @@ export const onTransaction: OnTransactionHandler = async ({
     };
   }
 
-  if (
-    response.simulation.warningType === SimulationWarningType.Info ||
-    response.simulation.warningType === SimulationWarningType.Warn
-  ) {
-    return {
-      content: panel([
-        SimulationOverviewComponent(response.simulation.message),
-        StateChangesComponent(response.simulation.stateChanges),
-      ]),
-    };
-  }
-
   return {
-    content: StateChangesComponent(response.simulation.stateChanges),
+    content: panel([
+      SimulationOverviewComponent(
+        response.simulation.overviewMessage,
+        response.simulation.warningType,
+      ),
+      StateChangesComponent(response.simulation.stateChanges),
+      AdditionalWarningsComponent(response.simulation.riskFactors),
+    ]),
   };
 };
 

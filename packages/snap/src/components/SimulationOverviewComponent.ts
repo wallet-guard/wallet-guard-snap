@@ -1,15 +1,19 @@
 import { Panel, divider, heading, panel, text } from '@metamask/snaps-ui';
+import { WarningType } from '../types/simulateApi';
 
 export const SimulationOverviewComponent = (
-  messages: string[] | undefined,
+  overview: string,
+  warningType: WarningType,
 ): Panel => {
-  if (!messages || messages.length === 0) {
+  if (!overview || warningType === WarningType.None) {
     return panel([]);
   }
 
-  return panel([
-    heading('Overview Message'),
-    text(messages.join(' ')),
-    divider(),
-  ]);
+  if (warningType === WarningType.Warn) {
+    return panel([heading('Heads up'), text(overview), divider()]);
+  } else if (warningType === WarningType.Block) {
+    return panel([heading('🚨 Warning'), text(overview), divider()]);
+  }
+
+  return panel([]);
 };
