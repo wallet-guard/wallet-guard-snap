@@ -4,7 +4,7 @@
   "description": "Wallet Guard's simulator inside of a MetaMask Snap.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "license": "(MIT-0 OR Apache-2.0)",
   "main": "src/index.ts",

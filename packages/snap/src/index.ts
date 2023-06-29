@@ -10,7 +10,7 @@ import {
   StateChangesComponent,
   SimulationOverviewComponent,
   UnsupportedChainComponent,
-  showErrorResponse,
+  showErrorComponent,
   AdditionalWarningsComponent,
 } from './components';
 import { SUPPORTED_CHAINS } from './utils/config';
@@ -73,11 +73,11 @@ export const onTransaction: OnTransactionHandler = async ({
 
   if (response.error) {
     return {
-      content: showErrorResponse(response.error.type),
+      content: showErrorComponent(response.error.type),
     };
   } else if (!response.simulation || response.simulation?.error) {
     return {
-      content: showErrorResponse(ErrorType.GeneralError),
+      content: showErrorComponent(ErrorType.GeneralError),
     };
   }
 

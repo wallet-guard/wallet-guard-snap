@@ -1,4 +1,4 @@
-# TypeScript Example Snap Front-end
+# Wallet Guard Snap Front-end
 
 This project was bootstrapped with [Gatsby](https://www.gatsbyjs.com/).
 

@@ -1,7 +1,7 @@
 import { Component, Panel, divider, panel } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../types/simulateApi';
-import { AssetChangeComponent } from './stateChanges/AssetChangeComponent';
-import { NoStateChanges } from './stateChanges/NoChanges';
+import { AssetChangeComponent } from './assetChanges/AssetChangeComponent';
+import { NoStateChangesComponent } from './assetChanges/NoChangesComponent';
 
 /**
  * Creates a MetaMask Snap component based on a state change.
@@ -13,8 +13,7 @@ export const StateChangesComponent = (
   stateChanges: StateChange[] | null,
 ): Panel => {
   if (stateChanges === null) {
-    // todo: consider showing the address/ contract they're interacting with like the extension. Make sure there aren't any cases that get conflated here
-    return NoStateChanges;
+    return NoStateChangesComponent();
   }
 
   const output: Component[] = [];
