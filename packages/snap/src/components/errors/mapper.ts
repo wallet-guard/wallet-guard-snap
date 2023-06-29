@@ -14,7 +14,7 @@ import {
  * @param errorType - The mapped error response based on status code or any simulation related issues.
  * @returns Panel - the output for OnTransaction hook.
  */
-export function showErrorResponse(errorType: ErrorType): Panel {
+export function showErrorComponent(errorType: ErrorType): Panel {
   switch (errorType) {
     case ErrorType.Revert:
       return RevertComponent();
