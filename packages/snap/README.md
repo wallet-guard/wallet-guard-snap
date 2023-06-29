@@ -5,3 +5,12 @@ This Snap supports transaction simulation and automated approval revoking remind
 # Installation Guide
 
 TODO
+
+# Dev Standards
+
+## Components
+
+UI elements must be organized by components. Ideally we should unit test the component itself along with the
+e2e functionality where that component is being used.
+
+Components must have the name `Component` in the filename and function name for clarity. Components should be functions so that we have the option to pass in parameters.
