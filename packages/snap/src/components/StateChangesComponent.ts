@@ -13,7 +13,6 @@ export const StateChangesComponent = (
   stateChanges: StateChange[] | null,
 ): Panel => {
   if (stateChanges === null) {
-    // todo: consider showing the address/ contract they're interacting with like the extension. Make sure there aren't any cases that get conflated here
     return NoStateChangesComponent();
   }
 
