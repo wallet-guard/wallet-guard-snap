@@ -51,7 +51,7 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
 };
 
 /**
- * Invoke the "hello" method from the example snap.
+ * Invoke the "hello" method from the Wallet Guard snap.
  */
 
 export const sendRevokePrompt = async () => {

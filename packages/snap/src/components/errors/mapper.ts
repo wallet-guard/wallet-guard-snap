@@ -12,7 +12,7 @@ import {
  * Maps an error from the Wallet Guard API to a component.
  *
  * @param errorType - The mapped error response based on status code or any simulation related issues.
- * @returns OnTransactionResposnse - the output for OnTransaction hook.
+ * @returns Panel - the output for OnTransaction hook.
  */
 export function showErrorResponse(errorType: ErrorType): Panel {
   switch (errorType) {

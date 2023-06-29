@@ -4,7 +4,7 @@
   "proposedName": "Wallet Guard",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "source": {
     "shasum": "q0bFmPpa1fnJo3zn56SwaL2hTvJZCb8dMs0Kwcm/saE=",
