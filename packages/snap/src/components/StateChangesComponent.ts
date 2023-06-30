@@ -4,8 +4,6 @@ import {
   StateChange,
   StateChangeType,
 } from '../types/simulateApi';
-// import { AssetChangeComponent } from './assetChanges/AssetChangeComponent';
-// import { NoStateChangesComponent } from './assetChanges/NoChangesComponent';
 import { NoStateChangesComponent, AssetChangeComponent, GasComponent } from '.';
 
 /**
