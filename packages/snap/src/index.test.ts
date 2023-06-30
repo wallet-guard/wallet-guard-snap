@@ -30,7 +30,7 @@ describe('onTransaction', () => {
       const snap = await installSnap();
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/simulate',
+        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
         response: {
           status: 200,
           body: JSON.stringify(EthereumMainnetMockSuccessResponse),
@@ -40,8 +40,6 @@ describe('onTransaction', () => {
       const response = await snap.sendTransaction({
         chainId: ChainId.EthereumMainnet,
       });
-
-      unmock();
 
       const expected = panel([
         // SimulationOverviewComponent Response
@@ -59,7 +57,9 @@ describe('onTransaction', () => {
         panel([]),
       ]);
 
+      console.log(response);
       expect(response).toRender(expected);
+      unmock();
     });
   });
 });
