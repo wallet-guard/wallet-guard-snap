@@ -85,7 +85,7 @@ export const onTransaction: OnTransactionHandler = async ({
     content: panel([
       SimulationOverviewComponent(
         response.simulation.overviewMessage,
-        response.simulation.warningType,
+        response.simulation.recommendedAction,
       ),
       StateChangesComponent(response.simulation.stateChanges),
       AdditionalWarningsComponent(response.simulation.riskFactors),

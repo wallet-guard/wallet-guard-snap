@@ -1,4 +1,4 @@
-import { Component, Panel, divider, panel } from '@metamask/snaps-ui';
+import { Component, Panel, panel } from '@metamask/snaps-ui';
 import { StateChange, StateChangeType } from '../types/simulateApi';
 import { AssetChangeComponent } from './assetChanges/AssetChangeComponent';
 import { NoStateChangesComponent } from './assetChanges/NoChangesComponent';
@@ -28,7 +28,6 @@ export const StateChangesComponent = (
 
   if (receiveChanges?.length > 0) {
     output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
-    output.push(divider());
   }
 
   if (transferChanges?.length > 0) {

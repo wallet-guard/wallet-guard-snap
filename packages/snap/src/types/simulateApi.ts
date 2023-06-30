@@ -31,7 +31,7 @@ export type SimulateRequestParams = {
   transaction: {
     [key: string]: Json;
   };
-  source: 'SNAP'; // todo: consider sending this as a header instead
+  source: 'SNAP';
 };
 
 // The only method supported by Snaps on launch is eth_sendTransaction
@@ -53,12 +53,12 @@ export enum WarningType {
 }
 
 export type SimulationResponse = {
-  warningType: WarningType;
+  recommendedAction: WarningType;
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
-  decodedMessage?: string;
+  decodedMessage?: string; // Only present on signatures
   riskFactors: RiskFactor[];
   error: SimulationError | null;
 };
