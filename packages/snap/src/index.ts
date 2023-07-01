@@ -33,9 +33,9 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({ // TODO: this might be a bad pattern bc it's not easy
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  // TODO: this might be a bad pattern bc it's not easy
   // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
-  origin,
   request,
 }) => {
   if (
