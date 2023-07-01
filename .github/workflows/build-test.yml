@@ -6,6 +6,31 @@ on:
   pull_request:
 
 jobs:
+  code-coverage:
+    name: Code coverage
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [16.x, 18.x]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - run: yarn install --immutable
+      - name: Test and coverage on Snap
+        run: |
+          cd packages/snap
+          yarn jest --coverage
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   build-lint-test:
     name: Build, Lint, and Test
     runs-on: ubuntu-20.04
@@ -40,16 +65,6 @@ jobs:
             echo "Working tree dirty after building"
             exit 1
           fi
-      - name: Test and coverage on Snap
-        run: |
-          cd packages/snap
-          yarn jest --coverage
-
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   #      - name: Validate RC changelog
   #        if: ${{ startsWith(github.head_ref, 'release/') }}
   #        run: yarn auto-changelog validate --rc
