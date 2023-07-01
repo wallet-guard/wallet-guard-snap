@@ -49,16 +49,6 @@ export const fetchTransaction = async (
 
     if (response.status === 200) {
       const data: SimulationResponse = await response.json();
-
-      // data.riskFactors = [];
-      // data.gas = {
-      //   gasUsedEth: '0',
-      //   fiatValue: '13.44',
-      //   currency: 'USD',
-      // };
-      // data.overviewMessage = '';
-      // data.recommendedAction = RecommendedActionType.None;
-
       if (data.error?.type === ErrorType.Revert) {
         return {
           type: ResponseType.Revert,

@@ -48,16 +48,23 @@ describe('onTransaction', () => {
       });
 
       const expected = panel([
-        // SimulationOverviewComponent Response
+        // SimulationOverviewComponent
         panel([]),
 
-        // AssetChangeComponent - Transfer
-        panel([heading('You will send:'), text('0.01 ETH ($19.28)')]),
+        // StateChangesComponent
+        panel([
+          // AssetChangeComponent - Transfer
+          panel([heading('You will send:'), text('0.01 ETH ($19.29)')]),
 
-        // AssetChangeComponent - Receive
-        panel([heading('You will receive:'), text('19.276096 USDC ($19.28)')]),
+          // AssetChangeComponent - Receive
+          panel([
+            heading('You will receive:'),
+            text('19.276096 USDT ($19.28)'),
+          ]),
 
-        // TODO: GasComponent
+          // Gas estimate component
+          panel([divider(), text(`Gas (estimate): $13.26`)]),
+        ]),
 
         // AdditionalWarningsComponent
         panel([]),
@@ -91,10 +98,14 @@ describe('onTransaction', () => {
           divider(),
         ]),
 
-        // AssetChangeComponent - Transfer
-        panel([heading('You will send:'), text('0.1 ETH ($200.00)')]),
+        // StateChangesComponent
+        panel([
+          // AssetChangeComponent - Transfer
+          panel([heading('You will send:'), text('0.1 ETH ($200.00)')]),
 
-        // TODO: GasComponent
+          // Gas estimate component
+          panel([divider(), text(`Gas (estimate): $13.69`)]),
+        ]),
 
         // AdditionalWarningsComponent
         panel([
@@ -172,6 +183,7 @@ describe('onTransaction', () => {
       response: {
         status: 403,
         contentType: 'application/json',
+        body: JSON.stringify({}),
       },
     });
 
