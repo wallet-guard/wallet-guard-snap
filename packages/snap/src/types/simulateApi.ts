@@ -46,14 +46,14 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
-export enum WarningType {
+export enum RecommendedActionType {
   None = 'NONE',
   Warn = 'WARN',
   Block = 'BLOCK',
 }
 
 export type SimulationResponse = {
-  recommendedAction: WarningType;
+  recommendedAction: RecommendedActionType;
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;

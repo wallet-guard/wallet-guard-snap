@@ -39,6 +39,7 @@ describe('onTransaction', () => {
         response: {
           status: 200,
           body: JSON.stringify(EthereumMainnetMockSuccessResponse),
+          contentType: 'application/json',
         },
       });
 
@@ -74,6 +75,7 @@ describe('onTransaction', () => {
         response: {
           status: 200,
           body: JSON.stringify(EthereumMainnetMockResponseWithWarnings),
+          contentType: 'application/json',
         },
       });
 
@@ -85,9 +87,7 @@ describe('onTransaction', () => {
         // SimulationOverviewComponent Response
         panel([
           heading('🚨 Warning'),
-          text(
-            EthereumMainnetMockResponseWithWarnings.simulation!.overviewMessage,
-          ),
+          text(EthereumMainnetMockResponseWithWarnings.overviewMessage),
           divider(),
         ]),
 
@@ -118,6 +118,7 @@ describe('onTransaction', () => {
         response: {
           status: 400,
           body: JSON.stringify(EthereumMainnetMockErrorResponse),
+          contentType: 'application/json',
         },
       });
 
@@ -170,6 +171,7 @@ describe('onTransaction', () => {
       url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
       response: {
         status: 403,
+        contentType: 'application/json',
       },
     });
 

@@ -76,6 +76,7 @@ export const onTransaction: OnTransactionHandler = async ({
       content: showErrorComponent(response.error.type),
     };
   } else if (!response.simulation || response.simulation?.error) {
+    // TODO: simulation.error might have a type here that we don't catch?
     return {
       content: showErrorComponent(ErrorType.GeneralError),
     };
