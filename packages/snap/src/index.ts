@@ -21,6 +21,7 @@ import {
   shouldRemindApprovals,
   updateWalletAddress,
 } from './utils/account';
+import { fetchApprovals } from './http/fetchApprovals';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -33,7 +34,8 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({ // TODO: this might be a bad pattern bc it's not easy
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  // TODO: this might be a bad pattern bc it's not easy
   // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
   origin,
   request,
@@ -137,6 +139,24 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
       })) as string;
 
       updateWalletAddress(inputAddress);
+    }
+
+    const approvals = await fetchApprovals(walletAddress as string);
+
+    // TODO: consider storing a hash in localstorage here so that we don't keep on reminding
+    // the user of the same approvals (I would get annoyed at this since there's no value at risk in my wallet)
+
+    // TODO: Consider adding a settings panel to dashboard.walletguard.app where they can
+    // 1: enable/disable simulation or revoking 2: update/remove the connected wallet for approval reminders
+    if (approvals.approvals.length > 0) {
+      await snap.request({
+        method: 'snap_notify',
+        params: {
+          type: 'inApp',
+          message: `Warning: You have ${approvals.approvals.length} open ${approvals.approvals.length === 1 ? 'approval' : 'approvals'
+            } which can put your assets at risk. Head to https://dashboard.walletguard.app to remediate`,
+        },
+      });
     }
 
     // todo: consider making this a notification instead
