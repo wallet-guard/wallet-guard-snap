@@ -1,6 +1,6 @@
 // import { expect } from '@jest/globals';
-// import { AdditionalWarningsComponent } from './AdditionalWarningsComponent';
 // import { panel } from '@metamask/snaps-ui';
+// import { AdditionalWarningsComponent } from './AdditionalWarningsComponent';
 
 // describe('AdditionalWarningComponent', () => {
 //   it('should display an empty panel with undefined riskFactors', async () => {

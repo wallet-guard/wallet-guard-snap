@@ -1,5 +1,6 @@
 import {
   ApiResponse,
+  ErrorType,
   ResponseType,
   SimulationAssetTypes,
   SimulationMethodType,
@@ -74,6 +75,12 @@ export const EthereumMainnetMockSuccessResponse: ApiResponse = {
   error: undefined,
 };
 
-// export const EthereumMainnetMockErrorResponse: ApiResponse = {
-
-// };
+export const EthereumMainnetMockErrorResponse: ApiResponse = {
+  type: ResponseType.Errored,
+  simulation: undefined,
+  error: {
+    type: ErrorType.GeneralError,
+    message: '',
+    extraData: null,
+  },
+};

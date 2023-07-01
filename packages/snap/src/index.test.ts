@@ -4,10 +4,13 @@ import { installSnap } from '@metamask/snaps-jest';
 import { expect } from '@jest/globals';
 import { heading, panel, text } from '@metamask/snaps-ui';
 import { ChainId } from './types/chains';
-import { EthereumMainnetMockSuccessResponse } from './mocks/MockEthereumResponses';
+import {
+  EthereumMainnetMockErrorResponse,
+  EthereumMainnetMockSuccessResponse,
+} from './mocks/MockEthereumResponses';
 
 describe('onTransaction', () => {
-  describe('supported chains uis', () => {
+  describe('onTransaction supported chains', () => {
     it('should display unsupported chain UI for unknown chain ID', async () => {
       const snap = await installSnap();
 
@@ -58,6 +61,34 @@ describe('onTransaction', () => {
       ]);
 
       console.log(response);
+      expect(response).toRender(expected);
+      unmock();
+    });
+  });
+
+  describe('onTransaction handles errors', () => {
+    it('should handle 400 bad request from API', async () => {
+      const snap = await installSnap();
+
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+        response: {
+          status: 400,
+          body: JSON.stringify(EthereumMainnetMockErrorResponse),
+        },
+      });
+
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
+
+      const expected = panel([
+        heading('Error while simulating transaction'),
+        text(
+          'Please contact support@walletguard.app if you continue seeing this issue.',
+        ),
+      ]);
+
       expect(response).toRender(expected);
       unmock();
     });
