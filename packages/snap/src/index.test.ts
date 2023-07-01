@@ -2,10 +2,12 @@
 import { installSnap } from '@metamask/snaps-jest';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { expect } from '@jest/globals';
-import { heading, panel, text } from '@metamask/snaps-ui';
+import { divider, heading, panel, text } from '@metamask/snaps-ui';
 import { ChainId } from './types/chains';
 import {
   EthereumMainnetMockErrorResponse,
+  EthereumMainnetMockResponseWithWarnings,
+  EthereumMainnetMockRevertTransaction,
   EthereumMainnetMockSuccessResponse,
 } from './mocks/MockEthereumResponses';
 
@@ -60,7 +62,48 @@ describe('onTransaction', () => {
         panel([]),
       ]);
 
-      console.log(response);
+      expect(response).toRender(expected);
+      unmock();
+    });
+
+    it('should display transactions with warnings', async () => {
+      const snap = await installSnap();
+
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+        response: {
+          status: 200,
+          body: JSON.stringify(EthereumMainnetMockResponseWithWarnings),
+        },
+      });
+
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
+
+      const expected = panel([
+        // SimulationOverviewComponent Response
+        panel([
+          heading('🚨 Warning'),
+          text(
+            EthereumMainnetMockResponseWithWarnings.simulation!.overviewMessage,
+          ),
+          divider(),
+        ]),
+
+        // AssetChangeComponent - Transfer
+        panel([heading('You will send:'), text('0.1 ETH ($200.00)')]),
+
+        // TODO: GasComponent
+
+        // AdditionalWarningsComponent
+        panel([
+          heading('Additional Warnings'),
+          text('Domain identified as a wallet drainer.'),
+          text('This domain was recently created'),
+        ]),
+      ]);
+
       expect(response).toRender(expected);
       unmock();
     });
@@ -92,5 +135,56 @@ describe('onTransaction', () => {
       expect(response).toRender(expected);
       unmock();
     });
+  });
+
+  it('should handle reverted transactions', async () => {
+    const snap = await installSnap();
+
+    const { unmock } = await snap.mock({
+      url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+      response: {
+        status: 200,
+        body: JSON.stringify(EthereumMainnetMockRevertTransaction),
+      },
+    });
+
+    const response = await snap.sendTransaction({
+      chainId: ChainId.EthereumMainnet,
+    });
+
+    const expected = panel([
+      heading('Revert warning'),
+      text(
+        'The transaction will be reverted and your gas fee will go to waste.',
+      ),
+    ]);
+
+    expect(response).toRender(expected);
+    unmock();
+  });
+
+  it('should handle 403 unauthorized from API', async () => {
+    const snap = await installSnap();
+
+    const { unmock } = await snap.mock({
+      url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+      response: {
+        status: 403,
+      },
+    });
+
+    const response = await snap.sendTransaction({
+      chainId: ChainId.EthereumMainnet,
+    });
+
+    const expected = panel([
+      heading('Unauthorized'),
+      text(
+        'Please contact support@walletguard.app if you continue seeing this issue.',
+      ),
+    ]);
+
+    expect(response).toRender(expected);
+    unmock();
   });
 });

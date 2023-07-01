@@ -1,4 +1,4 @@
-import { Panel, Text, panel, text } from '@metamask/snaps-ui';
+import { Panel, Text, heading, panel, text } from '@metamask/snaps-ui';
 import { RiskFactor } from '../types/simulateApi';
 
 export const AdditionalWarningsComponent = (
@@ -8,7 +8,7 @@ export const AdditionalWarningsComponent = (
     return panel([]);
   }
 
-  const output: Text[] = riskFactors.map((warning) => text(warning.message));
+  const warnings: Text[] = riskFactors.map((warning) => text(warning.message));
 
-  return panel(output);
+  return panel([heading('Additional Warnings'), ...warnings]);
 };

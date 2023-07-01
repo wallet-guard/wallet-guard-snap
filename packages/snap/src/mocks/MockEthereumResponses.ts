@@ -2,6 +2,7 @@ import {
   ApiResponse,
   ErrorType,
   ResponseType,
+  Severity,
   SimulationAssetTypes,
   SimulationMethodType,
   StateChangeType,
@@ -73,6 +74,71 @@ export const EthereumMainnetMockSuccessResponse: ApiResponse = {
     error: null,
   },
   error: undefined,
+};
+
+export const EthereumMainnetMockResponseWithWarnings: ApiResponse = {
+  type: ResponseType.Success,
+  simulation: {
+    recommendedAction: WarningType.Block,
+    overviewMessage: 'We suspect that this website is a wallet drainer.',
+    method: SimulationMethodType.EthSendTransaction,
+    stateChanges: [
+      {
+        address: '0x12345',
+        amount: '0.1',
+        assetType: SimulationAssetTypes.Native,
+        changeType: StateChangeType.Transfer,
+        coinmarketcapLink: 'https://coinmarketcap.com/currencies/ethereum/',
+        contractAddress: '',
+        decimals: 18,
+        etherscanLink: '',
+        etherscanVerified: true,
+        fiatValue: '200',
+        logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
+        message: 'They receive 0.1 ETH',
+        name: 'Ethereum',
+        openSeaFloorPrice: 0,
+        openSeaLink: '',
+        openSeaVerified: false,
+        symbol: 'ETH',
+        tokenID: '',
+        tokenName: '',
+        tokenURI: '',
+      },
+    ],
+    riskFactors: [
+      {
+        severity: Severity.Critical,
+        type: 'DRAINER',
+        message: 'Domain identified as a wallet drainer.',
+        value: '',
+      },
+      {
+        severity: Severity.High,
+        type: 'RECENTLY_CREATED',
+        message: 'This domain was recently created',
+        value: '',
+      },
+    ],
+    addressDetails: {
+      address: '',
+      addressType: '',
+      etherscanVerified: false,
+      etherscanLink: '',
+    },
+    error: null,
+  },
+  error: undefined,
+};
+
+export const EthereumMainnetMockRevertTransaction: ApiResponse = {
+  type: ResponseType.Revert,
+  simulation: undefined,
+  error: {
+    type: ErrorType.Revert,
+    message: 'This transaction will revert',
+    extraData: null,
+  },
 };
 
 export const EthereumMainnetMockErrorResponse: ApiResponse = {

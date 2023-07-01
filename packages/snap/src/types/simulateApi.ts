@@ -67,6 +67,7 @@ export type RiskFactor = {
   severity: Severity;
   type: string;
   message: string;
+  value: string;
 };
 
 export type SimulationAddressDetails = {
