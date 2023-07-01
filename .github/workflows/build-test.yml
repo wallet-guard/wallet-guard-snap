@@ -40,6 +40,16 @@ jobs:
             echo "Working tree dirty after building"
             exit 1
           fi
+      - name: Test and coverage on Snap
+        run: |
+          cd packages/snap
+          yarn jest --coverage
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   #      - name: Validate RC changelog
   #        if: ${{ startsWith(github.head_ref, 'release/') }}
   #        run: yarn auto-changelog validate --rc
