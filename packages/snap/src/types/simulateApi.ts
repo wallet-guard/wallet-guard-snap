@@ -60,7 +60,14 @@ export type SimulationResponse = {
   method: SimulationMethodType | string;
   decodedMessage?: string;
   riskFactors: RiskFactor[];
+  gas: SimulatedGas;
   error: SimulationError | null;
+};
+
+export type SimulatedGas = {
+  gasUsedEth: string;
+  fiatValue: string;
+  currency: string;
 };
 
 export type RiskFactor = {
