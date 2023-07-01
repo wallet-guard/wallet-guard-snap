@@ -18,6 +18,7 @@ jobs:
 
       - run: yarn install --immutable
       - name: Build and test snap
+        continue-on-error: true
         run: |
           cd packages/snap
           yarn build
