@@ -87,7 +87,10 @@ export const onTransaction: OnTransactionHandler = async ({
         response.simulation.overviewMessage,
         response.simulation.recommendedAction,
       ),
-      StateChangesComponent(response.simulation.stateChanges),
+      StateChangesComponent(
+        response.simulation.stateChanges,
+        response.simulation.gas,
+      ),
       AdditionalWarningsComponent(response.simulation.riskFactors),
     ]),
   };
