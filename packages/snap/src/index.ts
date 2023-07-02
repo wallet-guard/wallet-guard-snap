@@ -22,6 +22,7 @@ import {
   updateWalletAddress,
 } from './utils/account';
 import { fetchApprovals } from './http/fetchApprovals';
+import { ApprovalRiskLevel } from './types/approvalsApi';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -41,6 +42,9 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }) => {
   if (
+    // TODO: update origin
+    // TODO: Consider adding a getAccount method for the dashboard to hook into & manage state with
+    origin === 'http://localhost:8000' &&
     request.method === 'updateAccount' &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
@@ -148,7 +152,12 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 
     // TODO: Consider adding a settings panel to dashboard.walletguard.app where they can
     // 1: enable/disable simulation or revoking 2: update/remove the connected wallet for approval reminders
-    if (approvals.approvals.length > 0) {
+
+    const highRiskApprovals = approvals.approvals.filter(
+      (approval) => approval.riskLevel === ApprovalRiskLevel.High,
+    );
+
+    if (highRiskApprovals.length > 0) {
       await snap.request({
         method: 'snap_notify',
         params: {

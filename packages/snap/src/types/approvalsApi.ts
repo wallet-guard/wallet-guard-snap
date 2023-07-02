@@ -1,14 +1,21 @@
 export type Approval = {
+  chainId: string;
   contractAddress: string;
   approvedAddress: string;
   tokenID: string;
   ercType: ERCType;
   approvalType: ApprovalChangeType;
-  amount: string; // do we need this? why does this exist on both approval and token? is this allowance?
+  amount: string; // TODO: do we need this? why does this exist on both approval and token? is this allowance?
+  riskLevel: ApprovalRiskLevel;
 };
 
+export enum ApprovalRiskLevel {
+  Low = 'LOW',
+  High = 'HIGH',
+}
+
 export type Token = {
-  chainID: string;
+  chainId: string;
   contractAddress: string;
   ercType: ERCType;
   tokenID: string;
