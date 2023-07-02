@@ -37,19 +37,19 @@ export const shouldRemindApprovals = async (): Promise<boolean> => {
     },
   });
 
-  if (
-    !data ||
-    !(LocalStorageKeys.HasRemindedApprovals in data) ||
-    typeof data[LocalStorageKeys.HasRemindedApprovals] !== 'boolean'
-  ) {
-    return false;
+  console.log(data);
+
+  // If they haven't been reminded yet
+  if (!data || !(LocalStorageKeys.HasRemindedApprovals in data)) {
+    return true;
   }
 
-  return data[LocalStorageKeys.HasRemindedApprovals];
+  // If the key exists, it has already reminded and should return false
+  return false;
 };
 
-export const setRemindedTrue = () => {
-  snap.request({
+export const setRemindedTrue = async () => {
+  await snap.request({
     method: 'snap_manageState',
     params: {
       operation: 'update',
