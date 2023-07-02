@@ -4,7 +4,7 @@ export const ErrorComponent = (): Panel => {
   return panel([
     heading('Error while simulating transaction'),
     text(
-      'Please contact support@walletguard.app if you continue seeing this issue.',
+      `Please contact support@walletguard.app if you continue seeing this issue. In the meanwhile review the transaction in the Details tab`,
     ),
   ]);
 };
