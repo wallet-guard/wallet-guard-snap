@@ -33,9 +33,9 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({ // TODO: this might be a bad pattern bc it's not easy
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  // TODO: this might be a bad pattern bc it's not easy
   // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
-  origin,
   request,
 }) => {
   if (
@@ -76,6 +76,7 @@ export const onTransaction: OnTransactionHandler = async ({
       content: showErrorComponent(response.error.type),
     };
   } else if (!response.simulation || response.simulation?.error) {
+    // TODO: simulation.error might have a type here that we don't catch?
     return {
       content: showErrorComponent(ErrorType.GeneralError),
     };
@@ -85,7 +86,7 @@ export const onTransaction: OnTransactionHandler = async ({
     content: panel([
       SimulationOverviewComponent(
         response.simulation.overviewMessage,
-        response.simulation.warningType,
+        response.simulation.recommendedAction,
       ),
       StateChangesComponent(
         response.simulation.stateChanges,

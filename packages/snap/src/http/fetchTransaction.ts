@@ -49,7 +49,6 @@ export const fetchTransaction = async (
 
     if (response.status === 200) {
       const data: SimulationResponse = await response.json();
-
       if (data.error?.type === ErrorType.Revert) {
         return {
           type: ResponseType.Revert,

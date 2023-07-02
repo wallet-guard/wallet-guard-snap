@@ -31,14 +31,16 @@ export const StateChangesComponent = (
     (stateChange) => stateChange.changeType === StateChangeType.Transfer,
   );
 
-  if (receiveChanges?.length > 0) {
-    output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
-  }
-
+  // Show transferring assets first
   if (transferChanges?.length > 0) {
     output.push(
       AssetChangeComponent(StateChangeType.Transfer, transferChanges),
     );
+  }
+
+  // Show receiving assets second
+  if (receiveChanges?.length > 0) {
+    output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
   }
 
   output.push(GasComponent(gas));
