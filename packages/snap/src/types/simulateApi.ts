@@ -24,7 +24,7 @@ export type SimulationErrorResponse = {
  */
 export type SimulateRequestParams = {
   id: string;
-  chainID: string;
+  chainId: string;
   signer: string;
   origin: string;
   method: string;
@@ -59,7 +59,7 @@ export type SimulationResponse = {
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
-  riskFactors: RiskFactor[];
+  riskFactors: RiskFactor[] | null;
   gas: SimulatedGas;
   error: SimulationError | null;
 };

@@ -92,7 +92,7 @@ export const onTransaction: OnTransactionHandler = async ({
         response.simulation.stateChanges,
         response.simulation.gas,
       ),
-      RiskFactorsComponent(response.simulation.riskFactors),
+      RiskFactorsComponent(response.simulation.riskFactors || []),
     ]),
   };
 };
