@@ -78,7 +78,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
 
 export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   recommendedAction: RecommendedActionType.Block,
-  overviewMessage: 'We suspect that this website is a wallet drainer.',
+  overviewMessage: 'This website is suspected to be a wallet drainer.',
   method: SimulationMethodType.EthSendTransaction,
   stateChanges: [
     {

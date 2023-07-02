@@ -3,7 +3,7 @@ import {
   OnRpcRequestHandler,
   OnTransactionHandler,
 } from '@metamask/snaps-types';
-import { heading, panel, text } from '@metamask/snaps-ui';
+import { copyable, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
 import { ErrorType } from './types/simulateApi';
 import {
@@ -11,7 +11,7 @@ import {
   SimulationOverviewComponent,
   UnsupportedChainComponent,
   showErrorComponent,
-  AdditionalWarningsComponent,
+  RiskFactorsComponent,
 } from './components';
 import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
@@ -92,7 +92,7 @@ export const onTransaction: OnTransactionHandler = async ({
         response.simulation.stateChanges,
         response.simulation.gas,
       ),
-      AdditionalWarningsComponent(response.simulation.riskFactors),
+      RiskFactorsComponent(response.simulation.riskFactors),
     ]),
   };
 };
@@ -114,54 +114,33 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
         params: {
           type: 'confirmation',
           content: panel([
-            heading("We noticed you haven't setup approvals checking yet"),
-            text(
-              'Would you like to set this up? No wallet connection neccessary.',
+            heading(
+              "We noticed you haven't setup automated approvals checking yet",
             ),
+            text('Would you like to set this up?'),
           ]),
         },
       })) as boolean;
 
-      setRemindedTrue();
+      await setRemindedTrue();
 
       if (!userResponse) {
         return;
       }
 
-      const inputAddress: string = (await snap.request({
+      await snap.request({
         method: 'snap_dialog',
         params: {
-          type: 'prompt',
+          type: 'alert',
           content: panel([
-            heading('What is the wallet address?'),
-            text('Please enter the wallet address to be monitored'),
+            heading('Complete onboarding'),
+            text(
+              'Visit our dashboard to setup automated approval reminders in under 2 minutes',
+            ),
+            copyable('dashboard.walletguard.app'),
           ]),
-          placeholder: '0x123...',
         },
-      })) as string;
-
-      updateWalletAddress(inputAddress);
+      });
     }
-
-    // todo: consider making this a notification instead
-    // todo: fetch from John's API. Only alert if there's
-    // a bad approval out that puts money at risk
-
-    //   await snap.request({
-    //     method: 'snap_dialog',
-    //     params: {
-    //       type: 'alert',
-    //       content: panel([
-    //         heading(
-    //           'You have an open approval that puts your Pudgy Penguin at risk',
-    //         ),
-    //         text(
-    //           'Open approvals are abused by gasless signature scams. Bad actors can steal your NFTs and tokens if you sign a malicious signature. To revoke this open approval you can visit',
-    //         ),
-    //         copyable('https://dashboard.walletguard.app'),
-    //       ]),
-    //     },
-    //   });
-    // }
   }
 };

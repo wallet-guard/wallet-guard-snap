@@ -31,19 +31,14 @@ export const StateChangesComponent = (
     (stateChange) => stateChange.changeType === StateChangeType.Transfer,
   );
 
-  // Show transferring assets first
-  if (transferChanges?.length > 0) {
-    output.push(
-      AssetChangeComponent(StateChangeType.Transfer, transferChanges),
-    );
-  }
+  // Show transferring assets first and always show it because there will be a gas fee
+  output.push(AssetChangeComponent(StateChangeType.Transfer, transferChanges));
+  output.push(GasComponent(gas));
 
   // Show receiving assets second
   if (receiveChanges?.length > 0) {
     output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
   }
-
-  output.push(GasComponent(gas));
 
   return panel(output);
 };
