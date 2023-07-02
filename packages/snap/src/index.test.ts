@@ -54,19 +54,17 @@ describe('onTransaction', () => {
         // StateChangesComponent
         panel([
           // AssetChangeComponent - Transfer
-          panel([heading('You will send:'), text('0.01 ETH ($19.29)')]),
+          panel([heading('You are sending:'), text('**0.01 ETH** ($19.29)')]),
+          panel([text(`**Gas** *(estimate)*: $13.26`)]),
 
           // AssetChangeComponent - Receive
           panel([
-            heading('You will receive:'),
-            text('19.276096 USDT ($19.28)'),
+            heading('You are receiving:'),
+            text('**19.276096 USDT** ($19.28)'),
           ]),
-
-          // Gas estimate component
-          panel([divider(), text(`Gas (estimate): $13.26`)]),
         ]),
 
-        // AdditionalWarningsComponent
+        // RiskFactorsComponent
         panel([]),
       ]);
 
@@ -94,24 +92,24 @@ describe('onTransaction', () => {
         // SimulationOverviewComponent Response
         panel([
           heading('🚨 Warning'),
-          text(EthereumMainnetMockResponseWithWarnings.overviewMessage),
+          text('This website is suspected to be a wallet drainer.'),
           divider(),
         ]),
 
         // StateChangesComponent
         panel([
           // AssetChangeComponent - Transfer
-          panel([heading('You will send:'), text('0.1 ETH ($200.00)')]),
+          panel([heading('You are sending:'), text('**0.1 ETH** ($200.00)')]),
 
           // Gas estimate component
-          panel([divider(), text(`Gas (estimate): $13.69`)]),
+          panel([text(`**Gas** *(estimate)*: $13.69`)]),
         ]),
 
-        // AdditionalWarningsComponent
+        // RiskFactorsComponent
         panel([
-          heading('Additional Warnings'),
-          text('Domain identified as a wallet drainer.'),
-          text('This domain was recently created'),
+          heading('Risk Factors'),
+          text('• Domain identified as a wallet drainer.'),
+          text('• This domain was recently created'),
         ]),
       ]);
 

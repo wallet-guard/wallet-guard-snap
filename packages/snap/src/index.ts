@@ -11,7 +11,7 @@ import {
   SimulationOverviewComponent,
   UnsupportedChainComponent,
   showErrorComponent,
-  AdditionalWarningsComponent,
+  RiskFactorsComponent,
 } from './components';
 import { SUPPORTED_CHAINS } from './utils/config';
 import { ChainId } from './types/chains';
@@ -92,7 +92,7 @@ export const onTransaction: OnTransactionHandler = async ({
         response.simulation.stateChanges,
         response.simulation.gas,
       ),
-      AdditionalWarningsComponent(response.simulation.riskFactors),
+      RiskFactorsComponent(response.simulation.riskFactors),
     ]),
   };
 };

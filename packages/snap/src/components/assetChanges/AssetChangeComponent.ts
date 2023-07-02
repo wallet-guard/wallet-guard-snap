@@ -22,13 +22,13 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
 
   switch (stateChange.assetType) {
     case SimulationAssetTypes.Native:
-    case SimulationAssetTypes.ERC1155:
     case SimulationAssetTypes.ERC20:
       return text(
-        `${stateChange.amount} ${stateChange.symbol} ($${fiatValue})`,
+        `**${stateChange.amount} ${stateChange.symbol}** ($${fiatValue})`,
       );
     case SimulationAssetTypes.ERC721:
-      return text(`${tokenName} ($${fiatValue})`);
+    case SimulationAssetTypes.ERC1155: // todo: i think this is missing quantity
+      return text(`**${tokenName}** ($${fiatValue})`);
     default:
       return text('');
   }
@@ -38,9 +38,9 @@ const getHeader = (changeType: StateChangeType): Heading => {
   // add more ChangeType mappings here as they are supported
   switch (changeType) {
     case StateChangeType.Receive:
-      return heading('You will receive:');
+      return heading('You are receiving:');
     case StateChangeType.Transfer:
-      return heading('You will send:');
+      return heading('You are sending:');
     default:
       return heading('');
   }
