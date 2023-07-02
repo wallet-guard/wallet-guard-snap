@@ -31,7 +31,7 @@ export const fetchTransaction = async (
     // Make a request to the simulator
     const simulateRequest: SimulateRequestParams = {
       id: crypto.randomUUID(),
-      chainID: mappedChainId,
+      chainId: mappedChainId,
       signer: transaction.from as string,
       origin: transactionOrigin as string,
       method: transaction.method as string,
