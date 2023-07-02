@@ -37,8 +37,6 @@ export const shouldRemindApprovals = async (): Promise<boolean> => {
     },
   });
 
-  console.log(data);
-
   // If they haven't been reminded yet
   if (!data || !(LocalStorageKeys.HasRemindedApprovals in data)) {
     return true;
