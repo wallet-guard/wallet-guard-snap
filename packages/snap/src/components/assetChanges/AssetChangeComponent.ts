@@ -18,7 +18,7 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
   const fiatValue = Number(stateChange.fiatValue).toFixed(2);
   const tokenName = stateChange.tokenName
     ? stateChange.tokenName
-    : stateChange.tokenID;
+    : `${stateChange.symbol} #${stateChange.tokenID}`;
 
   switch (stateChange.assetType) {
     case SimulationAssetTypes.Native:
@@ -27,8 +27,9 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
         `**${stateChange.amount} ${stateChange.symbol}** ($${fiatValue})`,
       );
     case SimulationAssetTypes.ERC721:
-    case SimulationAssetTypes.ERC1155: // todo: i think this is missing quantity
       return text(`**${tokenName}** ($${fiatValue})`);
+    case SimulationAssetTypes.ERC1155:
+      return text(`**${stateChange.amount} ${tokenName}** ($${fiatValue})`);
     default:
       return text('');
   }
