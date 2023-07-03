@@ -5,7 +5,7 @@ export type Approval = {
   tokenID: string;
   ercType: ERCType;
   approvalType: ApprovalChangeType;
-  amount: string; // TODO: do we need this? why does this exist on both approval and token? is this allowance?
+  amount: string; // TODO: I think this is changing to allowance
   riskLevel: ApprovalRiskLevel;
 };
 

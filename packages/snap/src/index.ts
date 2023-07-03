@@ -42,9 +42,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }) => {
   if (
-    // TODO: update origin
     // TODO: Consider adding a getAccount method for the dashboard to hook into & manage state with
-    origin === 'http://localhost:8000' &&
+    origin === 'https://dashboard.walletguard.app' &&
     request.method === 'updateAccount' &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
@@ -143,7 +142,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     );
 
     if (highRiskApprovals.length > 0) {
-      await snap.request({
+      snap.request({
         method: 'snap_notify',
         params: {
           type: 'inApp',
