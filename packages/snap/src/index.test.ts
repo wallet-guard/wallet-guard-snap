@@ -257,27 +257,26 @@ describe('onTransaction', () => {
     // TODO: This appears to be a bug with this testing library
     // https://github.com/MetaMask/snaps/discussions/1543
     // eslint-disable-next-line jest/no-commented-out-tests
-    // it('should handle 403 unauthorized from API', async () => {
-    //   const snap = await installSnap();
+    //     it('should handle 403 unauthorized from API', async () => {
+    //       const snap = await installSnap();
 
-    //   const { unmock } = await snap.mock({
-    //     url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
-    //     response: {
-    //       status: 403,
-    //       contentType: 'application/json',
-    //       body: JSON.stringify({}),
-    //     },
-    //   });
+    //       const { unmock } = await snap.mock({
+    //         url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+    //         response: {
+    //           status: 403,
+    //           body: 'Forbidden',
+    //         },
+    //       });
 
-    //   const response = await snap.sendTransaction({
-    //     chainId: ChainId.EthereumMainnet,
-    //   });
+    //       const response = await snap.sendTransaction({
+    //         chainId: ChainId.EthereumMainnet,
+    //       });
 
-    //   const expected = UnauthorizedComponent();
+    //       const expected = UnauthorizedComponent();
 
-    //   expect(response).toRender(expected);
-    //   unmock();
-    // });
+    //       expect(response).toRender(expected);
+    //       unmock();
+    //     });
   });
 });
 

@@ -2,6 +2,7 @@ import { panel } from '@metamask/snaps-ui';
 import {
   Currency,
   SimulatedGas,
+  SimulationAssetTypes,
   StateChange,
   StateChangeType,
 } from '../types/simulateApi';
@@ -25,7 +26,7 @@ describe('StateChangesComponent', () => {
     const stateChanges: StateChange[] = [
       {
         changeType: StateChangeType.Transfer,
-        assetType: 'ERC20',
+        assetType: SimulationAssetTypes.ERC20,
         address: '0x123',
         amount: '50',
         symbol: 'SYMB',
@@ -47,7 +48,7 @@ describe('StateChangesComponent', () => {
       },
       {
         changeType: StateChangeType.Receive,
-        assetType: 'ERC721',
+        assetType: SimulationAssetTypes.ERC721,
         address: '0x456',
         amount: '25',
         symbol: 'RSYMB',
@@ -92,7 +93,7 @@ describe('StateChangesComponent', () => {
     const stateChanges: StateChange[] = [
       {
         changeType: StateChangeType.Transfer,
-        assetType: 'ERC20',
+        assetType: SimulationAssetTypes.ERC20,
         address: '0x123',
         amount: '50',
         symbol: 'SYMB',
@@ -133,7 +134,7 @@ describe('StateChangesComponent', () => {
     const stateChanges: StateChange[] = [
       {
         changeType: StateChangeType.Receive,
-        assetType: 'ERC721',
+        assetType: SimulationAssetTypes.ERC721,
         address: '0x456',
         amount: '25',
         symbol: 'RSYMB',
