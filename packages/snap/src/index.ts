@@ -26,8 +26,6 @@ import {
   updateWalletAddress,
 } from './utils/account';
 
-// TODO: Would love if we moved all of these tests within a test folder matching the file structure
-
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
