@@ -4,7 +4,7 @@ import {
   StateChange,
   StateChangeType,
 } from '../types/simulateApi';
-import { NoStateChangesComponent, AssetChangeComponent, GasComponent } from '.';
+import { NoStateChangesComponent, AssetChangeComponent } from '.';
 
 /**
  * Creates a MetaMask Snap component based on a state change.
@@ -32,8 +32,9 @@ export const StateChangesComponent = (
   );
 
   // Show transferring assets first and always show it because there will be a gas fee
-  output.push(AssetChangeComponent(StateChangeType.Transfer, transferChanges));
-  output.push(GasComponent(gas));
+  output.push(
+    AssetChangeComponent(StateChangeType.Transfer, transferChanges, gas),
+  );
 
   // Show receiving assets second
   if (receiveChanges?.length > 0) {

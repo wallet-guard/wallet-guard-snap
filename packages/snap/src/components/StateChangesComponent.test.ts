@@ -81,8 +81,8 @@ describe('StateChangesComponent', () => {
       (stateChange) => stateChange.changeType === StateChangeType.Receive,
     );
     const expected = panel([
-      AssetChangeComponent(StateChangeType.Transfer, transferChanges),
-      GasComponent(gas),
+      // Asserts that Transfer comes before Receive
+      AssetChangeComponent(StateChangeType.Transfer, transferChanges, gas),
       AssetChangeComponent(StateChangeType.Receive, receiveChanges),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
@@ -123,8 +123,7 @@ describe('StateChangesComponent', () => {
       (stateChange) => stateChange.changeType === StateChangeType.Transfer,
     );
     const expected = panel([
-      AssetChangeComponent(StateChangeType.Transfer, transferChanges),
-      GasComponent(gas),
+      AssetChangeComponent(StateChangeType.Transfer, transferChanges, gas),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
@@ -164,8 +163,7 @@ describe('StateChangesComponent', () => {
       (stateChange) => stateChange.changeType === StateChangeType.Receive,
     );
     const expected = panel([
-      AssetChangeComponent(StateChangeType.Transfer, []),
-      GasComponent(gas),
+      AssetChangeComponent(StateChangeType.Transfer, [], gas),
       AssetChangeComponent(StateChangeType.Receive, receiveChanges),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
@@ -180,8 +178,7 @@ describe('StateChangesComponent', () => {
       gasUsedEth: '0.000000000000000001',
     };
     const expected = panel([
-      AssetChangeComponent(StateChangeType.Transfer, []),
-      GasComponent(gas),
+      AssetChangeComponent(StateChangeType.Transfer, [], gas),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
