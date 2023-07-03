@@ -6,6 +6,7 @@ import {
   StateChangeType,
   RecommendedActionType,
   SimulationResponse,
+  WarningType,
 } from '../types/simulateApi';
 
 // Example transaction from Uniswap. 0.01 ETH => 19 USDT
@@ -107,13 +108,13 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   riskFactors: [
     {
       severity: Severity.Critical,
-      type: 'DRAINER',
+      type: WarningType.Drainer,
       message: 'Domain identified as a wallet drainer.',
       value: '',
     },
     {
       severity: Severity.High,
-      type: 'RECENTLY_CREATED',
+      type: WarningType.RecentlyCreated,
       message: 'This domain was recently created',
       value: '',
     },
