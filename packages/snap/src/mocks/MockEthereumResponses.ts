@@ -7,6 +7,7 @@ import {
   RecommendedActionType,
   SimulationResponse,
   WarningType,
+  Currency,
 } from '../types/simulateApi';
 
 // Example transaction from Uniswap. 0.01 ETH => 19 USDT
@@ -65,7 +66,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '13.26',
-    currency: 'USD',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad',
@@ -122,7 +123,7 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '13.69',
-    currency: 'USD',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '',
@@ -142,7 +143,7 @@ export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '10.97',
-    currency: 'USD',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '0x123456789',
@@ -166,7 +167,7 @@ export const EthereumMainnetMockErrorResponse: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '',
-    currency: '',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '',

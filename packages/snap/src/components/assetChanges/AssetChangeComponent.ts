@@ -30,9 +30,8 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
       return text(`**${tokenName}** ($${fiatValue})`);
     case SimulationAssetTypes.ERC1155:
       return text(`**${stateChange.amount} ${tokenName}** ($${fiatValue})`);
-    // TODO: instead of returning an empty string, should we display unknown asset type?
     default:
-      return text('');
+      return text(`**${stateChange.amount} ${tokenName}** ($${fiatValue})`);
   }
 };
 

@@ -64,12 +64,16 @@ export type SimulationResponse = {
   error: SimulationError | null;
 };
 
-// TODO: Should all of these be strings?
 export type SimulatedGas = {
   gasUsedEth: string;
   fiatValue: string;
-  currency: string;
+  currency: Currency;
 };
+
+export enum Currency {
+  // add support for more currencies here in the future
+  USD = 'USD',
+}
 
 export type RiskFactor = {
   severity: Severity;
@@ -88,10 +92,9 @@ export type SimulationAddressDetails = {
 /*
  * State change object that is within the response returned by the Wallet Guard Simulate API.
  */
-// TODO: Should all of these be strings?
 export type StateChange = {
-  assetType: string;
-  changeType: string;
+  assetType: SimulationAssetTypes;
+  changeType: StateChangeType;
   address: string;
   amount: string;
   symbol: string;

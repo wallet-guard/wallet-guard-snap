@@ -58,8 +58,6 @@ export const onTransaction: OnTransactionHandler = async ({
   chainId,
   transactionOrigin,
 }) => {
-  // TODO: maybe make supported chains be a get reuquest from the api so it is easy to update supported chains?
-  // This makes sense to do if we think join is going to add BSC support within the next month. Otherwise, it is probably not worth it.
   if (!SUPPORTED_CHAINS.includes(chainId as ChainId)) {
     return {
       content: UnsupportedChainComponent(),

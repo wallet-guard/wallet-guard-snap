@@ -1,5 +1,6 @@
 import { panel } from '@metamask/snaps-ui';
 import {
+  Currency,
   SimulatedGas,
   StateChange,
   StateChangeType,
@@ -11,7 +12,7 @@ import { NoStateChangesComponent, AssetChangeComponent, GasComponent } from '.';
 describe('StateChangesComponent', () => {
   it('should return NoStateChangesComponent when stateChanges is null', () => {
     const gas: SimulatedGas = {
-      currency: 'USD',
+      currency: Currency.USD,
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
@@ -68,7 +69,7 @@ describe('StateChangesComponent', () => {
       },
     ];
     const gas: SimulatedGas = {
-      currency: 'USD',
+      currency: Currency.USD,
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
@@ -113,7 +114,7 @@ describe('StateChangesComponent', () => {
       },
     ];
     const gas: SimulatedGas = {
-      currency: 'USD',
+      currency: Currency.USD,
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
@@ -154,7 +155,7 @@ describe('StateChangesComponent', () => {
       },
     ];
     const gas: SimulatedGas = {
-      currency: 'USD',
+      currency: Currency.USD,
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
@@ -173,7 +174,7 @@ describe('StateChangesComponent', () => {
   it('should handle empty stateChanges array correctly', () => {
     const stateChanges: StateChange[] = [];
     const gas: SimulatedGas = {
-      currency: 'USD',
+      currency: Currency.USD,
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
@@ -189,7 +190,7 @@ describe('StateChangesComponent', () => {
   // it('should handle null stateChanges array correctly', () => {
   //   const stateChanges: StateChange[] | null = null;
   //   const gas: SimulatedGas = {
-  //     currency: 'USD',
+  //     currency: Currency.USD,
   //     fiatValue: '2.50',
   //     gasUsedEth: '0.000000000000000001',
   //   };
