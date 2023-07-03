@@ -125,7 +125,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           content: panel([
             heading('Complete onboarding'),
             text(
-              'Get automated reminders to revoke your open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes',
+              'Get automated reminders to revoke open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes.',
             ),
             copyable('dashboard.walletguard.app'),
           ]),

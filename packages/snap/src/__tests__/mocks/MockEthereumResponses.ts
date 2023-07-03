@@ -208,6 +208,30 @@ export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
   },
 };
 
+export const EthereumMainnetMockInsufficientFunds: SimulationResponse = {
+  stateChanges: null,
+  recommendedAction: RecommendedActionType.None,
+  overviewMessage: '',
+  method: SimulationMethodType.EthSendTransaction,
+  riskFactors: [],
+  gas: {
+    gasUsedEth: '',
+    fiatValue: '10.97',
+    currency: Currency.USD,
+  },
+  addressDetails: {
+    address: '0x123456789',
+    addressType: 'CONTRACT',
+    etherscanVerified: false,
+    etherscanLink: '',
+  },
+  error: {
+    type: ErrorType.InsufficientFunds,
+    message: 'insufficient funds for this transaction',
+    extraData: null,
+  },
+};
+
 export const EthereumMainnetMockErrorResponse: SimulationResponse = {
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
