@@ -1,5 +1,5 @@
 import { Panel, panel, text } from '@metamask/snaps-ui';
-import { SimulatedGas } from '../../types/simulateApi';
+import { Currency, SimulatedGas } from '../../types/simulateApi';
 
 export const GasComponent = (gas: SimulatedGas): Panel => {
   const gasValue = `${mapCurrencyToPrefix(gas.currency)}${gas.fiatValue}`;
@@ -7,9 +7,9 @@ export const GasComponent = (gas: SimulatedGas): Panel => {
 };
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-function mapCurrencyToPrefix(currency: string): string {
+function mapCurrencyToPrefix(currency: Currency): string {
   switch (currency) {
-    case 'USD':
+    case Currency.USD:
       return '$';
     default:
       return '$';

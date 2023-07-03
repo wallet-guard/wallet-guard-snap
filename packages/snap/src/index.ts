@@ -13,7 +13,11 @@ import {
   showErrorComponent,
   RiskFactorsComponent,
 } from './components';
-import { SUPPORTED_CHAINS } from './utils/config';
+import {
+  CronJobMethods,
+  RpcRequestMethods,
+  SUPPORTED_CHAINS,
+} from './utils/config';
 import { ChainId } from './types/chains';
 import {
   getWalletAddress,
@@ -33,13 +37,9 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({
-  // TODO: this might be a bad pattern bc it's not easy
-  // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
-  request,
-}) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   if (
-    request.method === 'updateAccount' &&
+    request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
   ) {
@@ -98,7 +98,7 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  if (request.method === 'checkApprovals') {
+  if (request.method === CronJobMethods.CheckApprovals) {
     const walletAddress = await getWalletAddress();
 
     // User has not setup their approvals checking yet

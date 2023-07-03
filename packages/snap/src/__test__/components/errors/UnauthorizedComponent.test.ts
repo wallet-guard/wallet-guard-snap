@@ -1,5 +1,5 @@
 import { panel, heading, text } from '@metamask/snaps-ui';
-import { UnauthorizedComponent } from './UnauthorizedComponent';
+import { UnauthorizedComponent } from '../../../components/errors/UnauthorizedComponent';
 
 describe('UnauthorizedComponent', () => {
   it('should render UnauthorizedComponent correctly', () => {

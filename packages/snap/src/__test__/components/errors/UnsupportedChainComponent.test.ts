@@ -1,5 +1,5 @@
 import { panel, heading, text } from '@metamask/snaps-ui';
-import { UnsupportedChainComponent } from './UnsupportedChainComponent';
+import { UnsupportedChainComponent } from '../../../components/errors/UnsupportedChainComponent';
 
 describe('UnsupportedChainComponent', () => {
   it('should render UnsupportedChainComponent correctly', () => {

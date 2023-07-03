@@ -56,6 +56,13 @@ export const fetchTransaction = async (
         };
       }
 
+      // TODO: Hardcode for now until we get the real data from the API
+      // data.gas = {
+      //   gasUsedEth: '',
+      //   currency: 'USD',
+      //   fiatValue: '13.50',
+      // };
+
       return {
         type: ResponseType.Success,
         simulation: data,
@@ -114,7 +121,6 @@ function getURLForChainId(chainId: string): string {
     case ChainId.ArbitrumMainnet:
       return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
     default:
-      // throw ; TODO
       throw new Error('chain not supported');
   }
 }
@@ -134,7 +140,6 @@ function mapChainId(chainId: string): string {
     case ChainId.ArbitrumMainnet:
       return '42161';
     default:
-      // return '1'; TODO
       throw new Error('chain not supported');
   }
 }
