@@ -13,7 +13,11 @@ import {
   showErrorComponent,
   RiskFactorsComponent,
 } from './components';
-import { SUPPORTED_CHAINS } from './utils/config';
+import {
+  CronJobMethods,
+  RpcRequestMethods,
+  SUPPORTED_CHAINS,
+} from './utils/config';
 import { ChainId } from './types/chains';
 import {
   getWalletAddress,
@@ -37,8 +41,7 @@ import {
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   if (
-    // TODO: Should this be set it as a constant?
-    request.method === 'updateAccount' &&
+    request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
   ) {
@@ -97,8 +100,7 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  // TODO: Should this be set it as a constant?
-  if (request.method === 'checkApprovals') {
+  if (request.method === CronJobMethods.CheckApprovals) {
     const walletAddress = await getWalletAddress();
 
     // User has not setup their approvals checking yet
