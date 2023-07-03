@@ -3,8 +3,8 @@ import {
   ApprovalReponse,
   ApprovalRiskLevel,
   ERCType,
-} from '../types/approvalsApi';
-import { ChainId } from '../types/chains';
+} from '../../types/approvalsApi';
+import { ChainId } from '../../types/chains';
 
 export const ApprovalsWithOneHighRiskWarning: ApprovalReponse = {
   address: '0x123',

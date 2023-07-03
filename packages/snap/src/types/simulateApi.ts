@@ -24,14 +24,14 @@ export type SimulationErrorResponse = {
  */
 export type SimulateRequestParams = {
   id: string;
-  chainID: string;
+  chainId: string;
   signer: string;
   origin: string;
   method: string;
   transaction: {
     [key: string]: Json;
   };
-  source: 'SNAP'; // todo: consider sending this as a header instead
+  source: 'SNAP';
 };
 
 // The only method supported by Snaps on launch is eth_sendTransaction
@@ -46,27 +46,40 @@ export enum SimulationAssetTypes {
   Native = 'NATIVE',
 }
 
-export enum WarningType {
+export enum RecommendedActionType {
   None = 'NONE',
   Warn = 'WARN',
   Block = 'BLOCK',
 }
 
 export type SimulationResponse = {
-  warningType: WarningType;
+  recommendedAction: RecommendedActionType;
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
   method: SimulationMethodType | string;
-  decodedMessage?: string;
-  riskFactors: RiskFactor[];
+  decodedMessage?: string; // Only present on signatures
+  riskFactors: RiskFactor[] | null;
+  gas: SimulatedGas;
   error: SimulationError | null;
 };
 
+export type SimulatedGas = {
+  gasUsedEth: string;
+  fiatValue: string;
+  currency: Currency;
+};
+
+export enum Currency {
+  // add support for more currencies here in the future
+  USD = 'USD',
+}
+
 export type RiskFactor = {
   severity: Severity;
-  type: string;
+  type: WarningType;
   message: string;
+  value: string;
 };
 
 export type SimulationAddressDetails = {
@@ -80,8 +93,8 @@ export type SimulationAddressDetails = {
  * State change object that is within the response returned by the Wallet Guard Simulate API.
  */
 export type StateChange = {
-  assetType: string;
-  changeType: string;
+  assetType: SimulationAssetTypes;
+  changeType: StateChangeType;
   address: string;
   amount: string;
   symbol: string;
@@ -107,6 +120,20 @@ export type SimulationError = {
   message: string;
   extraData: object | null;
 };
+
+export enum WarningType {
+  Similarity = 'SIMILARITY',
+  RecentlyCreated = 'RECENTLY_CREATED',
+  Malware = 'MALWARE',
+  Homoglyph = 'HOMOGLYPH',
+  Blocklisted = 'BLOCKLISTED',
+  MLInference = 'ML_INFERENCE',
+  Drainer = 'DRAINER',
+  BlurListing = 'BLUR_LISTING',
+  OpenseaListing = 'OPENSEA_LISTING',
+  EthSign = 'ETH_SIGN',
+  LooksrareListing = 'LOOKSRARE_LISTING',
+}
 
 export enum Severity {
   Low = 'LOW',

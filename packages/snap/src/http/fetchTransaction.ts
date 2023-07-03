@@ -31,7 +31,7 @@ export const fetchTransaction = async (
     // Make a request to the simulator
     const simulateRequest: SimulateRequestParams = {
       id: crypto.randomUUID(),
-      chainID: mappedChainId,
+      chainId: mappedChainId,
       signer: transaction.from as string,
       origin: transactionOrigin as string,
       method: transaction.method as string,
@@ -49,13 +49,19 @@ export const fetchTransaction = async (
 
     if (response.status === 200) {
       const data: SimulationResponse = await response.json();
-
       if (data.error?.type === ErrorType.Revert) {
         return {
           type: ResponseType.Revert,
           error: data.error,
         };
       }
+
+      // TODO: Hardcode for now until we get the real data from the API
+      // data.gas = {
+      //   gasUsedEth: '',
+      //   currency: 'USD',
+      //   fiatValue: '13.50',
+      // };
 
       return {
         type: ResponseType.Success,
@@ -115,7 +121,6 @@ function getURLForChainId(chainId: string): string {
     case ChainId.ArbitrumMainnet:
       return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
     default:
-      // throw ; TODO
       throw new Error('chain not supported');
   }
 }
@@ -135,7 +140,6 @@ function mapChainId(chainId: string): string {
     case ChainId.ArbitrumMainnet:
       return '42161';
     default:
-      // return '1'; TODO
       throw new Error('chain not supported');
   }
 }

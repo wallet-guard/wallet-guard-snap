@@ -11,9 +11,13 @@ import {
   SimulationOverviewComponent,
   UnsupportedChainComponent,
   showErrorComponent,
-  AdditionalWarningsComponent,
+  RiskFactorsComponent,
 } from './components';
-import { SUPPORTED_CHAINS } from './utils/config';
+import {
+  CronJobMethods,
+  RpcRequestMethods,
+  SUPPORTED_CHAINS,
+} from './utils/config';
 import { ChainId } from './types/chains';
 import {
   getWalletAddress,
@@ -36,15 +40,13 @@ import { ApprovalRiskLevel } from './types/approvalsApi';
  */
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
-  // TODO: this might be a bad pattern bc it's not easy
-  // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
   origin,
   request,
 }) => {
   if (
     // TODO: Consider adding a getAccount method for the dashboard to hook into & manage state with
     origin === 'https://dashboard.walletguard.app' &&
-    request.method === 'updateAccount' &&
+    request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
   ) {
@@ -81,6 +83,7 @@ export const onTransaction: OnTransactionHandler = async ({
       content: showErrorComponent(response.error.type),
     };
   } else if (!response.simulation || response.simulation?.error) {
+    // TODO: simulation.error might have a type here that we don't catch?
     return {
       content: showErrorComponent(ErrorType.GeneralError),
     };
@@ -90,16 +93,19 @@ export const onTransaction: OnTransactionHandler = async ({
     content: panel([
       SimulationOverviewComponent(
         response.simulation.overviewMessage,
-        response.simulation.warningType,
+        response.simulation.recommendedAction,
       ),
-      StateChangesComponent(response.simulation.stateChanges),
-      AdditionalWarningsComponent(response.simulation.riskFactors),
+      StateChangesComponent(
+        response.simulation.stateChanges,
+        response.simulation.gas,
+      ),
+      RiskFactorsComponent(response.simulation.riskFactors || []),
     ]),
   };
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  if (request.method === 'checkApprovals') {
+  if (request.method === CronJobMethods.CheckApprovals) {
     const walletAddress = await getWalletAddress();
 
     // User has not setup their approvals checking yet
@@ -119,7 +125,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           content: panel([
             heading('Complete onboarding'),
             text(
-              'Get automated reminders to revoke your open approvals which can put your assets at risk for fraud. Visit our dashboard setup in under 2 minutes',
+              'Get automated reminders to revoke your open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes',
             ),
             copyable('dashboard.walletguard.app'),
           ]),
