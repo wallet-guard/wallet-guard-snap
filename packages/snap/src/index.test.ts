@@ -2,7 +2,7 @@
 import { installSnap } from '@metamask/snaps-jest';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { expect } from '@jest/globals';
-import { divider, heading, panel, text } from '@metamask/snaps-ui';
+import { panel } from '@metamask/snaps-ui';
 import { ChainId } from './types/chains';
 import {
   EthereumMainnetMockErrorResponse,
@@ -11,6 +11,14 @@ import {
   EthereumMainnetMockRevertTransaction,
   EthereumMainnetMockSuccessResponse,
 } from './mocks/MockEthereumResponses';
+import {
+  ErrorComponent,
+  RevertComponent,
+  RiskFactorsComponent,
+  SimulationOverviewComponent,
+  StateChangesComponent,
+  UnsupportedChainComponent,
+} from './components';
 
 describe('onTransaction', () => {
   describe('onTransaction supported chains', () => {
@@ -21,12 +29,7 @@ describe('onTransaction', () => {
         chainId: 'eip155:10',
       });
 
-      const expected = panel([
-        heading('Unsupported chain'),
-        text(
-          'We will be adding support for more chains very soon. Head to our Discord to suggest which one we support next!',
-        ),
-      ]);
+      const expected = UnsupportedChainComponent();
 
       expect(response).toRender(expected);
       await snap.close();
@@ -48,25 +51,88 @@ describe('onTransaction', () => {
         chainId: ChainId.EthereumMainnet,
       });
 
+      const {
+        overviewMessage,
+        recommendedAction,
+        stateChanges,
+        gas,
+        riskFactors,
+      } = EthereumMainnetMockSuccessResponse;
+
       const expected = panel([
-        // SimulationOverviewComponent
-        panel([]),
+        SimulationOverviewComponent(overviewMessage, recommendedAction),
+        StateChangesComponent(stateChanges, gas),
+        RiskFactorsComponent(riskFactors || []),
+      ]);
 
-        // StateChangesComponent
-        panel([
-          // AssetChangeComponent - Transfer
-          panel([heading('You are sending:'), text('**0.01 ETH** ($19.29)')]),
-          panel([text(`**Gas** *(estimate)*: $13.26`)]),
+      expect(response).toRender(expected);
+      unmock();
+    });
 
-          // AssetChangeComponent - Receive
-          panel([
-            heading('You are receiving:'),
-            text('**19.276096 USDT** ($19.28)'),
-          ]),
-        ]),
+    // TODO: Add test data from Opensea/uniswap here
+    it('should display transaction simulations for Polygon Mainnet', async () => {
+      const snap = await installSnap();
 
-        // RiskFactorsComponent
-        panel([]),
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/polygon/mainnet/transaction',
+        response: {
+          status: 200,
+          body: JSON.stringify(EthereumMainnetMockSuccessResponse),
+          contentType: 'application/json',
+        },
+      });
+
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
+
+      const {
+        overviewMessage,
+        recommendedAction,
+        stateChanges,
+        gas,
+        riskFactors,
+      } = EthereumMainnetMockSuccessResponse;
+
+      const expected = panel([
+        SimulationOverviewComponent(overviewMessage, recommendedAction),
+        StateChangesComponent(stateChanges, gas),
+        RiskFactorsComponent(riskFactors || []),
+      ]);
+
+      expect(response).toRender(expected);
+      unmock();
+    });
+
+    // TODO: Add test data from Opensea/uniswap here
+    it('should display transaction simulations for Arbitrum Mainnet', async () => {
+      const snap = await installSnap();
+
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/arb/mainnet/transaction',
+        response: {
+          status: 200,
+          body: JSON.stringify(EthereumMainnetMockSuccessResponse),
+          contentType: 'application/json',
+        },
+      });
+
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
+
+      const {
+        overviewMessage,
+        recommendedAction,
+        stateChanges,
+        gas,
+        riskFactors,
+      } = EthereumMainnetMockSuccessResponse;
+
+      const expected = panel([
+        SimulationOverviewComponent(overviewMessage, recommendedAction),
+        StateChangesComponent(stateChanges, gas),
+        RiskFactorsComponent(riskFactors || []),
       ]);
 
       expect(response).toRender(expected);
@@ -91,29 +157,18 @@ describe('onTransaction', () => {
         chainId: ChainId.EthereumMainnet,
       });
 
+      const {
+        overviewMessage,
+        recommendedAction,
+        stateChanges,
+        gas,
+        riskFactors,
+      } = EthereumMainnetMockResponseShouldBlock;
+
       const expected = panel([
-        // SimulationOverviewComponent Response
-        panel([
-          heading('🚨 Warning'),
-          text('This website is suspected to be a wallet drainer.'),
-          divider(),
-        ]),
-
-        // StateChangesComponent
-        panel([
-          // AssetChangeComponent - Transfer
-          panel([heading('You are sending:'), text('**0.1 ETH** ($200.00)')]),
-
-          // Gas estimate component
-          panel([text(`**Gas** *(estimate)*: $13.69`)]),
-        ]),
-
-        // RiskFactorsComponent
-        panel([
-          heading('Risk Factors'),
-          text('• Domain identified as a wallet drainer.'),
-          text('• This domain was recently created'),
-        ]),
+        SimulationOverviewComponent(overviewMessage, recommendedAction),
+        StateChangesComponent(stateChanges, gas),
+        RiskFactorsComponent(riskFactors || []),
       ]);
 
       expect(response).toRender(expected);
@@ -136,29 +191,18 @@ describe('onTransaction', () => {
         chainId: ChainId.EthereumMainnet,
       });
 
+      const {
+        overviewMessage,
+        recommendedAction,
+        stateChanges,
+        gas,
+        riskFactors,
+      } = EthereumMainnetMockResponseWithWarnings;
+
       const expected = panel([
-        // SimulationOverviewComponent Response
-        panel([
-          heading('🚨 Warning'),
-          text('This website is suspected to be a wallet drainer.'),
-          divider(),
-        ]),
-
-        // StateChangesComponent
-        panel([
-          // AssetChangeComponent - Transfer
-          panel([heading('You are sending:'), text('**0.1 ETH** ($200.00)')]),
-
-          // Gas estimate component
-          panel([text(`**Gas** *(estimate)*: $13.69`)]),
-        ]),
-
-        // RiskFactorsComponent
-        panel([
-          heading('Risk Factors'),
-          text('• Domain identified as a wallet drainer.'),
-          text('• This domain was recently created'),
-        ]),
+        SimulationOverviewComponent(overviewMessage, recommendedAction),
+        StateChangesComponent(stateChanges, gas),
+        RiskFactorsComponent(riskFactors || []),
       ]);
 
       expect(response).toRender(expected);
@@ -183,12 +227,7 @@ describe('onTransaction', () => {
         chainId: ChainId.EthereumMainnet,
       });
 
-      const expected = panel([
-        heading('Error while simulating transaction'),
-        text(
-          `Please contact support@walletguard.app if you continue seeing this issue. In the meanwhile review the transaction in the Details tab`,
-        ),
-      ]);
+      const expected = ErrorComponent();
 
       expect(response).toRender(expected);
       unmock();
@@ -209,12 +248,7 @@ describe('onTransaction', () => {
         chainId: ChainId.EthereumMainnet,
       });
 
-      const expected = panel([
-        heading('Revert warning'),
-        text(
-          'The transaction will be reverted and your gas fee will go to waste.',
-        ),
-      ]);
+      const expected = RevertComponent();
 
       expect(response).toRender(expected);
       unmock();
@@ -239,12 +273,7 @@ describe('onTransaction', () => {
     //     chainId: ChainId.EthereumMainnet,
     //   });
 
-    //   const expected = panel([
-    //     heading('Unauthorized'),
-    //     text(
-    //       'Please contact support@walletguard.app if you continue seeing this issue.',
-    //     ),
-    //   ]);
+    //   const expected = UnauthorizedComponent();
 
     //   expect(response).toRender(expected);
     //   unmock();
