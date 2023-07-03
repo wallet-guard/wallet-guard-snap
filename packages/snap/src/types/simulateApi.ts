@@ -64,6 +64,7 @@ export type SimulationResponse = {
   error: SimulationError | null;
 };
 
+// TODO: Should all of these be strings?
 export type SimulatedGas = {
   gasUsedEth: string;
   fiatValue: string;
@@ -72,7 +73,7 @@ export type SimulatedGas = {
 
 export type RiskFactor = {
   severity: Severity;
-  type: string;
+  type: WarningType;
   message: string;
   value: string;
 };
@@ -87,6 +88,7 @@ export type SimulationAddressDetails = {
 /*
  * State change object that is within the response returned by the Wallet Guard Simulate API.
  */
+// TODO: Should all of these be strings?
 export type StateChange = {
   assetType: string;
   changeType: string;
@@ -115,6 +117,20 @@ export type SimulationError = {
   message: string;
   extraData: object | null;
 };
+
+export enum WarningType {
+  Similarity = 'SIMILARITY',
+  RecentlyCreated = 'RECENTLY_CREATED',
+  Malware = 'MALWARE',
+  Homoglyph = 'HOMOGLYPH',
+  Blocklisted = 'BLOCKLISTED',
+  MLInference = 'ML_INFERENCE',
+  Drainer = 'DRAINER',
+  BlurListing = 'BLUR_LISTING',
+  OpenseaListing = 'OPENSEA_LISTING',
+  EthSign = 'ETH_SIGN',
+  LooksrareListing = 'LOOKSRARE_LISTING',
+}
 
 export enum Severity {
   Low = 'LOW',

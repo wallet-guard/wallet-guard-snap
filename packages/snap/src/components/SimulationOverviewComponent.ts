@@ -6,6 +6,7 @@ export const SimulationOverviewComponent = (
   warningType: RecommendedActionType,
 ): Panel => {
   if (!overview || warningType === RecommendedActionType.None) {
+    // TODO: As it stands if an unrecognized warningType is passed the function will return an empty panel. Do we want this?
     return panel([]);
   }
 

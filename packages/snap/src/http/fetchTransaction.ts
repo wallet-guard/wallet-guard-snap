@@ -56,6 +56,13 @@ export const fetchTransaction = async (
         };
       }
 
+      // TODO: Hardcode for now until we get the real data from the API
+      data.gas = {
+        gasUsedEth: '',
+        currency: 'USD',
+        fiatValue: '13.50',
+      };
+
       return {
         type: ResponseType.Success,
         simulation: data,
@@ -79,6 +86,8 @@ export const fetchTransaction = async (
         },
       };
     }
+
+    // TODO: Should we throw specific errors here for 400, 404, 500?
 
     const data: SimulationResponse = await response.json();
 

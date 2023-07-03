@@ -22,6 +22,8 @@ import {
   updateWalletAddress,
 } from './utils/account';
 
+// TODO: Would love if we moved all of these tests within a test folder matching the file structure
+
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -33,12 +35,9 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({
-  // TODO: this might be a bad pattern bc it's not easy
-  // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
-  request,
-}) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   if (
+    // TODO: Should this be set it as a constant?
     request.method === 'updateAccount' &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
@@ -59,6 +58,8 @@ export const onTransaction: OnTransactionHandler = async ({
   chainId,
   transactionOrigin,
 }) => {
+  // TODO: maybe make supported chains be a get reuquest from the api so it is easy to update supported chains?
+  // This makes sense to do if we think join is going to add BSC support within the next month. Otherwise, it is probably not worth it.
   if (!SUPPORTED_CHAINS.includes(chainId as ChainId)) {
     return {
       content: UnsupportedChainComponent(),
@@ -98,6 +99,7 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
+  // TODO: Should this be set it as a constant?
   if (request.method === 'checkApprovals') {
     const walletAddress = await getWalletAddress();
 
