@@ -78,7 +78,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
   error: null,
 };
 
-export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
+export const EthereumMainnetMockResponseShouldBlock: SimulationResponse = {
   recommendedAction: RecommendedActionType.Block,
   overviewMessage: 'This website is suspected to be a wallet drainer.',
   method: SimulationMethodType.EthSendTransaction,
@@ -123,6 +123,56 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '13.69',
+    currency: Currency.USD,
+  },
+  addressDetails: {
+    address: '',
+    addressType: '',
+    etherscanVerified: false,
+    etherscanLink: '',
+  },
+  error: null,
+};
+
+export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
+  recommendedAction: RecommendedActionType.Warn,
+  overviewMessage: 'We detected 1 high risk indicator on this transaction.',
+  method: SimulationMethodType.EthSendTransaction,
+  stateChanges: [
+    {
+      address: '0x12345',
+      amount: '0.1',
+      assetType: SimulationAssetTypes.Native,
+      changeType: StateChangeType.Transfer,
+      coinmarketcapLink: 'https://coinmarketcap.com/currencies/ethereum/',
+      contractAddress: '',
+      decimals: 18,
+      etherscanLink: '',
+      etherscanVerified: true,
+      fiatValue: '200',
+      logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
+      message: 'They receive 0.1 ETH',
+      name: 'Ethereum',
+      openSeaFloorPrice: 0,
+      openSeaLink: '',
+      openSeaVerified: false,
+      symbol: 'ETH',
+      tokenID: '',
+      tokenName: '',
+      tokenURI: '',
+    },
+  ],
+  riskFactors: [
+    {
+      severity: Severity.High,
+      type: WarningType.RecentlyCreated,
+      message: 'This domain was recently created',
+      value: '',
+    },
+  ],
+  gas: {
+    gasUsedEth: '',
+    fiatValue: '13.98',
     currency: Currency.USD,
   },
   addressDetails: {

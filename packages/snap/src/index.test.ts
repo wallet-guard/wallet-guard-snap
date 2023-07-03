@@ -6,6 +6,7 @@ import { divider, heading, panel, text } from '@metamask/snaps-ui';
 import { ChainId } from './types/chains';
 import {
   EthereumMainnetMockErrorResponse,
+  EthereumMainnetMockResponseShouldBlock,
   EthereumMainnetMockResponseWithWarnings,
   EthereumMainnetMockRevertTransaction,
   EthereumMainnetMockSuccessResponse,
@@ -71,8 +72,55 @@ describe('onTransaction', () => {
       expect(response).toRender(expected);
       unmock();
     });
+  });
 
-    it('should display transactions with warnings', async () => {
+  describe('onTransaction handles transactions with warnings', () => {
+    it('should display transactions with recommended action block', async () => {
+      const snap = await installSnap();
+
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+        response: {
+          status: 200,
+          body: JSON.stringify(EthereumMainnetMockResponseShouldBlock),
+          contentType: 'application/json',
+        },
+      });
+
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
+
+      const expected = panel([
+        // SimulationOverviewComponent Response
+        panel([
+          heading('🚨 Warning'),
+          text('This website is suspected to be a wallet drainer.'),
+          divider(),
+        ]),
+
+        // StateChangesComponent
+        panel([
+          // AssetChangeComponent - Transfer
+          panel([heading('You are sending:'), text('**0.1 ETH** ($200.00)')]),
+
+          // Gas estimate component
+          panel([text(`**Gas** *(estimate)*: $13.69`)]),
+        ]),
+
+        // RiskFactorsComponent
+        panel([
+          heading('Risk Factors'),
+          text('• Domain identified as a wallet drainer.'),
+          text('• This domain was recently created'),
+        ]),
+      ]);
+
+      expect(response).toRender(expected);
+      unmock();
+    });
+
+    it('should display transactions with recommended action warn', async () => {
       const snap = await installSnap();
 
       const { unmock } = await snap.mock({
@@ -145,61 +193,69 @@ describe('onTransaction', () => {
       expect(response).toRender(expected);
       unmock();
     });
-  });
 
-  it('should handle reverted transactions', async () => {
-    const snap = await installSnap();
+    it('should handle reverted transactions', async () => {
+      const snap = await installSnap();
 
-    const { unmock } = await snap.mock({
-      url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
-      response: {
-        status: 200,
-        body: JSON.stringify(EthereumMainnetMockRevertTransaction),
-      },
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+        response: {
+          status: 200,
+          body: JSON.stringify(EthereumMainnetMockRevertTransaction),
+        },
+      });
+
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
+
+      const expected = panel([
+        heading('Revert warning'),
+        text(
+          'The transaction will be reverted and your gas fee will go to waste.',
+        ),
+      ]);
+
+      expect(response).toRender(expected);
+      unmock();
     });
 
-    const response = await snap.sendTransaction({
-      chainId: ChainId.EthereumMainnet,
-    });
+    // TODO: This appears to be a bug with this testing library
+    // https://github.com/MetaMask/snaps/discussions/1543
+    // eslint-disable-next-line jest/no-commented-out-tests
+    // it('should handle 403 unauthorized from API', async () => {
+    //   const snap = await installSnap();
 
-    const expected = panel([
-      heading('Revert warning'),
-      text(
-        'The transaction will be reverted and your gas fee will go to waste.',
-      ),
-    ]);
+    //   const { unmock } = await snap.mock({
+    //     url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+    //     response: {
+    //       status: 403,
+    //       contentType: 'application/json',
+    //       body: JSON.stringify({}),
+    //     },
+    //   });
 
-    expect(response).toRender(expected);
-    unmock();
+    //   const response = await snap.sendTransaction({
+    //     chainId: ChainId.EthereumMainnet,
+    //   });
+
+    //   const expected = panel([
+    //     heading('Unauthorized'),
+    //     text(
+    //       'Please contact support@walletguard.app if you continue seeing this issue.',
+    //     ),
+    //   ]);
+
+    //   expect(response).toRender(expected);
+    //   unmock();
+    // });
   });
+});
 
-  // TODO: This appears to be a bug with this testing library
-  // https://github.com/MetaMask/snaps/discussions/1543
-  // eslint-disable-next-line jest/no-commented-out-tests
-  // it('should handle 403 unauthorized from API', async () => {
-  //   const snap = await installSnap();
+describe('onRpcRequest', () => {
+  // TODO
+});
 
-  //   const { unmock } = await snap.mock({
-  //     url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
-  //     response: {
-  //       status: 403,
-  //       contentType: 'application/json',
-  //       body: JSON.stringify({}),
-  //     },
-  //   });
-
-  //   const response = await snap.sendTransaction({
-  //     chainId: ChainId.EthereumMainnet,
-  //   });
-
-  //   const expected = panel([
-  //     heading('Unauthorized'),
-  //     text(
-  //       'Please contact support@walletguard.app if you continue seeing this issue.',
-  //     ),
-  //   ]);
-
-  //   expect(response).toRender(expected);
-  //   unmock();
-  // });
+describe('onCronJob', () => {
+  // TODO
 });
