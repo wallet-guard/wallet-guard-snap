@@ -5,12 +5,14 @@ import { expect } from '@jest/globals';
 import { panel } from '@metamask/snaps-ui';
 import { ChainId } from './types/chains';
 import {
+  ArbitrumSuccessTokenSwap,
   EthereumMainnetMockErrorResponse,
   EthereumMainnetMockResponseShouldBlock,
   EthereumMainnetMockResponseWithWarnings,
   EthereumMainnetMockRevertTransaction,
   EthereumMainnetMockSuccessResponse,
-} from './mocks/MockEthereumResponses';
+  PolygonSuccessMultiple1155OpenSea,
+} from './mocks';
 import {
   ErrorComponent,
   RevertComponent,
@@ -69,7 +71,6 @@ describe('onTransaction', () => {
       unmock();
     });
 
-    // TODO: Add test data from Opensea/uniswap here
     it('should display transaction simulations for Polygon Mainnet', async () => {
       const snap = await installSnap();
 
@@ -77,13 +78,13 @@ describe('onTransaction', () => {
         url: 'https://api.walletguard.app/snaps/v0/polygon/mainnet/transaction',
         response: {
           status: 200,
-          body: JSON.stringify(EthereumMainnetMockSuccessResponse),
+          body: JSON.stringify(PolygonSuccessMultiple1155OpenSea),
           contentType: 'application/json',
         },
       });
 
       const response = await snap.sendTransaction({
-        chainId: ChainId.EthereumMainnet,
+        chainId: ChainId.PolygonMainnet,
       });
 
       const {
@@ -92,7 +93,7 @@ describe('onTransaction', () => {
         stateChanges,
         gas,
         riskFactors,
-      } = EthereumMainnetMockSuccessResponse;
+      } = PolygonSuccessMultiple1155OpenSea;
 
       const expected = panel([
         SimulationOverviewComponent(overviewMessage, recommendedAction),
@@ -104,7 +105,6 @@ describe('onTransaction', () => {
       unmock();
     });
 
-    // TODO: Add test data from Opensea/uniswap here
     it('should display transaction simulations for Arbitrum Mainnet', async () => {
       const snap = await installSnap();
 
@@ -112,13 +112,13 @@ describe('onTransaction', () => {
         url: 'https://api.walletguard.app/snaps/v0/arb/mainnet/transaction',
         response: {
           status: 200,
-          body: JSON.stringify(EthereumMainnetMockSuccessResponse),
+          body: JSON.stringify(ArbitrumSuccessTokenSwap),
           contentType: 'application/json',
         },
       });
 
       const response = await snap.sendTransaction({
-        chainId: ChainId.EthereumMainnet,
+        chainId: ChainId.ArbitrumMainnet,
       });
 
       const {
@@ -127,7 +127,7 @@ describe('onTransaction', () => {
         stateChanges,
         gas,
         riskFactors,
-      } = EthereumMainnetMockSuccessResponse;
+      } = ArbitrumSuccessTokenSwap;
 
       const expected = panel([
         SimulationOverviewComponent(overviewMessage, recommendedAction),
