@@ -55,7 +55,7 @@ describe('onTransaction', () => {
         panel([
           // AssetChangeComponent - Transfer
           panel([heading('You are sending:'), text('**0.01 ETH** ($19.29)')]),
-          panel([text(`**Gas** *(estimate)*: $13.26`)]),
+          panel([text(`**Gas** *(estimate)*: $13.50`)]),
 
           // AssetChangeComponent - Receive
           panel([
@@ -102,7 +102,7 @@ describe('onTransaction', () => {
           panel([heading('You are sending:'), text('**0.1 ETH** ($200.00)')]),
 
           // Gas estimate component
-          panel([text(`**Gas** *(estimate)*: $13.69`)]),
+          panel([text(`**Gas** *(estimate)*: $13.50`)]),
         ]),
 
         // RiskFactorsComponent

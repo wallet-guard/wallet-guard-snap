@@ -162,8 +162,9 @@ describe('StateChangesComponent', () => {
       (stateChange) => stateChange.changeType === StateChangeType.Receive,
     );
     const expected = panel([
-      AssetChangeComponent(StateChangeType.Receive, receiveChanges),
+      AssetChangeComponent(StateChangeType.Transfer, []),
       GasComponent(gas),
+      AssetChangeComponent(StateChangeType.Receive, receiveChanges),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
@@ -176,7 +177,10 @@ describe('StateChangesComponent', () => {
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
-    const expected = panel([GasComponent(gas)]);
+    const expected = panel([
+      AssetChangeComponent(StateChangeType.Transfer, []),
+      GasComponent(gas),
+    ]);
     const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
   });
