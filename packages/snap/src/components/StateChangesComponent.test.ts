@@ -8,7 +8,7 @@ import {
 } from '../types/simulateApi';
 import { StateChangesComponent } from './StateChangesComponent';
 
-import { NoStateChangesComponent, AssetChangeComponent, GasComponent } from '.';
+import { NoStateChangesComponent, AssetChangeComponent } from '.';
 
 describe('StateChangesComponent', () => {
   it('should return NoStateChangesComponent when stateChanges is null', () => {
