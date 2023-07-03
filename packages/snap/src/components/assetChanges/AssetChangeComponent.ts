@@ -30,7 +30,7 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
         `**${stateChange.amount} ${stateChange.symbol}**${fiatValue}`,
       );
     case SimulationAssetTypes.ERC721:
-      return text(`**${tokenName}** ($${fiatValue})`);
+      return text(`**${tokenName}**${fiatValue}`);
     case SimulationAssetTypes.ERC1155:
       return text(`**${stateChange.amount} ${tokenName}**${fiatValue}`);
     default:
