@@ -1,6 +1,6 @@
 import { Panel, panel, text } from '@metamask/snaps-ui';
-import { Currency, SimulatedGas } from '../../types/simulateApi';
-import { GasComponent } from './GasComponent';
+import { Currency, SimulatedGas } from '../../../types/simulateApi';
+import { GasComponent } from '../../../components/assetChanges/GasComponent';
 
 describe('GasComponent', () => {
   it('should return a panel with the correct gas estimate text for USD', () => {

@@ -1,5 +1,5 @@
 import { Panel, heading, panel } from '@metamask/snaps-ui';
-import { NoStateChangesComponent } from './NoChangesComponent';
+import { NoStateChangesComponent } from '../../../components/assetChanges/NoChangesComponent';
 
 describe('NoStateChangesComponent', () => {
   it('should return a panel with the correct heading', () => {

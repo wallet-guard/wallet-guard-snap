@@ -1,5 +1,5 @@
 import { panel, heading, text } from '@metamask/snaps-ui';
-import { TooManyRequestsComponent } from './TooManyRequestsComponent';
+import { TooManyRequestsComponent } from '../../../components/errors/TooManyRequestsComponent';
 
 describe('TooManyRequestsComponent', () => {
   it('should render TooManyRequestsComponent correctly', () => {

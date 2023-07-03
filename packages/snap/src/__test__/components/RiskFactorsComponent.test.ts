@@ -1,6 +1,6 @@
 import { panel, heading, text } from '@metamask/snaps-ui';
-import { RiskFactor, Severity, WarningType } from '../types/simulateApi';
-import { RiskFactorsComponent } from './RiskFactorsComponent';
+import { RiskFactor, Severity, WarningType } from '../../types/simulateApi';
+import { RiskFactorsComponent } from '../../components/RiskFactorsComponent';
 
 describe('RiskFactorsComponent', () => {
   it('should render an empty panel when there are no risk factors', () => {

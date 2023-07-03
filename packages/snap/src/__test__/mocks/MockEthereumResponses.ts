@@ -8,7 +8,7 @@ import {
   SimulationResponse,
   WarningType,
   Currency,
-} from '../types/simulateApi';
+} from '../../types/simulateApi';
 
 // Example transaction from Uniswap. 0.01 ETH => 19 USDT
 export const EthereumMainnetMockSuccessResponse: SimulationResponse = {

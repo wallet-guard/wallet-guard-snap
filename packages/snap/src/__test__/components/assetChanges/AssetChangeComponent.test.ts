@@ -3,8 +3,8 @@ import {
   SimulationAssetTypes,
   StateChange,
   StateChangeType,
-} from '../../types/simulateApi';
-import { AssetChangeComponent } from './AssetChangeComponent';
+} from '../../../types/simulateApi';
+import { AssetChangeComponent } from '../../../components/assetChanges/AssetChangeComponent';
 
 describe('AssetChangeComponent', () => {
   it('should correctly generate panel for ERC20 token transfer', () => {

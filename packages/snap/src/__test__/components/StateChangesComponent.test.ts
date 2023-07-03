@@ -5,10 +5,13 @@ import {
   SimulationAssetTypes,
   StateChange,
   StateChangeType,
-} from '../types/simulateApi';
-import { StateChangesComponent } from './StateChangesComponent';
+} from '../../types/simulateApi';
+import { StateChangesComponent } from '../../components/StateChangesComponent';
 
-import { NoStateChangesComponent, AssetChangeComponent } from '.';
+import {
+  NoStateChangesComponent,
+  AssetChangeComponent,
+} from '../../components';
 
 describe('StateChangesComponent', () => {
   it('should return NoStateChangesComponent when stateChanges is null', () => {

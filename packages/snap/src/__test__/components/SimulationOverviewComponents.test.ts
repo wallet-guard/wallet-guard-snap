@@ -1,6 +1,6 @@
 import { divider, heading, panel, text } from '@metamask/snaps-ui';
-import { RecommendedActionType } from '../types/simulateApi';
-import { SimulationOverviewComponent } from './SimulationOverviewComponent';
+import { RecommendedActionType } from '../../types/simulateApi';
+import { SimulationOverviewComponent } from '../../components/SimulationOverviewComponent';
 
 describe('SimulationOverviewComponent', () => {
   it('should return an empty panel when overview is empty or warningType is None', () => {

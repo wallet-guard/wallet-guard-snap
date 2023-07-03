@@ -5,7 +5,7 @@ import {
   SimulationResponse,
   Currency,
   SimulationMethodType,
-} from '../types/simulateApi';
+} from '../../types/simulateApi';
 
 export const PolygonSuccessMultiple1155OpenSea: SimulationResponse = {
   addressDetails: {

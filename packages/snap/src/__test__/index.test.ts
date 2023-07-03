@@ -3,7 +3,15 @@ import { installSnap } from '@metamask/snaps-jest';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { expect } from '@jest/globals';
 import { panel } from '@metamask/snaps-ui';
-import { ChainId } from './types/chains';
+import { ChainId } from '../types/chains';
+import {
+  ErrorComponent,
+  RevertComponent,
+  RiskFactorsComponent,
+  SimulationOverviewComponent,
+  StateChangesComponent,
+  UnsupportedChainComponent,
+} from '../components';
 import {
   ArbitrumSuccessTokenSwap,
   EthereumMainnetMockErrorResponse,
@@ -13,14 +21,6 @@ import {
   EthereumMainnetMockSuccessResponse,
   PolygonSuccessMultiple1155OpenSea,
 } from './mocks';
-import {
-  ErrorComponent,
-  RevertComponent,
-  RiskFactorsComponent,
-  SimulationOverviewComponent,
-  StateChangesComponent,
-  UnsupportedChainComponent,
-} from './components';
 
 describe('onTransaction', () => {
   describe('onTransaction supported chains', () => {

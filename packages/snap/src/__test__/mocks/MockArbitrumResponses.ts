@@ -1,11 +1,11 @@
 import {
-  SimulationAssetTypes,
-  StateChangeType,
-  RecommendedActionType,
-  SimulationResponse,
   Currency,
+  RecommendedActionType,
+  SimulationAssetTypes,
   SimulationMethodType,
-} from '../types/simulateApi';
+  SimulationResponse,
+  StateChangeType,
+} from '../../types/simulateApi';
 
 export const ArbitrumSuccessTokenSwap: SimulationResponse = {
   addressDetails: {
