@@ -1,24 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Json } from '@metamask/utils';
 
-export type ApiResponse = {
-  readonly type: ResponseType;
-  // Only set on success.
-  readonly simulation?: SimulationResponse;
-  // Might be set on error.
-  readonly error?: SimulationError;
-};
-
-export enum ResponseType {
-  Success = 'success',
-  Revert = 'revert',
-  Errored = 'error',
-}
-
-export type SimulationErrorResponse = {
-  error: SimulationError;
-};
-
 /**
  * Parameters for the request to the Wallet Guard Simulate API.
  */
@@ -52,7 +34,27 @@ export enum RecommendedActionType {
   Block = 'BLOCK',
 }
 
-export type SimulationResponse = {
+export type SimulationResponse =
+  | SimulationSuccessResponse
+  | SimulationErrorResponse;
+
+export type SimulationErrorResponse = {
+  error: SimulationError;
+};
+
+export type SimulationSuccessResponse = {
+  recommendedAction: RecommendedActionType;
+  overviewMessage: string;
+  stateChanges: StateChange[] | null;
+  addressDetails: SimulationAddressDetails;
+  method: SimulationMethodType | string;
+  decodedMessage?: string; // Only present on signatures
+  riskFactors: RiskFactor[] | null;
+  gas: SimulatedGas;
+  error: null;
+};
+
+export type SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType;
   overviewMessage: string;
   stateChanges: StateChange[] | null;

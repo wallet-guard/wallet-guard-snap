@@ -2,7 +2,6 @@
 import fetchMock from 'jest-fetch-mock';
 import { Json } from '@metamask/snaps-types';
 import {
-  ResponseType,
   ErrorType,
   SimulationResponse,
   RecommendedActionType,
@@ -55,8 +54,7 @@ describe('fetchTransaction', () => {
       ChainId.EthereumMainnet,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Success);
-    expect(result.simulation).toStrictEqual(mockResponse);
+    expect(result).toStrictEqual(mockResponse);
   });
 
   it('should correctly handle revert error', async () => {
@@ -74,7 +72,6 @@ describe('fetchTransaction', () => {
       ChainId.EthereumMainnet,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Revert);
     expect(result.error).toStrictEqual(mockResponse.error);
   });
 
@@ -86,7 +83,6 @@ describe('fetchTransaction', () => {
       ChainId.EthereumMainnet,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Errored);
     expect(result.error?.type).toBe(ErrorType.Unauthorized);
     expect(result.error?.message).toBe('Unauthorized');
   });
@@ -99,7 +95,6 @@ describe('fetchTransaction', () => {
       ChainId.EthereumMainnet,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Errored);
     expect(result.error?.type).toBe(ErrorType.TooManyRequests);
     expect(result.error?.message).toBe('TooManyRequests');
   });
@@ -119,7 +114,6 @@ describe('fetchTransaction', () => {
       ChainId.EthereumMainnet,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Errored);
     expect(result.error).toStrictEqual(mockResponse.error);
   });
 
@@ -131,7 +125,6 @@ describe('fetchTransaction', () => {
       ChainId.EthereumMainnet,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Errored);
     expect(result.error?.type).toBe(ErrorType.UnknownError);
     expect(result.error?.message).toBe('An unknown error occurred');
   });
@@ -144,7 +137,6 @@ describe('fetchTransaction', () => {
       unsupportedChainId,
       'metamask',
     );
-    expect(result.type).toBe(ResponseType.Errored);
     expect(result.error?.type).toBe(ErrorType.UnknownError);
     expect(result.error?.message).toBe('An unknown error occurred');
   });

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   ErrorType,
   Severity,
@@ -5,13 +6,13 @@ import {
   SimulationMethodType,
   StateChangeType,
   RecommendedActionType,
-  SimulationResponse,
   WarningType,
   Currency,
+  SimulationSuccessApiResponse,
 } from '../../types/simulateApi';
 
 // Example transaction from Uniswap. 0.01 ETH => 19 USDT
-export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
+export const EthereumMainnetMockSuccessResponse: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
   method: SimulationMethodType.EthSendTransaction,
@@ -78,7 +79,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
   error: null,
 };
 
-export const EthereumMainnetMockResponseShouldBlock: SimulationResponse = {
+export const EthereumMainnetMockResponseShouldBlock: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.Block,
   overviewMessage: 'This website is suspected to be a wallet drainer.',
   method: SimulationMethodType.EthSendTransaction,
@@ -134,7 +135,7 @@ export const EthereumMainnetMockResponseShouldBlock: SimulationResponse = {
   error: null,
 };
 
-export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
+export const EthereumMainnetMockResponseWithWarnings: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.Warn,
   overviewMessage: 'We detected 1 high risk indicator on this transaction.',
   method: SimulationMethodType.EthSendTransaction,
@@ -184,7 +185,7 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   error: null,
 };
 
-export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
+export const EthereumMainnetMockRevertTransaction: SimulationSuccessApiResponse = {
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
@@ -208,7 +209,7 @@ export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
   },
 };
 
-export const EthereumMainnetMockErrorResponse: SimulationResponse = {
+export const EthereumMainnetMockErrorResponse: SimulationSuccessApiResponse = {
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',

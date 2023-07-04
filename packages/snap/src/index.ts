@@ -5,7 +5,6 @@ import {
 } from '@metamask/snaps-types';
 import { copyable, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
-import { ErrorType } from './types/simulateApi';
 import {
   StateChangesComponent,
   SimulationOverviewComponent,
@@ -75,24 +74,16 @@ export const onTransaction: OnTransactionHandler = async ({
     return {
       content: showErrorComponent(response.error.type),
     };
-  } else if (!response.simulation || response.simulation?.error) {
-    // TODO: simulation.error might have a type here that we don't catch?
-    return {
-      content: showErrorComponent(ErrorType.GeneralError),
-    };
   }
 
   return {
     content: panel([
       SimulationOverviewComponent(
-        response.simulation.overviewMessage,
-        response.simulation.recommendedAction,
+        response.overviewMessage,
+        response.recommendedAction,
       ),
-      StateChangesComponent(
-        response.simulation.stateChanges,
-        response.simulation.gas,
-      ),
-      RiskFactorsComponent(response.simulation.riskFactors || []),
+      StateChangesComponent(response.stateChanges, response.gas),
+      RiskFactorsComponent(response.riskFactors || []),
     ]),
   };
 };
