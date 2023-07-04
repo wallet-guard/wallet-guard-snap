@@ -307,77 +307,69 @@ describe('onTransaction', () => {
   });
 });
 
-// describe('onRpcRequest', () => {
-//   describe('accounts', () => {
-//     it('should block requests not from dashboard.walletguard.app', async () => {
-//       const snap = await installSnap();
+describe('onRpcRequest', () => {
+  describe('accounts', () => {
+    it('should block requests not from dashboard.walletguard.app', async () => {
+      const snap = await installSnap();
 
-//       const initial = await snap.request({
-//         origin: 'https://some-random.com',
-//         method: RpcRequestMethods.GetAccount,
-//         params: {},
-//       });
+      const initial = await snap.request({
+        origin: 'https://some-random.com',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
 
-//       expect(initial).toRespondWith(null);
+      expect(initial).toRespondWith(null);
 
-//       await snap.request({
-//         method: RpcRequestMethods.UpdateAccount,
-//         origin: 'https://some-random.com',
-//         params: {
-//           walletAddress: '0x1234567',
-//         },
-//       });
+      await snap.request({
+        method: RpcRequestMethods.UpdateAccount,
+        origin: 'https://some-random.com',
+        params: {
+          walletAddress: '0x1234567',
+        },
+      });
 
-//       const updated = await snap.request({
-//         origin: 'https://some-random.com',
-//         method: RpcRequestMethods.GetAccount,
-//         params: {},
-//       });
+      const updated = await snap.request({
+        origin: 'https://some-random.com',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
 
-//       expect(updated).toRespondWith(null);
-//       await snap.close();
-//     });
+      expect(updated).toRespondWith(null);
+    });
 
-//     it('updateAccount should update the users localstorage wallet address', async () => {
-//       const snap = await installSnap();
-//       const walletAddress = '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876';
+    it('updateAccount should update the users localstorage wallet address', async () => {
+      const snap = await installSnap();
+      const walletAddress = '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876';
 
-//       const initial = await snap.request({
-//         origin: 'https://dashboard.walletguard.app',
-//         method: RpcRequestMethods.GetAccount,
-//         params: {},
-//       });
+      const initial = await snap.request({
+        origin: 'https://dashboard.walletguard.app',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
 
-//       expect(initial).toRespondWith(null);
+      expect(initial).toRespondWith(null);
 
-//       await snap.request({
-//         method: RpcRequestMethods.UpdateAccount,
-//         origin: 'https://dashboard.walletguard.app',
-//         params: {
-//           walletAddress,
-//         },
-//       });
+      await snap.request({
+        method: RpcRequestMethods.UpdateAccount,
+        origin: 'https://dashboard.walletguard.app',
+        params: {
+          walletAddress,
+        },
+      });
 
-//       const updated = await snap.request({
-//         origin: 'https://dashboard.walletguard.app',
-//         method: RpcRequestMethods.GetAccount,
-//         params: {},
-//       });
+      const updated = await snap.request({
+        origin: 'https://dashboard.walletguard.app',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
 
-//       expect(updated).toRespondWith(
-//         '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
-//       );
-
-//       expect(snap).toSendNotification(
-//         `
-//       Welcome to the Wallet Guard snap! You will now receive transaction simulations within MetaMask and automated notifications for revoking approvals on your address 0x4D2D...F876
-//         If you ever need to access your dashboard you can do so at dashboard.walletguard.app`,
-//         'inApp',
-//       );
-//       await snap.close();
-//     });
-//   });
-// });
+      expect(updated).toRespondWith(
+        '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
+      );
+      // TODO: check for notification here. I don't think the library supports this functionality yet
+    });
+  });
+});
 
 /*
 describe('onCronJob', () => {
@@ -444,7 +436,7 @@ describe('onCronJob', () => {
 
       expect(response.notifications).toHaveLength(1);
       expect(response).toSendNotification(
-        `Warning: You have 1 open approval which can put your assets at risk. Head to https://dashboard.walletguard.app/0x123 to remediate`,
+        `Warning: You have 1 open approval which can put your assets at risk.Head to https://dashboard.walletguard.app/0x123 to remediate`,
         NotificationType.InApp,
       );
 
