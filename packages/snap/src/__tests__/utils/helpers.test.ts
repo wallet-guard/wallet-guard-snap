@@ -25,4 +25,11 @@ describe('isDashboard', () => {
     const result = isDashboard('https://notdashboard.walletguard.app');
     expect(result).toBe(false);
   });
+
+  it('should return invalid for https://dashboard.walletguard.app.somescamsite.xyz', () => {
+    const result = isDashboard(
+      'https://dashboard.walletguard.app.somescamsite.xyz',
+    );
+    expect(result).toBe(false);
+  });
 });
