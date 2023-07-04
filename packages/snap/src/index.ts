@@ -26,7 +26,7 @@ import {
 } from './utils/account';
 import { fetchApprovals } from './http/fetchApprovals';
 import { ApprovalRiskLevel } from './types/approvalsApi';
-import { add3DotsMiddle } from './utils/helpers';
+import { add3DotsMiddle, isDashboard } from './utils/helpers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -43,7 +43,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }): Promise<any> => {
-  if (origin !== 'https://dashboard.walletguard.app') {
+  if (!isDashboard(origin)) {
     return;
   }
 
@@ -165,12 +165,14 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     ).length;
 
     if (highRiskApprovalsLength > 0) {
+      const approvals =
+        highRiskApprovalsLength === 1 ? 'approval' : 'approvals';
+
       await snap.request({
         method: 'snap_notify',
         params: {
           type: 'inApp',
-          message: `Warning: You have ${highRiskApprovalsLength} open ${highRiskApprovalsLength === 1 ? 'approval' : 'approvals'
-            }
+          message: `Warning: You have ${highRiskApprovalsLength} open ${approvals}
            which can put your assets at risk. Head to https://dashboard.walletguard.app/${walletAddress} to remediate`,
         },
       });

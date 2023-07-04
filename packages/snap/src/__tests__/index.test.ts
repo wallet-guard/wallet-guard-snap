@@ -338,6 +338,7 @@ describe('onRpcRequest', () => {
 
     it('updateAccount should update the users localstorage wallet address', async () => {
       const snap = await installSnap();
+      const walletAddress = '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876';
 
       const initial = await snap.request({
         origin: 'https://dashboard.walletguard.app',
@@ -351,7 +352,7 @@ describe('onRpcRequest', () => {
         method: RpcRequestMethods.UpdateAccount,
         origin: 'https://dashboard.walletguard.app',
         params: {
-          walletAddress: '0x1234567',
+          walletAddress,
         },
       });
 
@@ -361,8 +362,16 @@ describe('onRpcRequest', () => {
         params: {},
       });
 
-      expect(updated).toRespondWith('0x1234567');
-      expect(updated).toSendNotification('kj;l', 'inApp');
+      expect(updated).toRespondWith(
+        '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
+      );
+
+      expect(snap).toSendNotification(
+        `
+      Welcome to the Wallet Guard snap! You will now receive transaction simulations within MetaMask and automated notifications for revoking approvals on your address 0x4D2D...F876
+        If you ever need to access your dashboard you can do so at dashboard.walletguard.app`,
+        'inApp',
+      );
     });
   });
 });

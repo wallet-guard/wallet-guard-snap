@@ -10,3 +10,9 @@ export const add3DotsMiddle = (input: string, limit: number) => {
 
   return input;
 };
+
+export const isDashboard = (url: string): boolean => {
+  const regex = /^https:\/\/dashboard\.walletguard\.app(\/.*)?$/u;
+
+  return regex.test(url);
+};
