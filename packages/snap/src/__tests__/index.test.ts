@@ -75,7 +75,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
 
     it('should display transaction simulations for Polygon Mainnet', async () => {
@@ -110,7 +109,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
 
     it('should display transaction simulations for Arbitrum Mainnet', async () => {
@@ -145,7 +143,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
   });
 
@@ -182,7 +179,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
 
     it('should display transactions with recommended action warn', async () => {
@@ -217,7 +213,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
   });
 
@@ -242,7 +237,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
 
     it('should handle reverted transactions', async () => {
@@ -264,7 +258,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
 
     it('should handle insufficient funds for transaction', async () => {
@@ -286,7 +279,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
 
     // TODO: This appears to be a bug with this testing library
@@ -311,7 +303,6 @@ describe('onTransaction', () => {
 
       expect(response).toRender(expected);
       unmock();
-      await snap.close();
     });
   });
 });
