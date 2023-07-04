@@ -1,5 +1,6 @@
 import { Json } from '@metamask/snaps-types';
 import {
+  Currency,
   ErrorType,
   SimulateRequestParams,
   SimulationErrorResponse,
@@ -53,7 +54,7 @@ export const fetchTransaction = async (
       // TODO: Hardcode for now until we get the real data from the API
       // data.gas = {
       //   gasUsedEth: '',
-      //   currency: 'USD',
+      //   currency: Currency.USD,
       //   fiatValue: '13.50',
       // };
 

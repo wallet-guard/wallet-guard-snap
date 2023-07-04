@@ -2,11 +2,19 @@ export type Approval = {
   chainId: string;
   contractAddress: string;
   approvedAddress: string;
-  tokenID: string;
   ercType: ERCType;
   approvalType: ApprovalChangeType;
   allowance: string;
   riskLevel: ApprovalRiskLevel;
+  tokens: {
+    tokenID: string;
+    amount: string;
+    // Metadata about token
+    fiatValue: string;
+    name: string;
+    symbol: string;
+    logo: string;
+  };
 };
 
 export enum ApprovalRiskLevel {
@@ -29,6 +37,8 @@ export type Token = {
 };
 
 export type AccountDetail = {
+  totalAssetsAtRisk: string;
+  totalAssets: string;
   address: string;
   // lastNotificationTimestamp: string;
   approvals: Approval[];

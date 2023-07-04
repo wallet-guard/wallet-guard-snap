@@ -3,7 +3,7 @@ import {
   OnRpcRequestHandler,
   OnTransactionHandler,
 } from '@metamask/snaps-types';
-import { copyable, heading, panel, text } from '@metamask/snaps-ui';
+import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
 import {
   StateChangesComponent,
@@ -26,7 +26,7 @@ import {
 } from './utils/account';
 import { fetchApprovals } from './http/fetchApprovals';
 import { ApprovalRiskLevel } from './types/approvalsApi';
-import { add3DotsMiddle, isDashboard } from './utils/helpers';
+import { generateApprovalsMessage, isDashboard } from './utils/helpers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -65,11 +65,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         method: 'snap_notify',
         params: {
           type: 'inApp',
-          message: `Welcome to the Wallet Guard snap! You will now receive transaction simulations within MetaMask and automated notifications for revoking approvals on your address ${add3DotsMiddle(
-            walletAddress,
-            8,
-          )}.
-        If you ever need to access your dashboard you can do so at dashboard.walletguard.app`,
+          message: `You have open approvals with $1,000,251 at risk`, // TODO: assert that this is <50 chars and if it is remove the count
         },
       });
     }
@@ -160,23 +156,18 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     // TODO: Consider adding a settings panel to dashboard.walletguard.app where they can
     // 1: enable/disable simulation or revoking 2: update/remove the connected wallet for approval reminders
 
-    const highRiskApprovalsLength = accountDetails.approvals.filter(
-      (approval) => approval.riskLevel === ApprovalRiskLevel.High,
-    ).length;
+    const approvalsWarning = generateApprovalsMessage(accountDetails);
 
-    if (highRiskApprovalsLength > 0) {
-      const approvals =
-        highRiskApprovalsLength === 1 ? 'approval' : 'approvals';
-
-      await snap.request({
-        method: 'snap_notify',
-        params: {
-          type: 'inApp',
-          message: `Warning: You have ${highRiskApprovalsLength} open ${approvals}
-           which can put your assets at risk. Head to https://dashboard.walletguard.app/${walletAddress} to remediate`,
-        },
-      });
+    if (!approvalsWarning) {
+      return;
     }
-    return null;
+
+    await snap.request({
+      method: 'snap_notify',
+      params: {
+        type: 'inApp',
+        message: approvalsWarning,
+      },
+    });
   }
 };
