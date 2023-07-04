@@ -5,7 +5,7 @@ export type Approval = {
   tokenID: string;
   ercType: ERCType;
   approvalType: ApprovalChangeType;
-  amount: string; // TODO: I think this is changing to allowance
+  allowance: string;
   riskLevel: ApprovalRiskLevel;
 };
 
@@ -30,6 +30,7 @@ export type Token = {
 
 export type AccountDetail = {
   address: string;
+  lastNotificationTimestamp: string;
   approvals: Approval[];
   tokens: Token[];
   errors: ApprovalError[];
