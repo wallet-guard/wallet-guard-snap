@@ -1,5 +1,5 @@
 import { panel, heading, text } from '@metamask/snaps-ui';
-import { RevertComponent } from './RevertComponent';
+import { RevertComponent } from '../../../components/errors/RevertComponent';
 
 describe('RevertComponent', () => {
   it('should render RevertComponent correctly', () => {

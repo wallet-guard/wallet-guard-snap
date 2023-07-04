@@ -1,5 +1,5 @@
 import { panel, heading, text } from '@metamask/snaps-ui';
-import { ErrorComponent } from './ErrorComponent';
+import { ErrorComponent } from '../../../components/errors/ErrorComponent';
 
 describe('ErrorComponent', () => {
   it('should render ErrorComponent correctly', () => {

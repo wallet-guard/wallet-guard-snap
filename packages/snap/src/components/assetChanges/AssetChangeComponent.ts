@@ -8,31 +8,38 @@ import {
   text,
 } from '@metamask/snaps-ui';
 import {
+  SimulatedGas,
   SimulationAssetTypes,
   StateChange,
   StateChangeType,
 } from '../../types/simulateApi';
+import { GasComponent } from './GasComponent';
 
 // getAssetChangeText is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
 // TODO: Create a mapper function for mapping ERC20 amount
 const getAssetChangeText = (stateChange: StateChange): Text => {
-  const fiatValue = Number(stateChange.fiatValue).toFixed(2);
   const amount = Number(stateChange.amount).toFixed(6);
 
   const tokenName = stateChange.tokenName
     ? stateChange.tokenName
     : `${stateChange.symbol} #${stateChange.tokenID}`;
 
+  const fiatValue = stateChange.fiatValue
+    ? ` ($${Number(stateChange.fiatValue).toFixed(2)})`
+    : '';
+
   switch (stateChange.assetType) {
     case SimulationAssetTypes.Native:
     case SimulationAssetTypes.ERC20:
-      return text(`**${amount} ${stateChange.symbol}** ($${fiatValue})`);
+      return text(
+        `**${stateChange.amount} ${stateChange.symbol}**${fiatValue}`,
+      );
     case SimulationAssetTypes.ERC721:
-      return text(`**${tokenName}** ($${fiatValue})`);
+      return text(`**${tokenName}**${fiatValue}`);
     case SimulationAssetTypes.ERC1155:
-      return text(`**${stateChange.amount} ${tokenName}** ($${fiatValue})`);
+      return text(`**${stateChange.amount} ${tokenName}**${fiatValue}`);
     default:
-      return text('');
+      return text(`**${stateChange.amount} ${tokenName}**${fiatValue}`);
   }
 };
 
@@ -51,6 +58,7 @@ const getHeader = (changeType: StateChangeType): Heading => {
 export const AssetChangeComponent = (
   type: StateChangeType,
   stateChanges: StateChange[],
+  gas?: SimulatedGas,
 ): Panel => {
   const header = getHeader(type);
   const output: Component[] = [header];
@@ -59,6 +67,10 @@ export const AssetChangeComponent = (
     const stateChangeText = getAssetChangeText(stateChange);
     output.push(stateChangeText);
   });
+
+  if (type === StateChangeType.Transfer && gas) {
+    output.push(GasComponent(gas));
+  }
 
   return panel(output);
 };

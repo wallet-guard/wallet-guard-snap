@@ -1,10 +1,10 @@
 import { Json } from '@metamask/snaps-types';
 import {
-  ApiResponse,
   ErrorType,
-  ResponseType,
   SimulateRequestParams,
+  SimulationErrorResponse,
   SimulationResponse,
+  SimulationSuccessApiResponse,
 } from '../types/simulateApi';
 import { SERVER_BASE_URL } from '../utils/environment';
 import { ChainId } from '../types/chains';
@@ -23,7 +23,7 @@ export const fetchTransaction = async (
   },
   chainId: string,
   transactionOrigin: string | undefined,
-): Promise<ApiResponse> => {
+): Promise<SimulationResponse> => {
   try {
     const mappedChainId = mapChainId(chainId);
     const requestURL = getURLForChainId(chainId);
@@ -48,54 +48,57 @@ export const fetchTransaction = async (
     });
 
     if (response.status === 200) {
-      const data: SimulationResponse = await response.json();
-      if (data.error?.type === ErrorType.Revert) {
-        return {
-          type: ResponseType.Revert,
-          error: data.error,
-        };
-      }
+      const data: SimulationSuccessApiResponse = await response.json();
 
-      return {
-        type: ResponseType.Success,
-        simulation: data,
-      };
+      // TODO: Hardcode for now until we get the real data from the API
+      // data.gas = {
+      //   gasUsedEth: '',
+      //   currency: 'USD',
+      //   fiatValue: '13.50',
+      // };
+
+      return data;
     } else if (response.status === 403) {
-      return {
-        type: ResponseType.Errored,
+      const result: SimulationErrorResponse = {
         error: {
           type: ErrorType.Unauthorized,
           message: 'Unauthorized',
           extraData: null,
         },
       };
+
+      return result;
     } else if (response.status === 429) {
-      return {
-        type: ResponseType.Errored,
+      const result: SimulationErrorResponse = {
         error: {
           type: ErrorType.TooManyRequests,
-          message: 'TooManyRequests',
+          message: 'Rate limit hit',
           extraData: null,
         },
       };
+
+      return result;
     }
 
-    const data: SimulationResponse = await response.json();
+    const result: SimulationErrorResponse = {
+      error: {
+        type: ErrorType.GeneralError,
+        message: 'Unrecognized status code returned',
+        extraData: null,
+      },
+    };
 
-    if (!data.error) {
-      throw Error('unrecognized response from api');
-    }
-
-    return { type: ResponseType.Errored, error: data.error };
+    return result;
   } catch (e: any) {
-    return {
+    const result: SimulationErrorResponse = {
       error: {
         type: ErrorType.UnknownError,
-        message: 'An unknown error occurred',
-        extraData: e,
+        message: 'an unknown error has occurred',
+        extraData: null,
       },
-      type: ResponseType.Errored,
     };
+
+    return result;
   }
 };
 
@@ -114,7 +117,6 @@ function getURLForChainId(chainId: string): string {
     case ChainId.ArbitrumMainnet:
       return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
     default:
-      // throw ; TODO
       throw new Error('chain not supported');
   }
 }
@@ -134,7 +136,6 @@ function mapChainId(chainId: string): string {
     case ChainId.ArbitrumMainnet:
       return '42161';
     default:
-      // return '1'; TODO
       throw new Error('chain not supported');
   }
 }

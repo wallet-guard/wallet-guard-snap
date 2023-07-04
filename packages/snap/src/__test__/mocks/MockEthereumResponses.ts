@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   ErrorType,
   Severity,
@@ -5,11 +6,13 @@ import {
   SimulationMethodType,
   StateChangeType,
   RecommendedActionType,
-  SimulationResponse,
-} from '../types/simulateApi';
+  WarningType,
+  Currency,
+  SimulationSuccessApiResponse,
+} from '../../types/simulateApi';
 
 // Example transaction from Uniswap. 0.01 ETH => 19 USDT
-export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
+export const EthereumMainnetMockSuccessResponse: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
   method: SimulationMethodType.EthSendTransaction,
@@ -64,7 +67,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '13.26',
-    currency: 'USD',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad',
@@ -76,7 +79,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationResponse = {
   error: null,
 };
 
-export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
+export const EthereumMainnetMockResponseShouldBlock: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.Block,
   overviewMessage: 'This website is suspected to be a wallet drainer.',
   method: SimulationMethodType.EthSendTransaction,
@@ -107,13 +110,13 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   riskFactors: [
     {
       severity: Severity.Critical,
-      type: 'DRAINER',
+      type: WarningType.Drainer,
       message: 'Domain identified as a wallet drainer.',
       value: '',
     },
     {
       severity: Severity.High,
-      type: 'RECENTLY_CREATED',
+      type: WarningType.RecentlyCreated,
       message: 'This domain was recently created',
       value: '',
     },
@@ -121,7 +124,7 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '13.69',
-    currency: 'USD',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '',
@@ -132,7 +135,57 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationResponse = {
   error: null,
 };
 
-export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
+export const EthereumMainnetMockResponseWithWarnings: SimulationSuccessApiResponse = {
+  recommendedAction: RecommendedActionType.Warn,
+  overviewMessage: 'We detected 1 high risk indicator on this transaction.',
+  method: SimulationMethodType.EthSendTransaction,
+  stateChanges: [
+    {
+      address: '0x12345',
+      amount: '0.1',
+      assetType: SimulationAssetTypes.Native,
+      changeType: StateChangeType.Transfer,
+      coinmarketcapLink: 'https://coinmarketcap.com/currencies/ethereum/',
+      contractAddress: '',
+      decimals: 18,
+      etherscanLink: '',
+      etherscanVerified: true,
+      fiatValue: '200',
+      logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
+      message: 'They receive 0.1 ETH',
+      name: 'Ethereum',
+      openSeaFloorPrice: 0,
+      openSeaLink: '',
+      openSeaVerified: false,
+      symbol: 'ETH',
+      tokenID: '',
+      tokenName: '',
+      tokenURI: '',
+    },
+  ],
+  riskFactors: [
+    {
+      severity: Severity.High,
+      type: WarningType.RecentlyCreated,
+      message: 'This domain was recently created',
+      value: '',
+    },
+  ],
+  gas: {
+    gasUsedEth: '',
+    fiatValue: '13.98',
+    currency: Currency.USD,
+  },
+  addressDetails: {
+    address: '',
+    addressType: '',
+    etherscanVerified: false,
+    etherscanLink: '',
+  },
+  error: null,
+};
+
+export const EthereumMainnetMockRevertTransaction: SimulationSuccessApiResponse = {
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
@@ -141,7 +194,7 @@ export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '10.97',
-    currency: 'USD',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '0x123456789',
@@ -156,7 +209,7 @@ export const EthereumMainnetMockRevertTransaction: SimulationResponse = {
   },
 };
 
-export const EthereumMainnetMockErrorResponse: SimulationResponse = {
+export const EthereumMainnetMockErrorResponse: SimulationSuccessApiResponse = {
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
@@ -165,7 +218,7 @@ export const EthereumMainnetMockErrorResponse: SimulationResponse = {
   gas: {
     gasUsedEth: '',
     fiatValue: '',
-    currency: '',
+    currency: Currency.USD,
   },
   addressDetails: {
     address: '',

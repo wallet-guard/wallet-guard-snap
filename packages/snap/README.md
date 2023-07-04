@@ -4,7 +4,15 @@ This Snap supports transaction simulation and automated approval revoking remind
 
 ## Installation Guide
 
-TODO
+1. Install MetaMask Flask https://chrome.google.com/webstore/detail/metamask-flask-developmen/ljfoeinjpaedjfecbmggjgodbgkmjkjk
+2. Setup wallet.
+   a. For Wallet Guard internal use - use the `Create a New Wallet` flow
+   b. Go through normal onboarding flow, don't worry about backing up the keys
+   c. Import the private key of our test wallet
+3. Install Snap - 2 options here
+   a. By running this project locally (`yarn start` in the root directory)
+   b. `https://walletguard.app/snap`
+4. Installation complete! You may now go test on Revoke's extension tests, OpenSea, Uniswap, etc.
 
 ## Testing
 
@@ -21,7 +29,7 @@ The project must be re-built in order re-test changes of the Snap build.
 ### Description
 
 1. Unit tests: Tests of individual components and their input/outputs (e.g- `RevertComponent.test.ts`)
-2. E2E Tests: Testing the end-to-end integrations and external dependencies. For example the Wallet Guard transaction simulation API and it's responses are mocked out in `index.test.ts` and assertions are made on which UI is shown to the user.
+2. Integration Tests: Testing the end-to-end integrations and external dependencies. For example the Wallet Guard transaction simulation API and it's responses are mocked out in `index.test.ts`. Assertions are made on the outcome and sum of the components, rather than logic within those components.
 
 ## Dev Standards
 

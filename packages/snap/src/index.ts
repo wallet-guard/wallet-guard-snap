@@ -5,7 +5,6 @@ import {
 } from '@metamask/snaps-types';
 import { copyable, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
-import { ErrorType } from './types/simulateApi';
 import {
   StateChangesComponent,
   SimulationOverviewComponent,
@@ -13,7 +12,11 @@ import {
   showErrorComponent,
   RiskFactorsComponent,
 } from './components';
-import { SUPPORTED_CHAINS } from './utils/config';
+import {
+  CronJobMethods,
+  RpcRequestMethods,
+  SUPPORTED_CHAINS,
+} from './utils/config';
 import { ChainId } from './types/chains';
 import {
   getWalletAddress,
@@ -33,13 +36,9 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({
-  // TODO: this might be a bad pattern bc it's not easy
-  // for them to get their address with this popup open. maybe redirect them to walletguard.app/onboarding
-  request,
-}) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
   if (
-    request.method === 'updateAccount' &&
+    request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
   ) {
@@ -75,30 +74,22 @@ export const onTransaction: OnTransactionHandler = async ({
     return {
       content: showErrorComponent(response.error.type),
     };
-  } else if (!response.simulation || response.simulation?.error) {
-    // TODO: simulation.error might have a type here that we don't catch?
-    return {
-      content: showErrorComponent(ErrorType.GeneralError),
-    };
   }
 
   return {
     content: panel([
       SimulationOverviewComponent(
-        response.simulation.overviewMessage,
-        response.simulation.recommendedAction,
+        response.overviewMessage,
+        response.recommendedAction,
       ),
-      StateChangesComponent(
-        response.simulation.stateChanges,
-        response.simulation.gas,
-      ),
-      RiskFactorsComponent(response.simulation.riskFactors || []),
+      StateChangesComponent(response.stateChanges, response.gas),
+      RiskFactorsComponent(response.riskFactors || []),
     ]),
   };
 };
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
-  if (request.method === 'checkApprovals') {
+  if (request.method === CronJobMethods.CheckApprovals) {
     const walletAddress = await getWalletAddress();
 
     // User has not setup their approvals checking yet

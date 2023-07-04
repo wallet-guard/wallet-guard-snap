@@ -10,3 +10,11 @@ export enum LocalStorageKeys {
   WalletAddress = 'wg-WalletAddress',
   HasRemindedApprovals = 'wg-HasRemindedApprovals',
 }
+
+export enum RpcRequestMethods {
+  UpdateAccount = 'updateAccount',
+}
+
+export enum CronJobMethods {
+  CheckApprovals = 'checkApprovals',
+}
