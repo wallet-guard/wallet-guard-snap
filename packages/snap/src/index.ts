@@ -27,6 +27,7 @@ import {
 } from './utils/account';
 import { fetchApprovals } from './http/fetchApprovals';
 import { ApprovalRiskLevel } from './types/approvalsApi';
+import { add3DotsMiddle } from './utils/helpers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -60,6 +61,18 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     }
 
     updateWalletAddress(walletAddress);
+
+    snap.request({
+      method: 'snap_notify',
+      params: {
+        type: 'inApp',
+        message: `Welcome to the Wallet Guard snap! You will now receive transaction simulations within MetaMask and automated notifications for revoking approvals on your address ${add3DotsMiddle(
+          walletAddress,
+          8,
+        )}.
+        If you ever need to access your dashboard you can do so at dashboard.walletguard.app`,
+      },
+    });
   } else if (request.method === RpcRequestMethods.GetAccount) {
     const walletAddress = await getWalletAddress();
 
