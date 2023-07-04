@@ -12,8 +12,10 @@ import {
   RiskFactorsComponent,
   SimulationOverviewComponent,
   StateChangesComponent,
+  UnauthorizedComponent,
   UnsupportedChainComponent,
 } from '../components';
+import { CronJobMethods, RpcRequestMethods } from '../utils/config';
 import {
   ApprovalsWithOneHighRiskWarning,
   ArbitrumSuccessTokenSwap,
@@ -280,64 +282,108 @@ describe('onTransaction', () => {
 
     // TODO: This appears to be a bug with this testing library
     // https://github.com/MetaMask/snaps/discussions/1543
-    // eslint-disable-next-line jest/no-commented-out-tests
-    // it('should handle 403 unauthorized from API', async () => {
-    //   const snap = await installSnap();
+    // eslint-disable-next-line jest/no-commented-out-tests, jest/no-disabled-tests
+    it.skip('should handle 403 unauthorized from API', async () => {
+      const snap = await installSnap();
 
-    //   const { unmock } = await snap.mock({
-    //     url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
-    //     response: {
-    //       status: 403,
-    //       body: 'Forbidden',
-    //     },
-    //   });
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/eth/mainnet/transaction',
+        response: {
+          status: 403,
+          body: 'Forbidden',
+        },
+      });
 
-    //   const response = await snap.sendTransaction({
-    //     chainId: ChainId.EthereumMainnet,
-    //   });
+      const response = await snap.sendTransaction({
+        chainId: ChainId.EthereumMainnet,
+      });
 
-    //   const expected = UnauthorizedComponent();
+      const expected = UnauthorizedComponent();
 
-    //   expect(response).toRender(expected);
-    //   unmock();
-    // });
+      expect(response).toRender(expected);
+      unmock();
+    });
   });
 });
 
-// describe('onRpcRequest', () => {
-//   describe('accounts', () => {
-//     it('should block requests not from dashboard.walletguard.app', () => {
+describe('onRpcRequest', () => {
+  describe('accounts', () => {
+    it('should block requests not from dashboard.walletguard.app', async () => {
+      const snap = await installSnap();
 
-//     });
+      const initial = await snap.request({
+        origin: 'https://some-random.com',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
 
-//     it('updateAccount should update the users localstorage wallet address', () => {
+      expect(initial).toRespondWith(null);
 
-//     });
+      await snap.request({
+        method: RpcRequestMethods.UpdateAccount,
+        origin: 'https://some-random.com',
+        params: {
+          walletAddress: '0x1234567',
+        },
+      });
 
-//     it('get should update the users localstorage wallet address', () => {
+      const updated = await snap.request({
+        origin: 'https://some-random.com',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
 
-//     });
-//   });
-// });
+      expect(updated).toRespondWith(null);
+    });
+
+    it('updateAccount should update the users localstorage wallet address', async () => {
+      const snap = await installSnap();
+
+      const initial = await snap.request({
+        origin: 'https://dashboard.walletguard.app',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
+
+      expect(initial).toRespondWith(null);
+
+      await snap.request({
+        method: RpcRequestMethods.UpdateAccount,
+        origin: 'https://dashboard.walletguard.app',
+        params: {
+          walletAddress: '0x1234567',
+        },
+      });
+
+      const updated = await snap.request({
+        origin: 'https://dashboard.walletguard.app',
+        method: RpcRequestMethods.GetAccount,
+        params: {},
+      });
+
+      expect(updated).toRespondWith('0x1234567');
+    });
+  });
+});
 
 describe('onCronJob', () => {
   describe('checkApprovals', () => {
     it('should skip checking approvals if no wallet address exists', async () => {
       const snap = await installSnap();
 
-      const output = await snap.runCronjob({
-        method: 'checkApprovals',
+      const output = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
         params: {},
       });
 
-      expect(output.notifications).toHaveLength(0);
-      await snap.close();
+      const response = await output;
+      expect(response.notifications).toHaveLength(0);
     });
 
     it('should remind the user once to setup approval reminders', async () => {
       const snap = await installSnap();
       const output = snap.runCronjob({
-        method: 'checkApprovals',
+        method: CronJobMethods.CheckApprovals,
         params: {},
       });
 
@@ -354,31 +400,21 @@ describe('onCronJob', () => {
           copyable('dashboard.walletguard.app'),
         ]),
       );
-
-      await ui.ok();
-
-      // const result = await output;
-      // expect(result).toSendNotification('', NotificationType.InApp);
     });
-
-    // it('should skip reminding the user if it has already reminded', async () => {
-    //   const snap = await installSnap();
-
-    // });
 
     it('should fetch approvals and notify the user of high risk open approvals', async () => {
       const snap = await installSnap();
 
       await snap.request({
         origin: 'https://dashboard.walletguard.app',
-        method: 'updateAccount',
+        method: RpcRequestMethods.UpdateAccount,
         params: {
           walletAddress: '0x123',
         },
       });
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/approvals/eth/0x123',
+        url: 'https://api.walletguard.app/snaps/v0/approvals/?address=0x123',
         response: {
           status: 200,
           body: JSON.stringify(ApprovalsWithOneHighRiskWarning),
@@ -387,26 +423,26 @@ describe('onCronJob', () => {
       });
 
       const output = snap.runCronjob({
-        method: 'checkApprovals',
+        method: CronJobMethods.CheckApprovals,
         params: {},
       });
 
       const response = await output;
 
       expect(response.notifications).toHaveLength(1);
-      // expect(response).toSendNotification(
-      //   `Warning: You have 1 open approval which can put your assets at risk. Head to https://dashboard.walletguard.app/0x123 to remediate`,
-      //   NotificationType.InApp,
-      // );
+      expect(response).toSendNotification(
+        `Warning: You have 1 open approval which can put your assets at risk. Head to https://dashboard.walletguard.app/0x123 to remediate`,
+        NotificationType.InApp,
+      );
 
       await snap.close();
       unmock();
     });
 
-    // it('should fetch approvals and skip notifying if there are no high risk approvals', async () => {
-    //   const snap = await installSnap();
+    it('should fetch approvals and skip notifying if there are no high risk approvals', async () => {
+      const snap = await installSnap();
 
-    // });
+    });
 
     // TODO
     // it('should skip notifying the user if their approvals have not changed', () => {

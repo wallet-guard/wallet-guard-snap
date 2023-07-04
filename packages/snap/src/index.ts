@@ -48,7 +48,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   }
 
   if (
-    // TODO: Consider adding a getAccount method for the dashboard to hook into & manage state with
     request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
@@ -61,17 +60,19 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
     updateWalletAddress(walletAddress);
 
-    snap.request({
-      method: 'snap_notify',
-      params: {
-        type: 'inApp',
-        message: `Welcome to the Wallet Guard snap! You will now receive transaction simulations within MetaMask and automated notifications for revoking approvals on your address ${add3DotsMiddle(
-          walletAddress,
-          8,
-        )}.
+    if (walletAddress) {
+      snap.request({
+        method: 'snap_notify',
+        params: {
+          type: 'inApp',
+          message: `Welcome to the Wallet Guard snap! You will now receive transaction simulations within MetaMask and automated notifications for revoking approvals on your address ${add3DotsMiddle(
+            walletAddress,
+            8,
+          )}.
         If you ever need to access your dashboard you can do so at dashboard.walletguard.app`,
-      },
-    });
+        },
+      });
+    }
   } else if (request.method === RpcRequestMethods.GetAccount) {
     const walletAddress = await getWalletAddress();
 
