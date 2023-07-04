@@ -30,7 +30,7 @@ export type Token = {
 
 export type AccountDetail = {
   address: string;
-  lastNotificationTimestamp: string;
+  // lastNotificationTimestamp: string;
   approvals: Approval[];
   tokens: Token[];
   errors: ApprovalError[];

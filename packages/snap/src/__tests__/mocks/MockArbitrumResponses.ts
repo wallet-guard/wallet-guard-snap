@@ -3,11 +3,11 @@ import {
   RecommendedActionType,
   SimulationAssetTypes,
   SimulationMethodType,
-  SimulationResponse,
+  SimulationSuccessApiResponse,
   StateChangeType,
 } from '../../types/simulateApi';
 
-export const ArbitrumSuccessTokenSwap: SimulationResponse = {
+export const ArbitrumSuccessTokenSwap: SimulationSuccessApiResponse = {
   addressDetails: {
     address: '0x3fc91a3afd70395cd496c647d5a6cc9d4b2b7fad',
     addressType: 'CONTRACT',

@@ -3,15 +3,15 @@ import { RecommendedActionType } from '../types/simulateApi';
 
 export const SimulationOverviewComponent = (
   overview: string,
-  warningType: RecommendedActionType,
+  recommendedAction: RecommendedActionType,
 ): Panel => {
-  if (!overview || warningType === RecommendedActionType.None) {
+  if (!overview || recommendedAction === RecommendedActionType.None) {
     return panel([]);
   }
 
-  if (warningType === RecommendedActionType.Warn) {
+  if (recommendedAction === RecommendedActionType.Warn) {
     return panel([heading('Heads up'), text(overview), divider()]);
-  } else if (warningType === RecommendedActionType.Block) {
+  } else if (recommendedAction === RecommendedActionType.Block) {
     return panel([heading('🚨 Warning'), text(overview), divider()]);
   }
 

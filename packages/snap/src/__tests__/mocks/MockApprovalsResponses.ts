@@ -16,7 +16,7 @@ export const ApprovalsWithOneHighRiskWarning: AccountDetail = {
       tokenID: '5555',
       ercType: ERCType.ERC1155,
       approvalType: ApprovalChangeType.Approval,
-      amount: '1',
+      allowance: '1',
       riskLevel: ApprovalRiskLevel.High,
     },
   ],

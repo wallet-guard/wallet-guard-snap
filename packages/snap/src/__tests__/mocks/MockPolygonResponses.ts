@@ -2,12 +2,12 @@ import {
   SimulationAssetTypes,
   StateChangeType,
   RecommendedActionType,
-  SimulationResponse,
   Currency,
   SimulationMethodType,
+  SimulationSuccessApiResponse,
 } from '../../types/simulateApi';
 
-export const PolygonSuccessMultiple1155OpenSea: SimulationResponse = {
+export const PolygonSuccessMultiple1155OpenSea: SimulationSuccessApiResponse = {
   addressDetails: {
     address: '0x00000000000000adc04c56bf30ac9d3c0aaf14dc',
     addressType: 'CONTRACT',
