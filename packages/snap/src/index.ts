@@ -61,7 +61,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     updateWalletAddress(walletAddress);
 
     if (walletAddress) {
-      snap.request({
+      await snap.request({
         method: 'snap_notify',
         params: {
           type: 'inApp',
@@ -165,7 +165,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     ).length;
 
     if (highRiskApprovalsLength > 0) {
-      snap.request({
+      await snap.request({
         method: 'snap_notify',
         params: {
           type: 'inApp',
@@ -175,5 +175,6 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
         },
       });
     }
+    return null;
   }
 };

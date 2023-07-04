@@ -362,6 +362,7 @@ describe('onRpcRequest', () => {
       });
 
       expect(updated).toRespondWith('0x1234567');
+      expect(updated).toSendNotification('kj;l', 'inApp');
     });
   });
 });
@@ -371,13 +372,12 @@ describe('onCronJob', () => {
     it('should skip checking approvals if no wallet address exists', async () => {
       const snap = await installSnap();
 
-      const output = snap.runCronjob({
+      const output = await snap.runCronjob({
         method: CronJobMethods.CheckApprovals,
-        params: {},
       });
 
-      const response = await output;
-      expect(response.notifications).toHaveLength(0);
+      expect(output.notifications).toHaveLength(0);
+      await snap.close();
     });
 
     it('should remind the user once to setup approval reminders', async () => {
@@ -435,14 +435,14 @@ describe('onCronJob', () => {
         NotificationType.InApp,
       );
 
-      await snap.close();
       unmock();
+      await snap.close();
     });
 
-    it('should fetch approvals and skip notifying if there are no high risk approvals', async () => {
-      const snap = await installSnap();
+    // it('should fetch approvals and skip notifying if there are no high risk approvals', async () => {
+    //   const snap = await installSnap();
 
-    });
+    // });
 
     // TODO
     // it('should skip notifying the user if their approvals have not changed', () => {
