@@ -12,6 +12,7 @@ export enum LocalStorageKeys {
 }
 
 export enum RpcRequestMethods {
+  GetAccount = 'getAccount',
   UpdateAccount = 'updateAccount',
 }
 

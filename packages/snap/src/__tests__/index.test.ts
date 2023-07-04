@@ -305,9 +305,21 @@ describe('onTransaction', () => {
   });
 });
 
-describe('onRpcRequest', () => {
-  // TODO
-});
+// describe('onRpcRequest', () => {
+//   describe('accounts', () => {
+//     it('should block requests not from dashboard.walletguard.app', () => {
+
+//     });
+
+//     it('updateAccount should update the users localstorage wallet address', () => {
+
+//     });
+
+//     it('get should update the users localstorage wallet address', () => {
+
+//     });
+//   });
+// });
 
 describe('onCronJob', () => {
   describe('checkApprovals', () => {

@@ -42,10 +42,13 @@ import { ApprovalRiskLevel } from './types/approvalsApi';
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
-}) => {
+}): Promise<any> => {
+  if (origin !== 'https://dashboard.walletguard.app') {
+    return;
+  }
+
   if (
     // TODO: Consider adding a getAccount method for the dashboard to hook into & manage state with
-    origin === 'https://dashboard.walletguard.app' &&
     request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
@@ -57,6 +60,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     }
 
     updateWalletAddress(walletAddress);
+  } else if (request.method === RpcRequestMethods.GetAccount) {
+    const walletAddress = await getWalletAddress();
+
+    // eslint-disable-next-line consistent-return
+    return walletAddress;
   }
 };
 
@@ -78,16 +86,21 @@ export const onTransaction: OnTransactionHandler = async ({
     transactionOrigin,
   );
 
-  if (response.error) {
+  if (response.error || response.simulation?.error) {
     return {
-      content: showErrorComponent(response.error.type),
-    };
-  } else if (!response.simulation || response.simulation?.error) {
-    // TODO: simulation.error might have a type here that we don't catch?
-    return {
-      content: showErrorComponent(ErrorType.GeneralError),
+      content: showErrorComponent(
+        response.simulation?.error?.type ||
+        response.error?.type ||
+        ErrorType.GeneralError
+      ),
     };
   }
+  //  else if (!response.simulation || response.simulation?.error) {
+  //   // TODO: simulation.error might have a type here that we don't catch?
+  //   return {
+  //     content: showErrorComponent(ErrorType.GeneralError),
+  //   };
+  // }
 
   return {
     content: panel([
