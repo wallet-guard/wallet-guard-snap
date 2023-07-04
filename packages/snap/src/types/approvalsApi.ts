@@ -28,7 +28,7 @@ export type Token = {
   logo: string;
 };
 
-export type ApprovalReponse = {
+export type AccountDetail = {
   address: string;
   approvals: Approval[];
   tokens: Token[];

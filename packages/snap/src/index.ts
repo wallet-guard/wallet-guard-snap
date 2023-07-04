@@ -91,7 +91,7 @@ export const onTransaction: OnTransactionHandler = async ({
       content: showErrorComponent(
         response.simulation?.error?.type ||
         response.error?.type ||
-        ErrorType.GeneralError
+        ErrorType.GeneralError,
       ),
     };
   }
@@ -148,7 +148,11 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
       return;
     }
 
-    const approvals = await fetchApprovals(walletAddress as string);
+    const accountDetails = await fetchApprovals(walletAddress as string);
+
+    if (!accountDetails) {
+      return;
+    }
 
     // TODO: consider storing a hash in localstorage here so that we don't keep on reminding
     // the user of the same approvals (I would get annoyed at this since there's no value at risk in my wallet)
@@ -156,17 +160,18 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     // TODO: Consider adding a settings panel to dashboard.walletguard.app where they can
     // 1: enable/disable simulation or revoking 2: update/remove the connected wallet for approval reminders
 
-    const highRiskApprovals = approvals.approvals.filter(
+    const highRiskApprovalsLength = accountDetails.approvals.filter(
       (approval) => approval.riskLevel === ApprovalRiskLevel.High,
-    );
+    ).length;
 
-    if (highRiskApprovals.length > 0) {
+    if (highRiskApprovalsLength > 0) {
       snap.request({
         method: 'snap_notify',
         params: {
           type: 'inApp',
-          message: `Warning: You have ${approvals.approvals.length} open ${approvals.approvals.length === 1 ? 'approval' : 'approvals'
-            } which can put your assets at risk. Head to https://dashboard.walletguard.app/${walletAddress} to remediate`,
+          message: `Warning: You have ${highRiskApprovalsLength} open ${highRiskApprovalsLength === 1 ? 'approval' : 'approvals'
+            }
+           which can put your assets at risk. Head to https://dashboard.walletguard.app/${walletAddress} to remediate`,
         },
       });
     }

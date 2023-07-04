@@ -1,12 +1,12 @@
 import {
   ApprovalChangeType,
-  ApprovalReponse,
+  AccountDetail,
   ApprovalRiskLevel,
   ERCType,
 } from '../../types/approvalsApi';
 import { ChainId } from '../../types/chains';
 
-export const ApprovalsWithOneHighRiskWarning: ApprovalReponse = {
+export const ApprovalsWithOneHighRiskWarning: AccountDetail = {
   address: '0x123',
   approvals: [
     {
