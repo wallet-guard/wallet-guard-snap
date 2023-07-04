@@ -8,7 +8,6 @@
   },
   "source": {
     "shasum": "5O7gBrugcN4v/5OTRUJlWm77D5TTmN+tnnORNqWeQNo=",
-
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
