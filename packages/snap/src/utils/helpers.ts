@@ -1,8 +1,8 @@
 import { AccountDetail, ApprovalRiskLevel } from '../types/approvalsApi';
 
 export const isDashboard = (url: string): boolean => {
-  // const regex = /^https:\/\/dashboard\.walletguard\.app(\/.*)?$/u;
-  const regex = /http:\/\/localhost:8000/u;
+  const regex = /^https:\/\/dashboard\.walletguard\.app(\/.*)?$/u;
+  // const regex = /http:\/\/localhost:8000/u;
 
   return regex.test(url);
 };

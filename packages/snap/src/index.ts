@@ -3,7 +3,7 @@ import {
   OnRpcRequestHandler,
   OnTransactionHandler,
 } from '@metamask/snaps-types';
-import { copyable, divider, heading, panel, text } from '@metamask/snaps-ui';
+import { copyable, heading, panel, text } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
 import {
   StateChangesComponent,
@@ -25,7 +25,6 @@ import {
   updateWalletAddress,
 } from './utils/account';
 import { fetchApprovals } from './http/fetchApprovals';
-import { ApprovalRiskLevel } from './types/approvalsApi';
 import { generateApprovalsMessage, isDashboard } from './utils/helpers';
 
 /**
@@ -65,7 +64,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         method: 'snap_notify',
         params: {
           type: 'inApp',
-          message: `You have open approvals with $1,000,251 at risk`, // TODO: assert that this is <50 chars and if it is remove the count
+          message: `Welcome! Dashboard URL: dashboard.walletguard.app`,
         },
       });
     }
@@ -118,6 +117,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     const walletAddress = await getWalletAddress();
 
     // User has not setup their approvals checking yet
+    // TODO: probably move this to day 2
     if (!walletAddress) {
       const shouldRemind = await shouldRemindApprovals();
 
@@ -149,12 +149,6 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     if (!accountDetails) {
       return;
     }
-
-    // TODO: consider storing a hash in localstorage here so that we don't keep on reminding
-    // the user of the same approvals (I would get annoyed at this since there's no value at risk in my wallet)
-
-    // TODO: Consider adding a settings panel to dashboard.walletguard.app where they can
-    // 1: enable/disable simulation or revoking 2: update/remove the connected wallet for approval reminders
 
     const approvalsWarning = generateApprovalsMessage(accountDetails);
 
