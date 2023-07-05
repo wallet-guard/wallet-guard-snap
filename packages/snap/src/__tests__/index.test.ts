@@ -18,6 +18,7 @@ import {
 import { CronJobMethods, RpcRequestMethods } from '../utils/config';
 import {
   ApprovalsWithOneHighRiskWarning,
+  ApprovalsWithZeroHighRiskWarning,
   ArbitrumSuccessTokenSwap,
   EthereumMainnetMockErrorResponse,
   EthereumMainnetMockInsufficientFunds,
@@ -40,7 +41,6 @@ describe('onTransaction', () => {
       const expected = UnsupportedChainComponent();
 
       expect(response).toRender(expected);
-      await snap.close();
     });
 
     it('should display transaction simulations for ETH Mainnet', async () => {
@@ -349,7 +349,7 @@ describe('onRpcRequest', () => {
 
       expect(initial).toRespondWith(null);
 
-      await snap.request({
+      const updateAccountResult = await snap.request({
         method: RpcRequestMethods.UpdateAccount,
         origin: 'https://dashboard.walletguard.app',
         params: {
@@ -366,25 +366,17 @@ describe('onRpcRequest', () => {
       expect(updated).toRespondWith(
         '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
       );
-      // TODO: check for notification here. I don't think the library supports this functionality yet
+      expect(updateAccountResult.notifications).toHaveLength(1);
+      expect(updateAccountResult).toSendNotification(
+        'Welcome! Dashboard URL: dashboard.walletguard.app',
+        NotificationType.InApp,
+      );
     });
   });
 });
 
-/*
 describe('onCronJob', () => {
   describe('checkApprovals', () => {
-    it('should skip checking approvals if no wallet address exists', async () => {
-      const snap = await installSnap();
-
-      const output = await snap.runCronjob({
-        method: CronJobMethods.CheckApprovals,
-      });
-
-      expect(output.notifications).toHaveLength(0);
-      await snap.close();
-    });
-
     it('should remind the user once to setup approval reminders', async () => {
       const snap = await installSnap();
       const output = snap.runCronjob({
@@ -405,6 +397,7 @@ describe('onCronJob', () => {
           copyable('dashboard.walletguard.app'),
         ]),
       );
+      await ui.ok();
     });
 
     it('should fetch approvals and notify the user of high risk open approvals', async () => {
@@ -436,18 +429,43 @@ describe('onCronJob', () => {
 
       expect(response.notifications).toHaveLength(1);
       expect(response).toSendNotification(
-        `Warning: You have 1 open approval which can put your assets at risk.Head to https://dashboard.walletguard.app/0x123 to remediate`,
+        'You have 1 open approval with $500 at risk',
         NotificationType.InApp,
       );
 
       unmock();
-      await snap.close();
     });
 
-    // it('should fetch approvals and skip notifying if there are no high risk approvals', async () => {
-    //   const snap = await installSnap();
+    it('should fetch approvals and skip notifying if there are no high risk approvals', async () => {
+      const snap = await installSnap();
 
-    // });
+      await snap.request({
+        origin: 'https://dashboard.walletguard.app',
+        method: RpcRequestMethods.UpdateAccount,
+        params: {
+          walletAddress: '0x123',
+        },
+      });
+
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/approvals/?address=0x123',
+        response: {
+          status: 200,
+          body: JSON.stringify(ApprovalsWithZeroHighRiskWarning),
+          contentType: 'application/json',
+        },
+      });
+
+      const output = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
+        params: {},
+      });
+
+      const response = await output;
+
+      expect(response.notifications).toHaveLength(0);
+      unmock();
+    });
 
     // TODO
     // it('should skip notifying the user if their approvals have not changed', () => {
@@ -456,4 +474,3 @@ describe('onCronJob', () => {
     // });
   });
 });
-*/
