@@ -2,7 +2,6 @@ import { AccountDetail, ApprovalRiskLevel } from '../types/approvalsApi';
 
 export const isDashboard = (url: string): boolean => {
   const regex = /^https:\/\/dashboard\.walletguard\.app(\/.*)?$/u;
-  // const regex = /http:\/\/localhost:8000/u;
 
   return regex.test(url);
 };
@@ -46,4 +45,14 @@ export const generateApprovalsMessage = (
   }
 
   return outputWarning;
+};
+
+export const formatToEightDecimals = (inputString: string): string => {
+  const numberValue = parseFloat(inputString);
+
+  if (isNaN(numberValue)) {
+    return '0';
+  }
+
+  return Number(numberValue.toFixed(8)).toString();
 };

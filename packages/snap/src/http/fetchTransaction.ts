@@ -51,6 +51,7 @@ export const fetchTransaction = async (
     if (response.status === 200) {
       const data: SimulationSuccessApiResponse = await response.json();
 
+<<<<<<< HEAD
       // TODO: Hardcode for now until we get the real data from the API
       // data.gas = {
       //   gasUsedEth: '',
@@ -58,6 +59,8 @@ export const fetchTransaction = async (
       //   fiatValue: '13.50',
       // };
 
+=======
+>>>>>>> 9fb6423e212024eb488e7b573fcfae8f4602fdf5
       return data;
     } else if (response.status === 403) {
       const result: SimulationErrorResponse = {

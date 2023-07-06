@@ -2,9 +2,9 @@ import { panel, heading, text, Panel } from '@metamask/snaps-ui';
 
 export const UnsupportedChainComponent = (): Panel => {
   return panel([
-    heading('Unsupported chain'),
+    heading('More chains coming soon'),
     text(
-      'We will be adding support for more chains very soon. Head to our Discord to suggest which one we support next!',
+      'Currently Wallet Guard supports ETH, Polygon, and Arbitrum with more chains being added soon. In the meanwhile review this transaction in the Details tab',
     ),
   ]);
 };
