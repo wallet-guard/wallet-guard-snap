@@ -21,11 +21,15 @@ export const formatFiatValue = (
   return `$${fiatValueFormatted}`;
 };
 
-// generateApprovalsMessage creates the message to be displayed in snap_notify. It asserts
+// generateApprovalsMessage creates the message to be displayed in snap_notify. It ensures
 // that the message must be < 50 characters.
 export const generateApprovalsMessage = (
   accountDetails: ApprovalNotification,
 ): string => {
+  if (!accountDetails.fiatValueAtRisk || !accountDetails.highRiskApprovals) {
+    return '';
+  }
+
   const { highRiskApprovals } = accountDetails;
   const approvals = highRiskApprovals === 1 ? 'approval' : 'approvals';
 
