@@ -3,7 +3,7 @@ import { Currency, SimulatedGas } from '../../types/simulateApi';
 
 export const GasComponent = (gas: SimulatedGas): Panel => {
   const gasValue = `${mapCurrencyToPrefix(gas.currency)}${gas.fiatValue}`;
-  return panel([text(`**Gas** *(estimate)*: ${gasValue}`)]);
+  return panel([text(`**Gas** *(estimate)*: ${Number(gasValue).toFixed(2)}`)]);
 };
 
 // eslint-disable-next-line jsdoc/require-jsdoc
