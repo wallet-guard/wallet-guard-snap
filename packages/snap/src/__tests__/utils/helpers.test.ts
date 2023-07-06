@@ -106,7 +106,6 @@ describe('generateApprovalsMessage', () => {
     expect(result).toBe('You have 2 open approvals with $1,000 at risk');
   });
 
-  // TODO: Fix this test
   it('should return an empty string when fiatValueAtRisk or highRiskApprovals is zero', () => {
     let result = generateApprovalsMessage({
       openApprovals: 1,
