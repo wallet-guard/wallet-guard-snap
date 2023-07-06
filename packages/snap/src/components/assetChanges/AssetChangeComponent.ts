@@ -13,7 +13,7 @@ import {
   StateChange,
   StateChangeType,
 } from '../../types/simulateApi';
-import { formatToEightDecimals } from '../../utils/helpers';
+import { formatFiatValue, formatToEightDecimals } from '../../utils/helpers';
 import { GasComponent } from './GasComponent';
 
 // getAssetChangeText is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
@@ -25,7 +25,7 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
     : `${stateChange.symbol} #${stateChange.tokenID}`;
 
   const fiatValue = stateChange.fiatValue
-    ? ` ($${Number(stateChange.fiatValue).toFixed(2)})`
+    ? ` (${formatFiatValue(stateChange.fiatValue, 2, 2)})`
     : '';
 
   switch (stateChange.assetType) {

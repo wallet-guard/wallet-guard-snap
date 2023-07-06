@@ -15,7 +15,7 @@ import { NoStateChangesComponent, AssetChangeComponent } from '.';
  */
 export const StateChangesComponent = (
   stateChanges: StateChange[] | null,
-  gas: SimulatedGas,
+  gas?: SimulatedGas,
 ): Panel => {
   if (stateChanges === null) {
     return NoStateChangesComponent();

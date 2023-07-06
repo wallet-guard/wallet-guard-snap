@@ -94,7 +94,7 @@ export const EthereumMainnetMockResponseShouldBlock: SimulationSuccessApiRespons
       decimals: 18,
       etherscanLink: '',
       etherscanVerified: true,
-      fiatValue: '200',
+      fiatValue: '200.00',
       logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
       message: 'They receive 0.1 ETH',
       name: 'Ethereum',

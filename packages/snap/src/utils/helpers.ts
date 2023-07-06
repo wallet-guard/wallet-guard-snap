@@ -1,16 +1,24 @@
 import { AccountDetail, ApprovalRiskLevel } from '../types/approvalsApi';
 
+// isDashboard is a security check to ensure the user is interacting with the snap from the official
+// Wallet Guard Dashboard
 export const isDashboard = (url: string): boolean => {
   const regex = /^https:\/\/dashboard\.walletguard\.app(\/.*)?$/u;
 
   return regex.test(url);
 };
 
-// Adds commas and removes any decimal places
-export const formatFiatValue = (fiatValue: string): string => {
-  return Number(fiatValue).toLocaleString('en-US', {
-    maximumFractionDigits: 0,
+// Adds commas, $ sign, and formats the decimals according to input. Only supports USD for now
+export const formatFiatValue = (
+  fiatValue: string,
+  minDecimals: number,
+  maxDecimals: number,
+): string => {
+  const fiatValueFormatted = Number(fiatValue).toLocaleString('en-US', {
+    minimumFractionDigits: minDecimals,
+    maximumFractionDigits: maxDecimals,
   });
+  return `$${fiatValueFormatted}`;
 };
 
 // generateApprovalsMessage creates the message to be displayed in snap_notify. It asserts
@@ -28,14 +36,18 @@ export const generateApprovalsMessage = (
 
   const approvals = highRiskApprovalsLength === 1 ? 'approval' : 'approvals';
 
-  let outputWarning = `You have ${highRiskApprovalsLength} open ${approvals} with $${formatFiatValue(
+  let outputWarning = `You have ${highRiskApprovalsLength} open ${approvals} with ${formatFiatValue(
     accountDetails.totalAssetsAtRisk,
+    0,
+    0,
   )} at risk`;
 
   // Remove the count of approvals if it is too many characters
   if (outputWarning.length > 49) {
-    outputWarning = `You have open ${approvals} with $${formatFiatValue(
+    outputWarning = `You have open ${approvals} with ${formatFiatValue(
       accountDetails.totalAssetsAtRisk,
+      0,
+      0,
     )} at risk`;
   }
 
@@ -47,6 +59,7 @@ export const generateApprovalsMessage = (
   return outputWarning;
 };
 
+// formatToEightDecimals is used for formatting token values
 export const formatToEightDecimals = (inputString: string): string => {
   const numberValue = parseFloat(inputString);
 
