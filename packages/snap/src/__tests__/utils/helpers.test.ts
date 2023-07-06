@@ -84,4 +84,9 @@ describe('formatFiatValue', () => {
     const result = formatFiatValue('27.50742181116581', 0);
     expect(result).toBe('$28');
   });
+
+  it('should format large fiat values', () => {
+    const result = formatFiatValue('123456789.123', 2);
+    expect(result).toBe('$123,456,789.12');
+  });
 });
