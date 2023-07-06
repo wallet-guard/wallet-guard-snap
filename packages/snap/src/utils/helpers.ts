@@ -8,17 +8,21 @@ export const isDashboard = (url: string): boolean => {
   return regex.test(url);
 };
 
+export const numberWithCommas = (x: string): string => {
+  return x.replace(/\B(?=(\d{3})+(?!\d))/gu, ',');
+};
+
 // Adds commas, $ sign, and formats the decimals according to input. Only supports USD for now
 export const formatFiatValue = (
   fiatValue: string,
-  minDecimals: number,
   maxDecimals: number,
 ): string => {
-  const fiatValueFormatted = Number(fiatValue).toLocaleString('en-US', {
-    minimumFractionDigits: minDecimals,
-    maximumFractionDigits: maxDecimals,
-  });
-  return `$${fiatValueFormatted}`;
+  const fiatWithRoundedDecimals = Number(fiatValue)
+    .toFixed(maxDecimals) // round to maxDecimals
+    .replace(/\.00$/u, ''); // removes 00 if it exists
+
+  const fiatWithCommas = numberWithCommas(fiatWithRoundedDecimals); // add commas
+  return `$${fiatWithCommas}`;
 };
 
 // generateApprovalsMessage creates the message to be displayed in snap_notify. It ensures
@@ -36,14 +40,12 @@ export const generateApprovalsMessage = (
   let outputWarning = `You have ${highRiskApprovals} open ${approvals} with ${formatFiatValue(
     accountDetails.fiatValueAtRisk,
     0,
-    0,
   )} at risk`;
 
   // Remove the count of approvals if it is too many characters
   if (outputWarning.length > 49) {
     outputWarning = `You have open ${approvals} with ${formatFiatValue(
       accountDetails.fiatValueAtRisk,
-      0,
       0,
     )} at risk`;
   }

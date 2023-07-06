@@ -429,7 +429,7 @@ describe('onCronJob', () => {
 
       expect(response.notifications).toHaveLength(1);
       expect(response).toSendNotification(
-        'You have 14 open approvals with $123112 at risk', // $123112 should format as $123,112 in prod build
+        'You have 14 open approvals with $123,112 at risk',
         NotificationType.InApp,
       );
 
