@@ -117,7 +117,6 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
     const walletAddress = await getWalletAddress();
 
     // User has not setup their approvals checking yet
-    // TODO: probably move this to day 2
     if (!walletAddress) {
       const shouldRemind = await shouldRemindApprovals();
 
@@ -144,7 +143,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
       return;
     }
 
-    const approvalNotification = await fetchApprovals(walletAddress as string);
+    const approvalNotification = await fetchApprovals(walletAddress);
 
     if (!approvalNotification) {
       return;
