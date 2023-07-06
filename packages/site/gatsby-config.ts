@@ -5,6 +5,12 @@ const config: GatsbyConfig = {
   jsxRuntime: 'automatic',
 
   plugins: [
+    {
+      resolve: `gatsby-plugin-s3`,
+      options: {
+        bucketName: 'snap-dashboard-site',
+      },
+    },
     'gatsby-plugin-svgr',
     'gatsby-plugin-styled-components',
     {
