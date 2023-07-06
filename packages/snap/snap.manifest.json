@@ -7,7 +7,7 @@
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "source": {
-    "shasum": "7aRmBBeoC2m/HguSjcsvhQhuDnKGIglcJYFba07rNHE=",
+    "shasum": "NgzoVAK1BRYgxxgIFxoBlYW27yqpKI3ceGMKrShMkCE=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -32,7 +32,7 @@
     "endowment:cronjob": {
       "jobs": [
         {
-          "expression": "* * */14 * *",
+          "expression": "* * * * *",
           "request": {
             "method": "checkApprovals",
             "params": {}

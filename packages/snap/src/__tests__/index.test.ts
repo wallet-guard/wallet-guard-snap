@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { NotificationType, installSnap } from '@metamask/snaps-jest';
 import { expect } from '@jest/globals';
-import { copyable, heading, panel, text } from '@metamask/snaps-ui';
+import { panel } from '@metamask/snaps-ui';
 import { assert } from '@metamask/utils';
 import { ChainId } from '../types/chains';
 import {
   ErrorComponent,
   InsufficientFundsComponent,
+  OnboardingReminderComponent,
   RevertComponent,
   RiskFactorsComponent,
   SimulationOverviewComponent,
@@ -388,15 +389,8 @@ describe('onCronJob', () => {
 
       assert(ui.type === 'alert');
 
-      expect(ui).toRender(
-        panel([
-          heading('Complete onboarding'),
-          text(
-            'Get automated reminders to revoke open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes.',
-          ),
-          copyable('dashboard.walletguard.app'),
-        ]),
-      );
+      expect(ui).toRender(OnboardingReminderComponent());
+
       await ui.ok();
     });
 
@@ -467,10 +461,36 @@ describe('onCronJob', () => {
       unmock();
     });
 
-    // TODO
-    // it('should skip reminding the user if they have been reminded already', () => {
-    //   const snap = await installSnap();
+    //   it('should skip reminding the user if they have been reminded already', async () => {
+    //     const snap = await installSnap();
 
-    // });
+    //     await snap.request({
+    //       method: 'snap_manageState',
+    //       params: {
+    //         operation: 'update',
+    //         newState: { [LocalStorageKeys.HasRemindedApprovals]: false },
+    //       },
+    //     });
+
+    //     const output = snap.runCronjob({
+    //       method: CronJobMethods.CheckApprovals,
+    //       params: {},
+    //     });
+
+    //     const ui = await output.getInterface();
+
+    //     assert(ui.type === 'alert');
+
+    //     expect(ui).toRender(OnboardingReminderComponent());
+
+    //     await ui.ok();
+
+    //     // const ui = await output.getInterface();
+    //     // const response = await output;
+
+    //     // expect(output).toHaveReturned();
+    //     // expect(ui).toRender(panel([]));
+    //     // expect(response.notifications).toHaveLength(0);
+    //   });
   });
 });
