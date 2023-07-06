@@ -32,7 +32,7 @@
     "endowment:cronjob": {
       "jobs": [
         {
-          "expression": "* * * * *",
+          "expression": "0 0 */14 * *",
           "request": {
             "method": "checkApprovals",
             "params": {}
