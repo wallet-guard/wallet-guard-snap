@@ -468,7 +468,7 @@ describe('onCronJob', () => {
     });
 
     // TODO
-    // it('should skip notifying the user if their approvals have not changed', () => {
+    // it('should skip reminding the user if they have been reminded already', () => {
     //   const snap = await installSnap();
 
     // });

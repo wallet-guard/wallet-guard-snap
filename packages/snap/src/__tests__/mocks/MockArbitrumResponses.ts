@@ -29,7 +29,7 @@ export const ArbitrumSuccessTokenSwap: SimulationSuccessApiResponse = {
       decimals: 18,
       etherscanLink: '',
       etherscanVerified: true,
-      fiatValue: '31.246416280437604',
+      fiatValue: '31.25',
       logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
       message: 'They receive 0.015894958776922639 ETH',
       name: 'Ethereum',
@@ -52,7 +52,7 @@ export const ArbitrumSuccessTokenSwap: SimulationSuccessApiResponse = {
       etherscanLink:
         'https://etherscan.io/address/0x912ce59144191c1204e64559fe8253a0e49e6548',
       etherscanVerified: true,
-      fiatValue: '0.6889414076956722',
+      fiatValue: '0.69',
       logo: 'https://static.alchemyapi.io/images/assets/11841.png',
       message: 'You receive 26.644880719194217218 ARB',
       name: 'Arbitrum',

@@ -13,13 +13,11 @@ import {
   StateChange,
   StateChangeType,
 } from '../../types/simulateApi';
-import { formatFiatValue, formatToEightDecimals } from '../../utils/helpers';
+import { formatFiatValue } from '../../utils/helpers';
 import { GasComponent } from './GasComponent';
 
 // getAssetChangeText is a helper function to process a single state change. TransferComponent and ReceiveComponent are aliases for processStateChange.
 const getAssetChangeText = (stateChange: StateChange): Text => {
-  const amount = formatToEightDecimals(stateChange.amount);
-
   const tokenName = stateChange.tokenName
     ? stateChange.tokenName
     : `${stateChange.symbol} #${stateChange.tokenID}`;
@@ -31,7 +29,9 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
   switch (stateChange.assetType) {
     case SimulationAssetTypes.Native:
     case SimulationAssetTypes.ERC20:
-      return text(`**${amount} ${stateChange.symbol}**${fiatValue}`);
+      return text(
+        `**${stateChange.amount} ${stateChange.symbol}**${fiatValue}`,
+      );
     case SimulationAssetTypes.ERC721:
       return text(`**${tokenName}**${fiatValue}`);
     case SimulationAssetTypes.ERC1155:

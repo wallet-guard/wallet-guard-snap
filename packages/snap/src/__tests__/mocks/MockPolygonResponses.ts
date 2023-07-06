@@ -30,7 +30,7 @@ export const PolygonSuccessMultiple1155OpenSea: SimulationSuccessApiResponse = {
       etherscanLink:
         'https://etherscan.io/address/0x2953399124f0cbb46d2cbacd8a89cf0599974963',
       etherscanVerified: true,
-      fiatValue: '19.27537879089481',
+      fiatValue: '19.28',
       logo: 'https://static.alchemyapi.io/images/assets/825.png',
       message:
         'You receive OPENSTORE#8643635851130562235653121855558625543865936930296330347388488092621593478816',
@@ -56,7 +56,7 @@ export const PolygonSuccessMultiple1155OpenSea: SimulationSuccessApiResponse = {
       etherscanLink:
         'https://etherscan.io/address/0x2953399124f0cbb46d2cbacd8a89cf0599974963',
       etherscanVerified: true,
-      fiatValue: '0.6889414076956722',
+      fiatValue: '0.69',
       logo: 'https://static.alchemyapi.io/images/network-assets/matic.png',
       message: 'They receive 0.98 MATIC',
       name: 'MATIC',
