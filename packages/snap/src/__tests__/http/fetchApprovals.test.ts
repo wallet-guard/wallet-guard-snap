@@ -1,5 +1,5 @@
 import { ApprovalNotification } from '../../types/approvalsApi';
-import { fetchApprovals } from '../../http/fetchApprovals'; // replace with actual import
+import { fetchApprovals } from '../../http/fetchApprovals';
 
 jest.mock('../../utils/environment', () => ({
   SERVER_BASE_URL: 'https://api.example.com',
