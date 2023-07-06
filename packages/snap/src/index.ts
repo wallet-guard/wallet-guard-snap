@@ -24,6 +24,8 @@ import {
   shouldRemindApprovals,
   updateWalletAddress,
 } from './utils/account';
+import { fetchApprovals } from './http/fetchApprovals';
+import { generateApprovalsMessage, isDashboard } from './utils/helpers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -36,7 +38,14 @@ import {
  * @throws If the request method is not valid for this snap.
  */
 
-export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
+export const onRpcRequest: OnRpcRequestHandler = async ({
+  origin,
+  request,
+}): Promise<any> => {
+  if (!isDashboard(origin)) {
+    return;
+  }
+
   if (
     request.method === RpcRequestMethods.UpdateAccount &&
     'walletAddress' in request.params &&
@@ -49,6 +58,21 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     }
 
     updateWalletAddress(walletAddress);
+
+    if (walletAddress) {
+      await snap.request({
+        method: 'snap_notify',
+        params: {
+          type: 'inApp',
+          message: `Welcome! Dashboard URL: dashboard.walletguard.app`,
+        },
+      });
+    }
+  } else if (request.method === RpcRequestMethods.GetAccount) {
+    const walletAddress = await getWalletAddress();
+
+    // eslint-disable-next-line consistent-return
+    return walletAddress;
   }
 };
 
@@ -100,24 +124,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
         return;
       }
 
-      const userResponse = (await snap.request({
-        method: 'snap_dialog',
-        params: {
-          type: 'confirmation',
-          content: panel([
-            heading(
-              "We noticed you haven't setup automated approvals checking yet",
-            ),
-            text('Would you like to set this up?'),
-          ]),
-        },
-      })) as boolean;
-
-      await setRemindedTrue();
-
-      if (!userResponse) {
-        return;
-      }
+      setRemindedTrue();
 
       await snap.request({
         method: 'snap_dialog',
@@ -126,12 +133,34 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
           content: panel([
             heading('Complete onboarding'),
             text(
-              'Visit our dashboard to setup automated approval reminders in under 2 minutes',
+              'Get automated reminders to revoke open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes.',
             ),
             copyable('dashboard.walletguard.app'),
           ]),
         },
       });
+
+      return;
     }
+
+    const approvalNotification = await fetchApprovals(walletAddress);
+
+    if (!approvalNotification) {
+      return;
+    }
+
+    const approvalsWarning = generateApprovalsMessage(approvalNotification);
+
+    if (!approvalsWarning) {
+      return;
+    }
+
+    await snap.request({
+      method: 'snap_notify',
+      params: {
+        type: 'inApp',
+        message: approvalsWarning,
+      },
+    });
   }
 };

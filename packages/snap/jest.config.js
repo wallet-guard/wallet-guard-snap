@@ -3,4 +3,6 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
   },
+  rootDir: './src/__tests__',
+  modulePathIgnorePatterns: ['<rootDir>/mocks/'],
 };

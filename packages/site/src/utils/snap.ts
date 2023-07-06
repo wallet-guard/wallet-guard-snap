@@ -68,7 +68,9 @@ export const setAccount = (walletAddress: string) => {
       snapId: defaultSnapOrigin,
       request: {
         method: 'updateAccount',
-        walletAddress,
+        params: {
+          walletAddress,
+        },
       },
     },
   });

@@ -34,7 +34,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are sending:'),
-      text('**1 ETH** ($2000.00)'),
+      text('**1 ETH** ($2,000.00)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -67,7 +67,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**1 ETH** ($2000.00)'),
+      text('**1 ETH** ($2,000.00)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -100,7 +100,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**CryptoKitty** ($1000.00)'),
+      text('**CryptoKitty** ($1,000.00)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -166,7 +166,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are sending:'),
-      text('**2 CryptoPunk** ($3000.00)'),
+      text('**2 CryptoPunk** ($3,000.00)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -199,7 +199,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**0.5 ETH** ($1000.00)'),
+      text('**0.5 ETH** ($1,000.00)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);

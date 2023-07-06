@@ -28,7 +28,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationSuccessApiResponse = 
       etherscanLink:
         'https://etherscan.io/address/0xdac17f958d2ee523a2206206994597c13d831ec7',
       etherscanVerified: true,
-      fiatValue: '19.27537879089481',
+      fiatValue: '19.28',
       logo: 'https://static.alchemyapi.io/images/assets/825.png',
       message: 'You receive 19.276096 USDT',
       name: 'Tether',
@@ -50,7 +50,7 @@ export const EthereumMainnetMockSuccessResponse: SimulationSuccessApiResponse = 
       decimals: 18,
       etherscanLink: '',
       etherscanVerified: true,
-      fiatValue: '19.287887328656645',
+      fiatValue: '19.29',
       logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
       message: 'They receive 0.01 ETH',
       name: 'Ethereum',
@@ -94,7 +94,7 @@ export const EthereumMainnetMockResponseShouldBlock: SimulationSuccessApiRespons
       decimals: 18,
       etherscanLink: '',
       etherscanVerified: true,
-      fiatValue: '200',
+      fiatValue: '200.19',
       logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
       message: 'They receive 0.1 ETH',
       name: 'Ethereum',
@@ -150,7 +150,7 @@ export const EthereumMainnetMockResponseWithWarnings: SimulationSuccessApiRespon
       decimals: 18,
       etherscanLink: '',
       etherscanVerified: true,
-      fiatValue: '200',
+      fiatValue: '200.55',
       logo: 'https://static.alchemyapi.io/images/network-assets/eth.png',
       message: 'They receive 0.1 ETH',
       name: 'Ethereum',
@@ -205,6 +205,30 @@ export const EthereumMainnetMockRevertTransaction: SimulationSuccessApiResponse 
   error: {
     type: ErrorType.Revert,
     message: 'Execution reverted',
+    extraData: null,
+  },
+};
+
+export const EthereumMainnetMockInsufficientFunds: SimulationSuccessApiResponse = {
+  stateChanges: null,
+  recommendedAction: RecommendedActionType.None,
+  overviewMessage: '',
+  method: SimulationMethodType.EthSendTransaction,
+  riskFactors: [],
+  gas: {
+    gasUsedEth: '',
+    fiatValue: '10.97',
+    currency: Currency.USD,
+  },
+  addressDetails: {
+    address: '0x123456789',
+    addressType: 'CONTRACT',
+    etherscanVerified: false,
+    etherscanLink: '',
+  },
+  error: {
+    type: ErrorType.InsufficientFunds,
+    message: 'insufficient funds for this transaction',
     extraData: null,
   },
 };

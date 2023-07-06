@@ -69,7 +69,7 @@ describe('StateChangesComponent', () => {
         etherscanLink: 'http://etherscan2.link',
         coinmarketcapLink: 'http://coinmarketcap2.link',
         message: 'Receive message',
-        fiatValue: '200.00',
+        fiatValue: '200',
       },
     ];
     const gas: SimulatedGas = {
@@ -154,7 +154,7 @@ describe('StateChangesComponent', () => {
         etherscanLink: 'http://etherscan2.link',
         coinmarketcapLink: 'http://coinmarketcap2.link',
         message: 'Receive message',
-        fiatValue: '200.00',
+        fiatValue: '200',
       },
     ];
     const gas: SimulatedGas = {
