@@ -41,7 +41,7 @@ export const generateApprovalsMessage = (
 
   // Remove the count of approvals if it is too many characters
   if (outputWarning.length > 49) {
-    outputWarning = `You have open ${approvals} with ${formatFiatValue(
+    outputWarning = `You have open approvals with ${formatFiatValue(
       accountDetails.fiatValueAtRisk,
       0,
       0,
