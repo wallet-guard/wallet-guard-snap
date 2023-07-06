@@ -461,36 +461,31 @@ describe('onCronJob', () => {
       unmock();
     });
 
-    //   it('should skip reminding the user if they have been reminded already', async () => {
-    //     const snap = await installSnap();
+    it('should skip reminding the user if they have been reminded already', async () => {
+      const snap = await installSnap();
 
-    //     await snap.request({
-    //       method: 'snap_manageState',
-    //       params: {
-    //         operation: 'update',
-    //         newState: { [LocalStorageKeys.HasRemindedApprovals]: false },
-    //       },
-    //     });
+      const output = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
+        params: {},
+      });
 
-    //     const output = snap.runCronjob({
-    //       method: CronJobMethods.CheckApprovals,
-    //       params: {},
-    //     });
+      const ui = await output.getInterface();
 
-    //     const ui = await output.getInterface();
+      assert(ui.type === 'alert');
 
-    //     assert(ui.type === 'alert');
+      expect(ui).toRender(OnboardingReminderComponent());
 
-    //     expect(ui).toRender(OnboardingReminderComponent());
+      await ui.ok();
 
-    //     await ui.ok();
+      const secondOutput = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
+        params: {},
+      });
 
-    //     // const ui = await output.getInterface();
-    //     // const response = await output;
+      const secondResponse = await secondOutput;
 
-    //     // expect(output).toHaveReturned();
-    //     // expect(ui).toRender(panel([]));
-    //     // expect(response.notifications).toHaveLength(0);
-    //   });
+      expect(secondResponse).toRespondWith(null);
+      expect(secondResponse.notifications).toHaveLength(0);
+    });
   });
 });
