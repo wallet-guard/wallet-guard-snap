@@ -50,13 +50,6 @@ export const fetchTransaction = async (
     if (response.status === 200) {
       const data: SimulationSuccessApiResponse = await response.json();
 
-      // TODO: Hardcode for now until we get the real data from the API
-      // data.gas = {
-      //   gasUsedEth: '',
-      //   currency: 'USD',
-      //   fiatValue: '13.50',
-      // };
-
       return data;
     } else if (response.status === 403) {
       const result: SimulationErrorResponse = {

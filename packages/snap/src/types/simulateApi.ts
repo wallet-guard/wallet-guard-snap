@@ -50,7 +50,7 @@ export type SimulationSuccessResponse = {
   method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   riskFactors: RiskFactor[] | null;
-  gas: SimulatedGas;
+  gas?: SimulatedGas; // Only present on transactions
   error: null;
 };
 
@@ -62,7 +62,7 @@ export type SimulationSuccessApiResponse = {
   method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   riskFactors: RiskFactor[] | null;
-  gas: SimulatedGas;
+  gas?: SimulatedGas; // Only present on transactions
   error: SimulationError | null;
 };
 
