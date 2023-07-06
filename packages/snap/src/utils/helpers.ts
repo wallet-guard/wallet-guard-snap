@@ -30,6 +30,13 @@ export const generateApprovalsMessage = (
     return '';
   }
 
+  if (
+    accountDetails.fiatValueAtRisk === '0' &&
+    accountDetails.highRiskApprovals > 0
+  ) {
+    return 'You have high risk approvals, revoke now.';
+  }
+
   const { highRiskApprovals } = accountDetails;
   const approvals = highRiskApprovals === 1 ? 'approval' : 'approvals';
 

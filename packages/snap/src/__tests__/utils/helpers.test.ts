@@ -107,23 +107,23 @@ describe('generateApprovalsMessage', () => {
   });
 
   // TODO: Fix this test
-  // it('should return an empty string when fiatValueAtRisk or highRiskApprovals is zero', () => {
-  //   let result = generateApprovalsMessage({
-  //     openApprovals: 1,
-  //     highRiskApprovals: 0,
-  //     fiatValueAtRisk: '1000',
-  //     currency: Currency.USD,
-  //   });
+  it('should return an empty string when fiatValueAtRisk or highRiskApprovals is zero', () => {
+    let result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 0,
+      fiatValueAtRisk: '1000',
+      currency: Currency.USD,
+    });
 
-  //   expect(result).toBe('');
+    expect(result).toBe('');
 
-  //   result = generateApprovalsMessage({
-  //     openApprovals: 1,
-  //     highRiskApprovals: 1,
-  //     fiatValueAtRisk: '0',
-  //     currency: Currency.USD,
-  //   });
+    result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 1,
+      fiatValueAtRisk: '0',
+      currency: Currency.USD,
+    });
 
-  //   expect(result).toBe('');
-  // });
+    expect(result).toBe('You have high risk approvals, revoke now.');
+  });
 });
