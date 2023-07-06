@@ -1,61 +1,15 @@
-import {
-  ApprovalChangeType,
-  AccountDetail,
-  ApprovalRiskLevel,
-  ERCType,
-} from '../../types/approvalsApi';
-import { ChainId } from '../../types/chains';
+import { ApprovalNotification } from '../../types/approvalsApi';
 
-export const ApprovalsWithOneHighRiskWarning: AccountDetail = {
-  totalAssets: '10000',
-  totalAssetsAtRisk: '500',
-  address: '0x123',
-  approvals: [
-    {
-      chainId: ChainId.EthereumMainnet,
-      contractAddress: '0x11111',
-      approvedAddress: '0x99999',
-      ercType: ERCType.ERC1155,
-      approvalType: ApprovalChangeType.Approval,
-      tokens: {
-        tokenID: '5555',
-        fiatValue: '500',
-        amount: '1',
-        name: 'some NFT',
-        symbol: '',
-        logo: '',
-      },
-      allowance: '1',
-      riskLevel: ApprovalRiskLevel.High,
-    },
-  ],
-  tokens: [],
-  errors: [],
+export const ApprovalsWithHighRiskWarnings: ApprovalNotification = {
+  openApprovals: 123,
+  highRiskApprovals: 14,
+  fiatValueAtRisk: '123112',
+  currency: 'USD',
 };
 
-export const ApprovalsWithZeroHighRiskWarning: AccountDetail = {
-  totalAssets: '10000',
-  totalAssetsAtRisk: '0',
-  address: '0x123',
-  approvals: [
-    {
-      chainId: ChainId.EthereumMainnet,
-      contractAddress: '0x11111',
-      approvedAddress: '0x99999',
-      ercType: ERCType.ERC1155,
-      approvalType: ApprovalChangeType.Approval,
-      tokens: {
-        tokenID: '5555',
-        fiatValue: '0',
-        amount: '1',
-        name: 'some worthless NFT',
-        symbol: '',
-        logo: '',
-      },
-      allowance: '1',
-      riskLevel: ApprovalRiskLevel.Low,
-    },
-  ],
-  tokens: [],
-  errors: [],
+export const ApprovalsWithZeroHighRiskWarning: ApprovalNotification = {
+  openApprovals: 3,
+  highRiskApprovals: 0,
+  fiatValueAtRisk: '0',
+  currency: 'USD',
 };

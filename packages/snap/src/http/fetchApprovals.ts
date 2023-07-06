@@ -1,15 +1,15 @@
-import { AccountDetail } from '../types/approvalsApi';
+import { ApprovalNotification } from '../types/approvalsApi';
 import { SERVER_BASE_URL } from '../utils/environment';
 
 export const fetchApprovals = async (walletAddress: string) => {
   try {
     const response = await fetch(
-      `${SERVER_BASE_URL}/v0/approvals/?address=${walletAddress}`,
+      `${SERVER_BASE_URL}/v0/approvals/notifications?address=${walletAddress}`,
     );
 
-    const accountDetail: AccountDetail = await response.json();
+    const approvalNotification: ApprovalNotification = await response.json();
 
-    return accountDetail;
+    return approvalNotification;
   } catch (e) {
     return null;
   }

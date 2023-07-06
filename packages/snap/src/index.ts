@@ -144,13 +144,13 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
       return;
     }
 
-    const accountDetails = await fetchApprovals(walletAddress as string);
+    const approvalNotification = await fetchApprovals(walletAddress as string);
 
-    if (!accountDetails) {
+    if (!approvalNotification) {
       return;
     }
 
-    const approvalsWarning = generateApprovalsMessage(accountDetails);
+    const approvalsWarning = generateApprovalsMessage(approvalNotification);
 
     if (!approvalsWarning) {
       return;

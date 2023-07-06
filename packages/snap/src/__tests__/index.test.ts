@@ -17,7 +17,7 @@ import {
 } from '../components';
 import { CronJobMethods, RpcRequestMethods } from '../utils/config';
 import {
-  ApprovalsWithOneHighRiskWarning,
+  ApprovalsWithHighRiskWarnings,
   ApprovalsWithZeroHighRiskWarning,
   ArbitrumSuccessTokenSwap,
   EthereumMainnetMockErrorResponse,
@@ -412,10 +412,10 @@ describe('onCronJob', () => {
       });
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/approvals/?address=0x123',
+        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x123',
         response: {
           status: 200,
-          body: JSON.stringify(ApprovalsWithOneHighRiskWarning),
+          body: JSON.stringify(ApprovalsWithHighRiskWarnings),
           contentType: 'application/json',
         },
       });
@@ -429,7 +429,7 @@ describe('onCronJob', () => {
 
       expect(response.notifications).toHaveLength(1);
       expect(response).toSendNotification(
-        'You have 1 open approval with $500 at risk',
+        'You have 14 open approvals with $123112 at risk', // $123112 should format as $123,112 in prod build
         NotificationType.InApp,
       );
 
@@ -448,7 +448,7 @@ describe('onCronJob', () => {
       });
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/approvals/?address=0x123',
+        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x123',
         response: {
           status: 200,
           body: JSON.stringify(ApprovalsWithZeroHighRiskWarning),
