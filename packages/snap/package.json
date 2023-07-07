@@ -1,6 +1,6 @@
 {
   "name": "wallet-guard-snap",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Protect your crypto with transaction insights and proactive security alerts.",
   "repository": {
     "type": "git",
