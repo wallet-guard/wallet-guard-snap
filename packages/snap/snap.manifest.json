@@ -1,13 +1,13 @@
 {
   "version": "0.0.10",
-  "description": "Wallet Guard's simulator inside of a MetaMask Snap.",
+  "description": "Protect your crypto with transaction insights and proactive security alerts.",
   "proposedName": "Wallet Guard",
   "repository": {
     "type": "git",
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "source": {
-    "shasum": "rwXTa8r0zY2lOaX3lRZpIRVZHxrAXXFn4d4gF+WrX2g=",
+    "shasum": "C0LydR9ZvZc05XHjfKd/XnkdrpzKd75cCLNE7xeJcIQ=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
