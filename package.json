@@ -23,7 +23,7 @@
     "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
     "lint:misc": "prettier '**/*.json' '**/*.md' '!**/CHANGELOG.md' '**/*.yml' --ignore-path .gitignore",
     "start": "yarn workspaces foreach --parallel --interlaced --verbose run start",
-    "test": "echo \"TODO\"",
+    "test": "cd packages/snap && yarn test",
     "watch": "nodemon --watch './src/**/*.ts' --ext 'ts,json' --exec 'yarn start'"
   },
   "devDependencies": {
