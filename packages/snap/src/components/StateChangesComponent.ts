@@ -4,7 +4,7 @@ import {
   StateChange,
   StateChangeType,
 } from '../types/simulateApi';
-import { NoStateChangesComponent, AssetChangeComponent } from '.';
+import { AssetChangeComponent, NoStateChangesComponent } from '.';
 
 /**
  * Creates a MetaMask Snap component based on a state change.
@@ -17,8 +17,11 @@ export const StateChangesComponent = (
   stateChanges: StateChange[] | null,
   gas?: SimulatedGas,
 ): Panel => {
-  if (stateChanges === null) {
-    return NoStateChangesComponent();
+  if (stateChanges === null || stateChanges.length === 0) {
+    if (!gas) {
+      return NoStateChangesComponent();
+    }
+    return AssetChangeComponent(StateChangeType.Transfer, [], gas);
   }
 
   const output: Component[] = [];
