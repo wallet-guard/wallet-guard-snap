@@ -488,4 +488,37 @@ describe('onCronJob', () => {
       expect(secondResponse.notifications).toHaveLength(0);
     });
   });
+
+  describe('fetchApprovals 4XX error', () => {
+    it('should not notify the user if the approvals API returns a 4XX response', async () => {
+      const snap = await installSnap();
+
+      await snap.request({
+        origin: 'https://dashboard.walletguard.app',
+        method: RpcRequestMethods.UpdateAccount,
+        params: {
+          walletAddress: '0x123',
+        },
+      });
+
+      const { unmock } = await snap.mock({
+        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x123',
+        response: {
+          status: 400,
+          body: 'Bad request',
+        },
+      });
+
+      const output = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
+        params: {},
+      });
+
+      const response = await output;
+
+      expect(response.notifications).toHaveLength(0);
+
+      unmock();
+    });
+  });
 });

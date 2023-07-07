@@ -34,6 +34,13 @@ export const generateApprovalsMessage = (
     return '';
   }
 
+  if (
+    accountDetails.fiatValueAtRisk === '0' &&
+    accountDetails.highRiskApprovals > 0
+  ) {
+    return 'You have high risk approvals, revoke now.';
+  }
+
   const { highRiskApprovals } = accountDetails;
   const approvals = highRiskApprovals === 1 ? 'approval' : 'approvals';
 
@@ -44,7 +51,7 @@ export const generateApprovalsMessage = (
 
   // Remove the count of approvals if it is too many characters
   if (outputWarning.length > 49) {
-    outputWarning = `You have open ${approvals} with ${formatFiatValue(
+    outputWarning = `You have open approvals with ${formatFiatValue(
       accountDetails.fiatValueAtRisk,
       0,
     )} at risk`;
