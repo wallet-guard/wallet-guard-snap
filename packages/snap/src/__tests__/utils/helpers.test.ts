@@ -1,4 +1,9 @@
-import { isDashboard, formatFiatValue } from '../../utils/helpers';
+import { Currency } from '../../types/simulateApi';
+import {
+  isDashboard,
+  formatFiatValue,
+  generateApprovalsMessage,
+} from '../../utils/helpers';
 
 describe('isDashboard', () => {
   it('should return valid for https://dashboard.walletguard.app', () => {
@@ -53,5 +58,100 @@ describe('formatFiatValue', () => {
   it('should format fiat values with 0 decimals intended', () => {
     const result = formatFiatValue('87125.51', 0, 0);
     expect(result).toBe('$87,126');
+  });
+});
+
+describe('generateApprovalsMessage', () => {
+  it('should correctly generate a message when the length of the message is less than 50 characters', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 1,
+      fiatValueAtRisk: '1000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have 1 open approval with $1,000 at risk');
+  });
+
+  it('should show the count of approvals when 9 approvals 1,000,000 at risk', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 9,
+      fiatValueAtRisk: '1000000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have 9 open approvals with $1,000,000 at risk');
+  });
+
+  it('should show the count of approvals 12 high risk 800,000 at risk', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 12,
+      fiatValueAtRisk: '800000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have 12 open approvals with $800,000 at risk');
+  });
+
+  it('should remove the count of approvals when the length of the message is greater than 49 characters', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 11,
+      fiatValueAtRisk: '1000000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have open approvals with $1,000,000 at risk');
+  });
+
+  it('should replace the message with "Significant open approvals detected, revoke now." when the length of the message is still greater than 49 characters', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 1,
+      fiatValueAtRisk: '1000000000000000000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('Significant open approvals detected, revoke now.');
+  });
+
+  it('should use plural form "approvals" when highRiskApprovals is more than 1', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 2,
+      fiatValueAtRisk: '1000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have 2 open approvals with $1,000 at risk');
+  });
+
+  it('should return an empty string when fiatValueAtRisk or highRiskApprovals is zero', () => {
+    let result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 0,
+      fiatValueAtRisk: '1000',
+      currency: Currency.USD,
+    });
+
+    expect(result).toBe('');
+
+    result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 1,
+      fiatValueAtRisk: '0',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have high risk approvals, revoke now.');
   });
 });
