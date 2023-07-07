@@ -1,4 +1,4 @@
-import { Component, Panel, panel } from '@metamask/snaps-ui';
+import { Component, Panel, panel, text } from '@metamask/snaps-ui';
 import {
   SimulatedGas,
   StateChange,
@@ -38,6 +38,7 @@ export const StateChangesComponent = (
 
   // Show receiving assets second
   if (receiveChanges?.length > 0) {
+    output.push(text('')); // adds padding between the two components
     output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
   }
 
