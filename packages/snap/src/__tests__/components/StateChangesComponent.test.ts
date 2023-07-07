@@ -14,14 +14,41 @@ import {
 } from '../../components';
 
 describe('StateChangesComponent', () => {
-  it('should return NoStateChangesComponent when stateChanges is null', () => {
+  it('should return NoStateChangesComponent when stateChanges is null and no gas is provided', () => {
+    const expected = NoStateChangesComponent();
+    const actual = StateChangesComponent(null);
+    expect(actual).toStrictEqual(expected);
+  });
+
+  it('should return NoStateChangesComponent when stateChanges is empty and no gas is provided', () => {
+    const expected = NoStateChangesComponent();
+    const actual = StateChangesComponent([]);
+    expect(actual).toStrictEqual(expected);
+  });
+
+  it('should handle null stateChanges array correctly when gas estimate exists', () => {
+    const stateChanges: StateChange[] | null = null;
     const gas: SimulatedGas = {
       currency: Currency.USD,
       fiatValue: '2.50',
       gasUsedEth: '0.000000000000000001',
     };
-    const expected = NoStateChangesComponent();
-    const actual = StateChangesComponent(null, gas);
+    const expected = AssetChangeComponent(StateChangeType.Transfer, [], gas);
+
+    const actual = StateChangesComponent(stateChanges, gas);
+    expect(actual).toStrictEqual(expected);
+  });
+
+  it('should handle empty stateChanges array correctly when gas estimate exists', () => {
+    const stateChanges: StateChange[] | null = [];
+    const gas: SimulatedGas = {
+      currency: Currency.USD,
+      fiatValue: '2.50',
+      gasUsedEth: '0.000000000000000001',
+    };
+    const expected = AssetChangeComponent(StateChangeType.Transfer, [], gas);
+
+    const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
   });
 
@@ -172,31 +199,4 @@ describe('StateChangesComponent', () => {
     const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
   });
-
-  it('should handle empty stateChanges array correctly', () => {
-    const stateChanges: StateChange[] = [];
-    const gas: SimulatedGas = {
-      currency: Currency.USD,
-      fiatValue: '2.50',
-      gasUsedEth: '0.000000000000000001',
-    };
-    const expected = panel([
-      AssetChangeComponent(StateChangeType.Transfer, [], gas),
-    ]);
-    const actual = StateChangesComponent(stateChanges, gas);
-    expect(actual).toStrictEqual(expected);
-  });
-
-  // TODO: Fix this test - unclear what the behavior should be
-  // it('should handle null stateChanges array correctly', () => {
-  //   const stateChanges: StateChange[] | null = null;
-  //   const gas: SimulatedGas = {
-  //     currency: Currency.USD,
-  //     fiatValue: '2.50',
-  //     gasUsedEth: '0.000000000000000001',
-  //   };
-  //   const expected = panel([NoStateChangesComponent()]);
-  //   const actual = StateChangesComponent(stateChanges, gas);
-  //   expect(actual).toStrictEqual(expected);
-  // });
 });

@@ -34,7 +34,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are sending:'),
-      text('**1 ETH** ($2,000)'),
+      text('1 ETH ($2,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -67,7 +67,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**1 ETH** ($2,000.40)'),
+      text('1 ETH ($2,000.40)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -100,7 +100,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**CryptoKitty** ($1,000)'),
+      text('CryptoKitty ($1,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -133,7 +133,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**CryptoKitty**'),
+      text('CryptoKitty'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -166,7 +166,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are sending:'),
-      text('**2 CryptoPunk** ($3,000.33)'),
+      text('2 CryptoPunk ($3,000.33)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -199,7 +199,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**0.5 ETH** ($1,000.49)'),
+      text('0.5 ETH ($1,000.49)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
