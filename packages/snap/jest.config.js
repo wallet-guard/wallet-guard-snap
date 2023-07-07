@@ -3,6 +3,10 @@ module.exports = {
   transform: {
     '^.+\\.(t|j)sx?$': 'ts-jest',
   },
-  rootDir: './src/__tests__',
-  modulePathIgnorePatterns: ['<rootDir>/mocks/'],
+  rootDir: './',
+  collectCoverageFrom: ['<rootDir>/**/*.ts'],
+  modulePathIgnorePatterns: [
+    '<rootDir>/src/__tests__/mocks/*',
+    '<rootDir>/src/__tests__/coverage/*',
+  ],
 };
