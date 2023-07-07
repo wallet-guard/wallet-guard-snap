@@ -34,7 +34,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are sending:'),
-      text('**1 ETH** ($2,000.00)'),
+      text('**1 ETH** ($2,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -62,12 +62,12 @@ describe('AssetChangeComponent', () => {
         etherscanLink: 'https://etherscan.io',
         coinmarketcapLink: 'https://coinmarketcap.com',
         message: 'Recieve 1 ETH',
-        fiatValue: '2000',
+        fiatValue: '2000.40',
       },
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**1 ETH** ($2,000.00)'),
+      text('**1 ETH** ($2,000.40)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -100,7 +100,7 @@ describe('AssetChangeComponent', () => {
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**CryptoKitty** ($1,000.00)'),
+      text('**CryptoKitty** ($1,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -161,12 +161,12 @@ describe('AssetChangeComponent', () => {
         etherscanLink: 'https://etherscan.io',
         coinmarketcapLink: 'https://coinmarketcap.com',
         message: 'Transfer 2 CryptoPunk',
-        fiatValue: '3000',
+        fiatValue: '3000.328',
       },
     ];
     const expected = panel([
       heading('You are sending:'),
-      text('**2 CryptoPunk** ($3,000.00)'),
+      text('**2 CryptoPunk** ($3,000.33)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
@@ -194,12 +194,12 @@ describe('AssetChangeComponent', () => {
         etherscanLink: 'https://etherscan.io',
         coinmarketcapLink: 'https://coinmarketcap.com',
         message: 'Receive 0.5 ETH',
-        fiatValue: '1000',
+        fiatValue: '1000.49',
       },
     ];
     const expected = panel([
       heading('You are receiving:'),
-      text('**0.5 ETH** ($1,000.00)'),
+      text('**0.5 ETH** ($1,000.49)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);

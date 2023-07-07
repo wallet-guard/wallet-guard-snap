@@ -23,7 +23,7 @@ const getAssetChangeText = (stateChange: StateChange): Text => {
     : `${stateChange.symbol} #${stateChange.tokenID}`;
 
   const fiatValue = stateChange.fiatValue
-    ? ` (${formatFiatValue(stateChange.fiatValue, 2, 2)})`
+    ? ` (${formatFiatValue(stateChange.fiatValue, 2)})`
     : '';
 
   switch (stateChange.assetType) {

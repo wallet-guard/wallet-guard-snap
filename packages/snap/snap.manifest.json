@@ -1,5 +1,5 @@
 {
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Wallet Guard's simulator inside of a MetaMask Snap.",
   "proposedName": "Wallet Guard",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "source": {
-    "shasum": "GZtPwLxuYuW2eDS65Lkc6q0CZ3cfcWpb4jHihF2gJ4M=",
+    "shasum": "fJhyjgg6Ghq/xrMTsV+OzNjffxl6IfRP39EdHsr+EZI=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -32,7 +32,7 @@
     "endowment:cronjob": {
       "jobs": [
         {
-          "expression": "* * */14 * *",
+          "expression": "0 0 */14 * *",
           "request": {
             "method": "checkApprovals",
             "params": {}

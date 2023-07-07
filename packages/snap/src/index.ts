@@ -3,7 +3,7 @@ import {
   OnRpcRequestHandler,
   OnTransactionHandler,
 } from '@metamask/snaps-types';
-import { copyable, heading, panel, text } from '@metamask/snaps-ui';
+import { panel } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
 import {
   StateChangesComponent,
@@ -11,6 +11,7 @@ import {
   UnsupportedChainComponent,
   showErrorComponent,
   RiskFactorsComponent,
+  OnboardingReminderComponent,
 } from './components';
 import {
   CronJobMethods,
@@ -130,13 +131,7 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
         method: 'snap_dialog',
         params: {
           type: 'alert',
-          content: panel([
-            heading('Complete onboarding'),
-            text(
-              'Get automated reminders to revoke open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes.',
-            ),
-            copyable('dashboard.walletguard.app'),
-          ]),
+          content: OnboardingReminderComponent(),
         },
       });
 

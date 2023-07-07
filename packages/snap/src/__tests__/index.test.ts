@@ -2,12 +2,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { NotificationType, installSnap } from '@metamask/snaps-jest';
 import { expect } from '@jest/globals';
-import { copyable, heading, panel, text } from '@metamask/snaps-ui';
+import { panel } from '@metamask/snaps-ui';
 import { assert } from '@metamask/utils';
 import { ChainId } from '../types/chains';
 import {
   ErrorComponent,
   InsufficientFundsComponent,
+  OnboardingReminderComponent,
   RevertComponent,
   RiskFactorsComponent,
   SimulationOverviewComponent,
@@ -388,15 +389,8 @@ describe('onCronJob', () => {
 
       assert(ui.type === 'alert');
 
-      expect(ui).toRender(
-        panel([
-          heading('Complete onboarding'),
-          text(
-            'Get automated reminders to revoke open approvals that can put your assets at risk for fraud. Setup using our dashboard in under 2 minutes.',
-          ),
-          copyable('dashboard.walletguard.app'),
-        ]),
-      );
+      expect(ui).toRender(OnboardingReminderComponent());
+
       await ui.ok();
     });
 
@@ -429,7 +423,7 @@ describe('onCronJob', () => {
 
       expect(response.notifications).toHaveLength(1);
       expect(response).toSendNotification(
-        'You have 14 open approvals with $123112 at risk', // $123112 should format as $123,112 in prod build
+        'You have 14 open approvals with $123,112 at risk',
         NotificationType.InApp,
       );
 
@@ -467,11 +461,32 @@ describe('onCronJob', () => {
       unmock();
     });
 
-    // TODO
-    // it('should skip reminding the user if they have been reminded already', () => {
-    //   const snap = await installSnap();
+    it('should skip reminding the user if they have been reminded already', async () => {
+      const snap = await installSnap();
 
-    // });
+      const output = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
+        params: {},
+      });
+
+      const ui = await output.getInterface();
+
+      assert(ui.type === 'alert');
+
+      expect(ui).toRender(OnboardingReminderComponent());
+
+      await ui.ok();
+
+      const secondOutput = snap.runCronjob({
+        method: CronJobMethods.CheckApprovals,
+        params: {},
+      });
+
+      const secondResponse = await secondOutput;
+
+      expect(secondResponse).toRespondWith(null);
+      expect(secondResponse.notifications).toHaveLength(0);
+    });
   });
 
   describe('fetchApprovals 4XX error', () => {

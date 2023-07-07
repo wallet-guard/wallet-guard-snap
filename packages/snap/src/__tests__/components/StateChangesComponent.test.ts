@@ -119,7 +119,7 @@ describe('StateChangesComponent', () => {
     ];
     const gas: SimulatedGas = {
       currency: Currency.USD,
-      fiatValue: '2.50',
+      fiatValue: '2.500001',
       gasUsedEth: '0.000000000000000001',
     };
     const transferChanges = stateChanges.filter(
