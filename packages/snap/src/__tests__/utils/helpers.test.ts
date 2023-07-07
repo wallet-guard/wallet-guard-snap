@@ -70,7 +70,32 @@ describe('generateApprovalsMessage', () => {
       currency: Currency.USD,
     });
 
+    expect(result.length).toBeLessThan(50);
     expect(result).toBe('You have 1 open approval with $1,000 at risk');
+  });
+
+  it('should show the count of approvals when 9 approvals 1,000,000 at risk', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 9,
+      fiatValueAtRisk: '1000000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have 9 open approvals with $1,000,000 at risk');
+  });
+
+  it('should show the count of approvals 12 high risk 800,000 at risk', () => {
+    const result = generateApprovalsMessage({
+      openApprovals: 1,
+      highRiskApprovals: 12,
+      fiatValueAtRisk: '800000',
+      currency: Currency.USD,
+    });
+
+    expect(result.length).toBeLessThan(50);
+    expect(result).toBe('You have 12 open approvals with $800,000 at risk');
   });
 
   it('should remove the count of approvals when the length of the message is greater than 49 characters', () => {
@@ -81,6 +106,7 @@ describe('generateApprovalsMessage', () => {
       currency: Currency.USD,
     });
 
+    expect(result.length).toBeLessThan(50);
     expect(result).toBe('You have open approvals with $1,000,000 at risk');
   });
 
@@ -92,6 +118,7 @@ describe('generateApprovalsMessage', () => {
       currency: Currency.USD,
     });
 
+    expect(result.length).toBeLessThan(50);
     expect(result).toBe('Significant open approvals detected, revoke now.');
   });
 
@@ -103,6 +130,7 @@ describe('generateApprovalsMessage', () => {
       currency: Currency.USD,
     });
 
+    expect(result.length).toBeLessThan(50);
     expect(result).toBe('You have 2 open approvals with $1,000 at risk');
   });
 
@@ -123,6 +151,7 @@ describe('generateApprovalsMessage', () => {
       currency: Currency.USD,
     });
 
+    expect(result.length).toBeLessThan(50);
     expect(result).toBe('You have high risk approvals, revoke now.');
   });
 });
