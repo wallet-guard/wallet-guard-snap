@@ -12,6 +12,10 @@ export const numberWithCommas = (x: string): string => {
   return x.replace(/\B(?=(\d{3})+(?!\d))/gu, ',');
 };
 
+export const isValidEthereumAddress = (address: string): boolean => {
+  return /^0x[0-9a-f]{40}$/iu.test(address);
+};
+
 // Adds commas, $ sign, and formats the decimals according to input. Only supports USD for now
 export const formatFiatValue = (
   fiatValue: string,

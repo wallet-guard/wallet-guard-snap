@@ -1,4 +1,5 @@
 import { LocalStorageKeys } from './config';
+import { isValidEthereumAddress } from './helpers';
 
 export const getWalletAddress = async (): Promise<string | null> => {
   const data = await snap.request({
@@ -19,7 +20,13 @@ export const getWalletAddress = async (): Promise<string | null> => {
   return data[LocalStorageKeys.WalletAddress];
 };
 
-export const updateWalletAddress = (walletAddress: string | null) => {
+export const updateWalletAddress = (walletAddress: string) => {
+  const isValidAddress = isValidEthereumAddress(walletAddress);
+
+  if (!isValidAddress) {
+    return;
+  }
+
   snap.request({
     method: 'snap_manageState',
     params: {
