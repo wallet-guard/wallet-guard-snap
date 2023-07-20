@@ -26,7 +26,11 @@ import {
   updateWalletAddress,
 } from './utils/account';
 import { fetchApprovals } from './http/fetchApprovals';
-import { generateApprovalsMessage, isDashboard } from './utils/helpers';
+import {
+  generateApprovalsMessage,
+  isDashboard,
+  isValidEthereumAddress,
+} from './utils/helpers';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -58,17 +62,21 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       throw new Error('no wallet address provided');
     }
 
+    const isValidAddress = isValidEthereumAddress(walletAddress);
+
+    if (!isValidAddress) {
+      throw new Error('invalid wallet address provided');
+    }
+
     updateWalletAddress(walletAddress);
 
-    if (walletAddress) {
-      await snap.request({
-        method: 'snap_notify',
-        params: {
-          type: 'inApp',
-          message: `Welcome! Dashboard URL: dashboard.walletguard.app`,
-        },
-      });
-    }
+    await snap.request({
+      method: 'snap_notify',
+      params: {
+        type: 'inApp',
+        message: `Welcome! Dashboard URL: dashboard.walletguard.app`,
+      },
+    });
   } else if (request.method === RpcRequestMethods.GetAccount) {
     const walletAddress = await getWalletAddress();
 

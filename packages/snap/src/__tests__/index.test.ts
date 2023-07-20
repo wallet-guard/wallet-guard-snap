@@ -401,12 +401,12 @@ describe('onCronJob', () => {
         origin: 'https://dashboard.walletguard.app',
         method: RpcRequestMethods.UpdateAccount,
         params: {
-          walletAddress: '0x123',
+          walletAddress: '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
         },
       });
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x123',
+        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
         response: {
           status: 200,
           body: JSON.stringify(ApprovalsWithHighRiskWarnings),
@@ -437,12 +437,12 @@ describe('onCronJob', () => {
         origin: 'https://dashboard.walletguard.app',
         method: RpcRequestMethods.UpdateAccount,
         params: {
-          walletAddress: '0x123',
+          walletAddress: '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
         },
       });
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x123',
+        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
         response: {
           status: 200,
           body: JSON.stringify(ApprovalsWithZeroHighRiskWarning),
@@ -497,12 +497,12 @@ describe('onCronJob', () => {
         origin: 'https://dashboard.walletguard.app',
         method: RpcRequestMethods.UpdateAccount,
         params: {
-          walletAddress: '0x123',
+          walletAddress: '0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
         },
       });
 
       const { unmock } = await snap.mock({
-        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x123',
+        url: 'https://api.walletguard.app/snaps/v0/approvals/notifications?address=0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876',
         response: {
           status: 400,
           body: 'Bad request',
