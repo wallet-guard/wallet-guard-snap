@@ -19,7 +19,7 @@ export const getWalletAddress = async (): Promise<string | null> => {
   return data[LocalStorageKeys.WalletAddress];
 };
 
-export const updateWalletAddress = (walletAddress: string | null) => {
+export const updateWalletAddress = (walletAddress: string) => {
   snap.request({
     method: 'snap_manageState',
     params: {

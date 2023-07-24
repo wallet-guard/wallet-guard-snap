@@ -3,6 +3,7 @@ import {
   isDashboard,
   formatFiatValue,
   generateApprovalsMessage,
+  isValidEthereumAddress,
 } from '../../utils/helpers';
 
 describe('isDashboard', () => {
@@ -35,6 +36,60 @@ describe('isDashboard', () => {
     const result = isDashboard(
       'https://dashboard.walletguard.app.somescamsite.xyz',
     );
+    expect(result).toBe(false);
+  });
+});
+
+describe('isValidEthereumAddress', () => {
+  it('should return true on valid ethereum address', () => {
+    const result = isValidEthereumAddress(
+      '0x88DC2d8C7d8d42D86Bd7B19cFf98938d1BF7520a',
+    );
+
+    expect(result).toBe(true);
+  });
+
+  it('should fail on invalid characters', () => {
+    const result = isValidEthereumAddress(
+      '0xg8DC2d8C7d8d42D86Bd7B19cFf98938d1BF7520a', // this address contains invalid character 'g'
+    );
+
+    expect(result).toBe(false);
+  });
+
+  it('should fail on invalid length', () => {
+    const result = isValidEthereumAddress('0x123');
+
+    expect(result).toBe(false);
+  });
+
+  it('should fail when no 0x prefix exists', () => {
+    const result = isValidEthereumAddress(
+      '88DC2d8C7d8d42D86Bd7B19cFf98938d1BF7520a',
+    );
+
+    expect(result).toBe(false);
+  });
+
+  it('should fail on length greater than 42', () => {
+    const result = isValidEthereumAddress(
+      '0x88DC2d8C7d8d42D86Bd7B19cFf98938d1BF7520aa', // this address is 43 character long
+    );
+
+    expect(result).toBe(false);
+  });
+
+  it('should fail on length less than 42', () => {
+    const result = isValidEthereumAddress(
+      '0x88DC2d8C7d8d42D86Bd7B19cFf98938d1BF7520', // this address is 41 character long
+    );
+
+    expect(result).toBe(false);
+  });
+
+  it('should fail on empty string', () => {
+    const result = isValidEthereumAddress('');
+
     expect(result).toBe(false);
   });
 });
