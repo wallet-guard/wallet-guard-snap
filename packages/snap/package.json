@@ -8,10 +8,29 @@
   },
   "license": "(MIT-0 OR Apache-2.0)",
   "main": "src/index.ts",
+  "author": {
+    "name": "mindofmar",
+    "email": "martin@walletguard.app",
+    "url": "https://twitter.com/TheMindofMar"
+  },
+  "bugs": {
+    "url": "https://github.com/wallet-guard/wallet-guard-snap/issues"
+  },
+  "homepage": "http://walletguard.app/snap",
   "files": [
     "dist/",
     "images/",
     "snap.manifest.json"
+  ],
+  "keywords": [
+    "metamask",
+    "snap",
+    "metamask snap",
+    "transaction insights",
+    "ethereum",
+    "wallet guard",
+    "wallet",
+    "transaction simulation"
   ],
   "scripts": {
     "build": "mm-snap build",
