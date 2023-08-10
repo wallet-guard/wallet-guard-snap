@@ -34,3 +34,8 @@ issue 4.5 from audit
 
 ## Permissions
 
+## Audit
+
+The `snap` package has been audited by [Consensys Diligence.](https://consensys.io/diligence/)
+
+You can view the full audit report findings here. (TODO)
