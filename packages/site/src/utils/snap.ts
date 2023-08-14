@@ -50,17 +50,6 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
   }
 };
 
-/**
- * Invoke the "hello" method from the Wallet Guard snap.
- */
-
-export const sendRevokePrompt = async () => {
-  await window.ethereum.request({
-    method: 'wallet_invokeSnap',
-    params: { snapId: defaultSnapOrigin, request: { method: 'revokePrompt' } },
-  });
-};
-
 export const setAccount = (walletAddress: string) => {
   window.ethereum.request({
     method: 'wallet_invokeSnap',

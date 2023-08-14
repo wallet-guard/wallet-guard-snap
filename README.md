@@ -1,41 +1,58 @@
 # Wallet Guard Snap
 
-This Snap supports transaction simulation and automated approval revoking reminders for the user. At this time signatures are not yet supported by Snaps, so it is only transactions. Automated approval revoking is setup from `dashboard.walletguard.app` by connecting your wallet or inputting your wallet address, no signature necesary.
+<img src='https://cdn.walletguard.app/extension-assets/snap/snap-preview.png' height='300px' align='right' >
 
+<br>
+<br>
+Protect your crypto. This Snap supports transaction simulation and automated approval revoking reminders for the user. Stop guessing about your transactions when performing swaps, claims, and mints!
 
-## Monorepo
-This repository contains 2 applications, listed under `projects`.
-
-1. Site
-2. Snap
+<br clear="all">
 
 ## Installation
 
-### MetaMask (recommended)
+Please visit https://walletguard.app/snap for everything you need to get started using this Snap.
 
-Snaps are not yet live within the MetaMask extension, but they are expected to launch in September 2023. You can join the email waitlist for our snap from the below landing page.
-
-Snaps Page: https://walletguard.app/snap
-
-### Local Install
-
-Please follow the steps listed in the [Snap package](https://github.com/wallet-guard/wallet-guard-snap/tree/main/packages/snap) for a guide on installing the Snap locally within MetaMask Flask, which is the canary/development build of MetaMask.
-
-## Usage
-
-Running both projects is only necessary for development purposes. Running `yarn` and `yarn start` is how you run both.
-
-For more information about installation and testing of the snap, visit the [Snap package](https://github.com/wallet-guard/wallet-guard-snap/tree/main/packages/snap) 
+If you are a developer, you can follow the [local installation guide.](https://github.com/wallet-guard/wallet-guard-snap/tree/main/packages/snap#installation-guide)
 
 ## Features
-todo - add screenshots
 
-issue 4.5 from audit
+### Transaction insights
 
-## Permissions
+Get advanced insights on your transactions, including built-in security measures. Our transaction insights are powered by the same security engine that keeps
+our [25,000+ Chrome Extension users safe!](https://chrome.google.com/webstore/detail/wallet-guard-protect-your/pdgbckgdncnhihllonhnjbdoighgpimk)
+
+Note- At this time signatures are not yet supported by MetaMask Snaps, only transactions. We will add this feature immediately once it is supported!
+
+<img src='https://cdn.walletguard.app/extension-assets/snap/txn_with_warnings.png' height='450px' >
+
+### Automated security notifications
+
+Get notifications about revoking your assets, directly in MetaMask. This feature is optional.
+
+Automated approval revoking is setup from `dashboard.walletguard.app` by connecting your wallet or inputting your wallet address, no signature necessary.
+
+<img src='https://cdn.walletguard.app/extension-assets/snap/notifications.png' height='300px' >
 
 ## Audit
 
 The `snap` package has been audited by [Consensys Diligence.](https://consensys.io/diligence/)
 
-You can view the full audit report findings here. (TODO)
+You can view the [full audit report findings here.](https://consensys.io/diligence/audits/2023/07/wallet-guard/)
+
+## Permissions
+
+This Snap requires several permissions in order to access the necessary APIs for functionality. To view the entire list of permissions, view the [manifest.json.](https://github.com/wallet-guard/wallet-guard-snap/blob/main/packages/snap/snap.manifest.json)
+
+<img src='https://cdn.walletguard.app/extension-assets/snap/snap-permissions.png' height='300px' >
+
+## Monorepo
+This is a monorepo that contains 2 applications, listed under `projects`.
+
+1. Site - used for local installation / development / testing
+2. Snap - deployed to [NPM](https://www.npmjs.com/package/wallet-guard-snap)
+
+## Usage
+
+Running both projects is only necessary for development purposes. Running `yarn` and `yarn start` is how you run both.
+
+For more information about installation and testing of the snap, visit the [Snap package Installation Guide](https://github.com/wallet-guard/wallet-guard-snap/tree/main/packages/snap#installation-guide)
