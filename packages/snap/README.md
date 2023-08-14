@@ -10,7 +10,7 @@ Protect your crypto. This Snap supports transaction simulation and automated app
 
 ## Installation Guide
 
-### Published build *(recommended)*
+### Published build _(recommended)_
 
 Please visit https://walletguard.app/snap for everything you need to get started using this Snap.
 

@@ -46,6 +46,7 @@ This Snap requires several permissions in order to access the necessary APIs for
 <img src='https://cdn.walletguard.app/extension-assets/snap/snap-permissions.png' height='300px' >
 
 ## Monorepo
+
 This is a monorepo that contains 2 applications, listed under `projects`.
 
 1. Site - used for local installation / development / testing

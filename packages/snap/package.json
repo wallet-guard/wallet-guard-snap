@@ -2,26 +2,6 @@
   "name": "wallet-guard-snap",
   "version": "1.0.1",
   "description": "Protect your crypto with transaction insights and proactive security alerts.",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/wallet-guard/wallet-guard-snap"
-  },
-  "license": "(MIT-0 OR Apache-2.0)",
-  "main": "src/index.ts",
-  "author": {
-    "name": "mindofmar",
-    "email": "martin@walletguard.app",
-    "url": "https://twitter.com/TheMindofMar"
-  },
-  "bugs": {
-    "url": "https://github.com/wallet-guard/wallet-guard-snap/issues"
-  },
-  "homepage": "http://walletguard.app/snap",
-  "files": [
-    "dist/",
-    "images/",
-    "snap.manifest.json"
-  ],
   "keywords": [
     "metamask",
     "snap",
@@ -31,6 +11,26 @@
     "wallet guard",
     "wallet",
     "transaction simulation"
+  ],
+  "homepage": "http://walletguard.app/snap",
+  "bugs": {
+    "url": "https://github.com/wallet-guard/wallet-guard-snap/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wallet-guard/wallet-guard-snap"
+  },
+  "license": "(MIT-0 OR Apache-2.0)",
+  "author": {
+    "name": "mindofmar",
+    "email": "martin@walletguard.app",
+    "url": "https://twitter.com/TheMindofMar"
+  },
+  "main": "src/index.ts",
+  "files": [
+    "dist/",
+    "images/",
+    "snap.manifest.json"
   ],
   "scripts": {
     "build": "mm-snap build",
