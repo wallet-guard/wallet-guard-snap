@@ -4,6 +4,7 @@ build/
 coverage/
 .cache/
 public/
+.idea/
 
 # Logs
 logs

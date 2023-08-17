@@ -2,11 +2,31 @@
   "name": "wallet-guard-snap",
   "version": "1.0.1",
   "description": "Protect your crypto with transaction insights and proactive security alerts.",
+  "keywords": [
+    "metamask",
+    "snap",
+    "metamask snap",
+    "transaction insights",
+    "ethereum",
+    "wallet guard",
+    "wallet",
+    "transaction simulation"
+  ],
+  "homepage": "http://walletguard.app/snap",
+  "bugs": {
+    "url": "https://github.com/wallet-guard/wallet-guard-snap/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "license": "(MIT-0 OR Apache-2.0)",
+  "author": "Wallet Guard <support@walletguard.app> (https://walletguard.app)",
+  "contributors": [
+    "TheMindofMar (https://github.com/mindofmar)",
+    "0xUltimate (https://github.com/0xultimate)",
+    "AugmentedMode (https://github.com/AugmentedMode)"
+  ],
   "main": "src/index.ts",
   "files": [
     "dist/",

@@ -4,7 +4,6 @@ import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
   getSnap,
-  sendRevokePrompt,
   setAccount,
   shouldDisplayReconnectButton,
 } from '../utils';
@@ -12,7 +11,6 @@ import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton,
   Card,
 } from '../components';
 
@@ -131,15 +129,6 @@ const Index = () => {
     }
   };
 
-  const handleSendRevokePrompt = async () => {
-    try {
-      await sendRevokePrompt();
-    } catch (e) {
-      console.error(e);
-      dispatch({ type: MetamaskActions.SetError, payload: e });
-    }
-  };
-
   return (
     <Container>
       <Heading>
@@ -210,26 +199,6 @@ const Index = () => {
             ),
           }}
           disabled={!state.installedSnap}
-        />
-
-        <Card
-          content={{
-            title: 'Prompt Revoke UI',
-            description:
-              'Enter your ETH address to have us check for open approvals which put your assets at risk.',
-            button: (
-              <SendHelloButton
-                onClick={handleSendRevokePrompt}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-          fullWidth={
-            state.isFlask &&
-            Boolean(state.installedSnap) &&
-            !shouldDisplayReconnectButton(state.installedSnap)
-          }
         />
 
         <Notice>

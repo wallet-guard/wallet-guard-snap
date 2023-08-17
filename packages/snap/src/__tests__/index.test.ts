@@ -374,6 +374,45 @@ describe('onRpcRequest', () => {
       );
     });
   });
+
+  // TODO: This should also work but appears another bug in the testing library
+  // The thrown error exists in the response, but the assertion is checking the wrong things
+  // eslint-disable-next-line jest/no-disabled-tests
+  it.skip('updateAccount should throw error on invalid ethereum address input', async () => {
+    const snap = await installSnap();
+    const walletAddress = '0x123';
+
+    const initial = await snap.request({
+      origin: 'https://dashboard.walletguard.app',
+      method: RpcRequestMethods.GetAccount,
+      params: {},
+    });
+
+    expect(initial).toRespondWith(null);
+
+    const updateAccountResult = await snap.request({
+      method: RpcRequestMethods.UpdateAccount,
+      origin: 'https://dashboard.walletguard.app',
+      params: {
+        walletAddress,
+      },
+    });
+
+    const updated = await snap.request({
+      origin: 'https://dashboard.walletguard.app',
+      method: RpcRequestMethods.GetAccount,
+      params: {},
+    });
+
+    // expect(updateAccountResult.response).toThrow(
+    //   new Error('invalid wallet address provided'),
+    // );
+    expect(updateAccountResult).toRespondWithError(
+      'invalid wallet address provided',
+    );
+    expect(updated).toRespondWith(null);
+    expect(updateAccountResult.notifications).toHaveLength(0);
+  });
 });
 
 describe('onCronJob', () => {

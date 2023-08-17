@@ -1,78 +1,59 @@
 # Wallet Guard Snap
 
-This repository demonstrates how to develop a snap with TypeScript. For detailed instructions, see [the MetaMask documentation](https://docs.metamask.io/guide/snaps.html#serving-a-snap-to-your-local-environment).
+<img src='https://cdn.walletguard.app/extension-assets/snap/snap-preview.png' height='300px' align='right' >
 
-MetaMask Snaps is a system that allows anyone to safely expand the capabilities of MetaMask. A _snap_ is a program that we run in an isolated environment that can customize the wallet experience.
+<br>
+<br>
+Protect your crypto. This Snap supports transaction simulation and automated approval revoking reminders for the user. Stop guessing about your transactions when performing swaps, claims, and mints!
 
-## Snaps is pre-release software
+<br clear="all">
 
-To interact with (your) Snaps, you will need to install [MetaMask Flask](https://metamask.io/flask/), a canary distribution for developers that provides access to upcoming features.
+## Installation
 
-## Getting Started
+Please visit https://walletguard.app/snap for everything you need to get started using this Snap.
 
-Clone the template-snap repository [using this template](https://github.com/MetaMask/template-snap-monorepo/generate) and setup the development environment:
+If you are a developer, you can follow the [local installation guide.](https://github.com/wallet-guard/wallet-guard-snap/tree/main/packages/snap#installation-guide)
 
-```shell
-yarn install && yarn start
-```
+## Features
 
-## Cloning
+### Transaction insights
 
-This repository contains GitHub Actions that you may find useful, see `.github/workflows` and [Releasing & Publishing](https://github.com/MetaMask/template-snap-monorepo/edit/main/README.md#releasing--publishing) below for more information.
+Get advanced insights on your transactions, including built-in security measures. Our transaction insights are powered by the same security engine that keeps
+our [25,000+ Chrome Extension users safe!](https://chrome.google.com/webstore/detail/wallet-guard-protect-your/pdgbckgdncnhihllonhnjbdoighgpimk)
 
-If you clone or create this repository outside the MetaMask GitHub organization, you probably want to run `./scripts/cleanup.sh` to remove some files that will not work properly outside the MetaMask GitHub organization.
+Note- At this time signatures are not yet supported by MetaMask Snaps, only transactions. We will add this feature immediately once it is supported!
 
-Note that the `action-publish-release.yml` workflow contains a step that publishes the frontend of this snap (contained in the `public/` directory) to GitHub pages. If you do not want to publish the frontend to GitHub pages, simply remove the step named "Publish to GitHub Pages" in that workflow.
+<img src='https://cdn.walletguard.app/extension-assets/snap/txn_with_warnings.png' height='450px' >
 
-If you don't wish to use any of the existing GitHub actions in this repository, simply delete the `.github/workflows` directory.
+### Automated security notifications
 
-## Contributing
+Get notifications about revoking your assets, directly in MetaMask. This feature is optional.
 
-### Testing and Linting
+Automated approval revoking is setup from `dashboard.walletguard.app` by connecting your wallet or inputting your wallet address, no signature necessary.
 
-Run `yarn test` to run the tests once.
+<img src='https://cdn.walletguard.app/extension-assets/snap/notifications.png' height='300px' >
 
-Run `yarn lint` to run the linter, or run `yarn lint:fix` to run the linter and fix any automatically fixable issues.
+## Audit
 
-### Releasing & Publishing
+The `snap` package has been audited by [Consensys Diligence.](https://consensys.io/diligence/)
 
-The project follows the same release process as the other libraries in the MetaMask organization. The GitHub Actions [`action-create-release-pr`](https://github.com/MetaMask/action-create-release-pr) and [`action-publish-release`](https://github.com/MetaMask/action-publish-release) are used to automate the release process; see those repositories for more information about how they work.
+You can view the [full audit report findings here.](https://consensys.io/diligence/audits/2023/07/wallet-guard/)
 
-1. Choose a release version.
+## Permissions
 
-- The release version should be chosen according to SemVer. Analyze the changes to see whether they include any breaking changes, new features, or deprecations, then choose the appropriate SemVer version. See [the SemVer specification](https://semver.org/) for more information.
+This Snap requires several permissions in order to access the necessary APIs for functionality. To view the entire list of permissions, view the [manifest.json.](https://github.com/wallet-guard/wallet-guard-snap/blob/main/packages/snap/snap.manifest.json)
 
-2. If this release is backporting changes onto a previous release, then ensure there is a major version branch for that version (e.g. `1.x` for a `v1` backport release).
+<img src='https://cdn.walletguard.app/extension-assets/snap/snap-permissions.png' height='300px' >
 
-- The major version branch should be set to the most recent release with that major version. For example, when backporting a `v1.0.2` release, you'd want to ensure there was a `1.x` branch that was set to the `v1.0.1` tag.
+## Monorepo
 
-3. Trigger the [`workflow_dispatch`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch) event [manually](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow) for the `Create Release Pull Request` action to create the release PR.
+This is a monorepo that contains 2 applications, listed under `projects`.
 
-- For a backport release, the base branch should be the major version branch that you ensured existed in step 2. For a normal release, the base branch should be the main branch for that repository (which should be the default value).
-- This should trigger the [`action-create-release-pr`](https://github.com/MetaMask/action-create-release-pr) workflow to create the release PR.
+1. Site - used for local installation / development / testing
+2. Snap - deployed to [NPM](https://www.npmjs.com/package/wallet-guard-snap)
 
-4. Update the changelog to move each change entry into the appropriate change category ([See here](https://keepachangelog.com/en/1.0.0/#types) for the full list of change categories, and the correct ordering), and edit them to be more easily understood by users of the package.
+## Usage
 
-- Generally any changes that don't affect consumers of the package (e.g. lockfile changes or development environment changes) are omitted. Exceptions may be made for changes that might be of interest despite not having an effect upon the published package (e.g. major test improvements, security improvements, improved documentation, etc.).
-- Try to explain each change in terms that users of the package would understand (e.g. avoid referencing internal variables/concepts).
-- Consolidate related changes into one change entry if it makes it easier to explain.
-- Run `yarn auto-changelog validate --rc` to check that the changelog is correctly formatted.
+Running both projects is only necessary for development purposes. Running `yarn` and `yarn start` is how you run both.
 
-5. Review and QA the release.
-
-- If changes are made to the base branch, the release branch will need to be updated with these changes and review/QA will need to restart again. As such, it's probably best to avoid merging other PRs into the base branch while review is underway.
-
-6. Squash & Merge the release.
-
-- This should trigger the [`action-publish-release`](https://github.com/MetaMask/action-publish-release) workflow to tag the final release commit and publish the release on GitHub.
-
-7. Publish the release on npm.
-
-- Be very careful to use a clean local environment to publish the release, and follow exactly the same steps used during CI.
-- Use `npm publish --dry-run` to examine the release contents to ensure the correct files are included. Compare to previous releases if necessary (e.g. using `https://unpkg.com/browse/[package name]@[package version]/`).
-- Once you are confident the release contents are correct, publish the release using `npm publish`.
-
-## Notes
-
-- Babel is used for transpiling TypeScript to JavaScript, so when building with the CLI,
-  `transpilationMode` must be set to `localOnly` (default) or `localAndDeps`.
+For more information about installation and testing of the snap, visit the [Snap package Installation Guide](https://github.com/wallet-guard/wallet-guard-snap/tree/main/packages/snap#installation-guide)
