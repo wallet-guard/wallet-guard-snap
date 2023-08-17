@@ -21,11 +21,12 @@
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "license": "(MIT-0 OR Apache-2.0)",
-  "author": {
-    "name": "mindofmar",
-    "email": "martin@walletguard.app",
-    "url": "https://twitter.com/TheMindofMar"
-  },
+  "author": "Wallet Guard <support@walletguard.app> (https://walletguard.app)",
+  "contributors": [
+    "TheMindofMar (https://github.com/mindofmar)",
+    "0xUltimate (https://github.com/0xultimate)",
+    "AugmentedMode (https://github.com/AugmentedMode)"
+  ],
   "main": "src/index.ts",
   "files": [
     "dist/",
