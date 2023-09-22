@@ -33,7 +33,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are sending:'),
+      heading('➡️ You are sending:'),
       text('1 ETH ($2,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
@@ -66,7 +66,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('1 ETH ($2,000.40)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -99,7 +99,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('CryptoKitty ($1,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -132,7 +132,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('CryptoKitty'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -165,7 +165,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are sending:'),
+      heading('➡️ You are sending:'),
       text('2 CryptoPunk ($3,000.33)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
@@ -198,7 +198,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('0.5 ETH ($1,000.49)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -207,7 +207,7 @@ describe('AssetChangeComponent', () => {
 
   it('should handle empty stateChanges array correctly', () => {
     const stateChanges: StateChange[] = [];
-    const expected = panel([heading('You are sending:')]);
+    const expected = panel([heading('➡️ You are sending:')]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
   });
