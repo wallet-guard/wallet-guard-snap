@@ -43,9 +43,11 @@ const getHeader = (changeType: StateChangeType): Heading => {
   // add more ChangeType mappings here as they are supported
   switch (changeType) {
     case StateChangeType.Receive:
-      return heading('You are receiving:');
+      return heading('⬅️ You are receiving:');
     case StateChangeType.Transfer:
-      return heading('You are sending:');
+      return heading('➡️ You are sending:');
+    case StateChangeType.Approve:
+      return heading('➡️ You are giving approval:');
     default:
       return heading('');
   }

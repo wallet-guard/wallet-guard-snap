@@ -33,7 +33,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are sending:'),
+      heading('➡️ You are sending:'),
       text('1 ETH ($2,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
@@ -66,7 +66,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('1 ETH ($2,000.40)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -99,7 +99,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('CryptoKitty ($1,000)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -132,7 +132,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('CryptoKitty'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
@@ -165,7 +165,7 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are sending:'),
+      heading('➡️ You are sending:'),
       text('2 CryptoPunk ($3,000.33)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
@@ -198,16 +198,50 @@ describe('AssetChangeComponent', () => {
       },
     ];
     const expected = panel([
-      heading('You are receiving:'),
+      heading('⬅️ You are receiving:'),
       text('0.5 ETH ($1,000.49)'),
     ]);
     const actual = AssetChangeComponent(StateChangeType.Receive, stateChanges);
     expect(actual).toStrictEqual(expected);
   });
 
+  it('should correctly generate panel for increaseAllowance()', () => {
+    const stateChanges: StateChange[] = [
+      {
+        assetType: SimulationAssetTypes.ERC20,
+        changeType: StateChangeType.Approve,
+        address: '0x123',
+        amount: '100',
+        symbol: 'ENS',
+        decimals: 18,
+        contractAddress: '0xc18360217d8f7ab5e7c516566761ea12ce7f9d72',
+        name: 'Ethereum Name Service',
+        logo: 'https://example.com/logo.png',
+        tokenID: '',
+        tokenURI: '',
+        tokenName: '',
+        openSeaFloorPrice: 0,
+        openSeaVerified: false,
+        openSeaLink: '',
+        etherscanVerified: true,
+        etherscanLink: 'https://etherscan.io',
+        coinmarketcapLink: 'https://coinmarketcap.com',
+        message: 'They can withdraw 100 ENS',
+        fiatValue: '',
+      },
+    ];
+
+    const expected = panel([
+      heading('➡️ You are giving approval:'),
+      text('100 ENS'),
+    ]);
+    const actual = AssetChangeComponent(StateChangeType.Approve, stateChanges);
+    expect(actual).toStrictEqual(expected);
+  });
+
   it('should handle empty stateChanges array correctly', () => {
     const stateChanges: StateChange[] = [];
-    const expected = panel([heading('You are sending:')]);
+    const expected = panel([heading('➡️ You are sending:')]);
     const actual = AssetChangeComponent(StateChangeType.Transfer, stateChanges);
     expect(actual).toStrictEqual(expected);
   });

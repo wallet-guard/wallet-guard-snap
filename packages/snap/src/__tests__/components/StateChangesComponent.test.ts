@@ -1,4 +1,4 @@
-import { panel } from '@metamask/snaps-ui';
+import { divider, panel } from '@metamask/snaps-ui';
 import {
   Currency,
   SimulatedGas,
@@ -113,6 +113,7 @@ describe('StateChangesComponent', () => {
     const expected = panel([
       // Asserts that Transfer comes before Receive
       AssetChangeComponent(StateChangeType.Transfer, transferChanges, gas),
+      divider(),
       AssetChangeComponent(StateChangeType.Receive, receiveChanges),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
@@ -194,6 +195,7 @@ describe('StateChangesComponent', () => {
     );
     const expected = panel([
       AssetChangeComponent(StateChangeType.Transfer, [], gas),
+      divider(),
       AssetChangeComponent(StateChangeType.Receive, receiveChanges),
     ]);
     const actual = StateChangesComponent(stateChanges, gas);
