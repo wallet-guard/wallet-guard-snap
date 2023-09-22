@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Protect your crypto with transaction insights and proactive security alerts.",
   "proposedName": "Wallet Guard",
   "repository": {
@@ -7,7 +7,7 @@
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "source": {
-    "shasum": "w4NvRAfccOaNV+bHl+disCdDfMBbLdRkY6QFLVnDSOk=",
+    "shasum": "2yoyqVvqwRxZSasmeFXqWd2+BZNiIBr1CFM9ZQR2EsM=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
