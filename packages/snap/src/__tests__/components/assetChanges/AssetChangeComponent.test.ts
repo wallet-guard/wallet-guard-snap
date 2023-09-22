@@ -205,6 +205,40 @@ describe('AssetChangeComponent', () => {
     expect(actual).toStrictEqual(expected);
   });
 
+  it('should correctly generate panel for increaseAllowance()', () => {
+    const stateChanges: StateChange[] = [
+      {
+        assetType: SimulationAssetTypes.ERC20,
+        changeType: StateChangeType.Approve,
+        address: '0x123',
+        amount: '100',
+        symbol: 'ENS',
+        decimals: 18,
+        contractAddress: '0xc18360217d8f7ab5e7c516566761ea12ce7f9d72',
+        name: 'Ethereum Name Service',
+        logo: 'https://example.com/logo.png',
+        tokenID: '',
+        tokenURI: '',
+        tokenName: '',
+        openSeaFloorPrice: 0,
+        openSeaVerified: false,
+        openSeaLink: '',
+        etherscanVerified: true,
+        etherscanLink: 'https://etherscan.io',
+        coinmarketcapLink: 'https://coinmarketcap.com',
+        message: 'They can withdraw 100 ENS',
+        fiatValue: '',
+      },
+    ];
+
+    const expected = panel([
+      heading('➡️ You are giving approval:'),
+      text('100 ENS'),
+    ]);
+    const actual = AssetChangeComponent(StateChangeType.Approve, stateChanges);
+    expect(actual).toStrictEqual(expected);
+  });
+
   it('should handle empty stateChanges array correctly', () => {
     const stateChanges: StateChange[] = [];
     const expected = panel([heading('➡️ You are sending:')]);
