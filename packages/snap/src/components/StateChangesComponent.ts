@@ -1,4 +1,4 @@
-import { Component, Panel, panel } from '@metamask/snaps-ui';
+import { Component, Panel, divider, panel } from '@metamask/snaps-ui';
 import {
   SimulatedGas,
   StateChange,
@@ -34,15 +34,32 @@ export const StateChangesComponent = (
     (stateChange) => stateChange.changeType === StateChangeType.Transfer,
   );
 
-  // Show transferring assets first and always show it because there will be a gas fee
-  output.push(
-    AssetChangeComponent(StateChangeType.Transfer, transferChanges, gas),
+  const approvalChanges = stateChanges.filter(
+    (stateChange) => stateChange.changeType === StateChangeType.Approve,
   );
 
-  // Show receiving assets second
-  if (receiveChanges?.length > 0) {
-    output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
+  // Show transferring assets first and show a gas estimate if there is one
+  if (transferChanges.length > 0 || gas) {
+    output.push(
+      AssetChangeComponent(StateChangeType.Transfer, transferChanges, gas),
+    );
+    output.push(divider());
   }
+
+  // Show receiving assets second
+  if (receiveChanges.length > 0) {
+    output.push(AssetChangeComponent(StateChangeType.Receive, receiveChanges));
+    output.push(divider());
+  }
+
+  // Show approval changes
+  if (approvalChanges.length > 0) {
+    output.push(AssetChangeComponent(StateChangeType.Approve, approvalChanges));
+    output.push(divider());
+  }
+
+  // Remove the final divider at the end of state changes
+  output.pop();
 
   return panel(output);
 };

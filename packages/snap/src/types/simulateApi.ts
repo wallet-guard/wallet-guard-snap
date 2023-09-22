@@ -156,4 +156,5 @@ export enum ErrorType {
 export enum StateChangeType {
   Receive = 'RECEIVE',
   Transfer = 'TRANSFER',
+  Approve = 'APPROVE',
 }
