@@ -109,6 +109,8 @@ function getURLForChainId(chainId: string): string {
       return `${SERVER_BASE_URL}/v0/polygon/mainnet/transaction`;
     case ChainId.ArbitrumMainnet:
       return `${SERVER_BASE_URL}/v0/arb/mainnet/transaction`;
+    case ChainId.OptimismMainnet:
+      return `${SERVER_BASE_URL}/v0/optimism/mainnet/transaction`;
     default:
       throw new Error('chain not supported');
   }
@@ -128,6 +130,8 @@ function mapChainId(chainId: string): string {
       return '137';
     case ChainId.ArbitrumMainnet:
       return '42161';
+    case ChainId.OptimismMainnet:
+      return '10';
     default:
       throw new Error('chain not supported');
   }
