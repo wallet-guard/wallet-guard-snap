@@ -1,5 +1,4 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { NotificationType, installSnap } from '@metamask/snaps-jest';
 import { expect } from '@jest/globals';
 import { panel } from '@metamask/snaps-ui';
@@ -36,7 +35,7 @@ describe('onTransaction', () => {
       const snap = await installSnap();
 
       const response = await snap.sendTransaction({
-        chainId: 'eip155:10',
+        chainId: 'eip155:55',
       });
 
       const expected = UnsupportedChainComponent();

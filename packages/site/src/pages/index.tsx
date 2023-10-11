@@ -186,20 +186,6 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )}
-        <Card
-          content={{
-            title: 'Connect Wallet',
-            description:
-              'Manage your approvals and get notifications on risky open approvals',
-            button: (
-              <ConnectButton
-                onClick={connectWallet}
-                disabled={!state.installedSnap}
-              />
-            ),
-          }}
-          disabled={!state.installedSnap}
-        />
 
         <Notice>
           <p>
