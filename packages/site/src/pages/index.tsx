@@ -1,12 +1,7 @@
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
-import {
-  connectSnap,
-  getSnap,
-  setAccount,
-  shouldDisplayReconnectButton,
-} from '../utils';
+import { connectSnap, getSnap, shouldDisplayReconnectButton } from '../utils';
 import {
   ConnectButton,
   InstallFlaskButton,
@@ -100,19 +95,6 @@ const ErrorMessage = styled.div`
 
 const Index = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
-
-  const connectWallet = async () => {
-    const accounts = await window.ethereum.request<string[]>({
-      method: 'eth_requestAccounts',
-    });
-
-    const account = accounts?.[0];
-    if (!account) {
-      throw new Error('Must accept wallet connection request.');
-    }
-
-    setAccount(account);
-  };
 
   const handleConnectClick = async () => {
     try {

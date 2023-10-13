@@ -3,7 +3,6 @@ import {
   ErrorType,
   Severity,
   SimulationAssetTypes,
-  SimulationMethodType,
   StateChangeType,
   RecommendedActionType,
   WarningType,
@@ -15,7 +14,6 @@ import {
 export const EthereumMainnetMockSuccessResponse: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
-  method: SimulationMethodType.EthSendTransaction,
   stateChanges: [
     {
       address: '0x123',
@@ -82,7 +80,6 @@ export const EthereumMainnetMockSuccessResponse: SimulationSuccessApiResponse = 
 export const EthereumMainnetMockResponseShouldBlock: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.Block,
   overviewMessage: 'This website is suspected to be a wallet drainer.',
-  method: SimulationMethodType.EthSendTransaction,
   stateChanges: [
     {
       address: '0x12345',
@@ -138,7 +135,6 @@ export const EthereumMainnetMockResponseShouldBlock: SimulationSuccessApiRespons
 export const EthereumMainnetMockResponseWithWarnings: SimulationSuccessApiResponse = {
   recommendedAction: RecommendedActionType.Warn,
   overviewMessage: 'We detected 1 high risk indicator on this transaction.',
-  method: SimulationMethodType.EthSendTransaction,
   stateChanges: [
     {
       address: '0x12345',
@@ -189,7 +185,6 @@ export const EthereumMainnetMockRevertTransaction: SimulationSuccessApiResponse 
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
-  method: SimulationMethodType.EthSendTransaction,
   riskFactors: [],
   gas: {
     gasUsedEth: '',
@@ -213,7 +208,6 @@ export const EthereumMainnetMockInsufficientFunds: SimulationSuccessApiResponse 
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
-  method: SimulationMethodType.EthSendTransaction,
   riskFactors: [],
   gas: {
     gasUsedEth: '',
@@ -237,7 +231,6 @@ export const EthereumMainnetMockErrorResponse: SimulationSuccessApiResponse = {
   stateChanges: null,
   recommendedAction: RecommendedActionType.None,
   overviewMessage: '',
-  method: SimulationMethodType.EthSendTransaction,
   riskFactors: [],
   gas: {
     gasUsedEth: '',

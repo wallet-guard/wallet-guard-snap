@@ -47,7 +47,6 @@ export type SimulationSuccessResponse = {
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
@@ -59,7 +58,6 @@ export type SimulationSuccessApiResponse = {
   overviewMessage: string;
   stateChanges: StateChange[] | null;
   addressDetails: SimulationAddressDetails;
-  method: SimulationMethodType | string;
   decodedMessage?: string; // Only present on signatures
   riskFactors: RiskFactor[] | null;
   gas?: SimulatedGas; // Only present on transactions
