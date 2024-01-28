@@ -2,6 +2,7 @@ import {
   OnCronjobHandler,
   OnRpcRequestHandler,
   OnTransactionHandler,
+  SeverityLevel,
 } from '@metamask/snaps-types';
 import { panel } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
@@ -122,7 +123,7 @@ export const onTransaction: OnTransactionHandler = async ({
     ]),
     severity:
       response.recommendedAction === RecommendedActionType.Block
-        ? 'critical'
+        ? SeverityLevel.Critical
         : undefined,
   };
 };
