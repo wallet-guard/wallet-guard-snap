@@ -5,6 +5,7 @@ export const getWalletAddress = async (): Promise<string | null> => {
     method: 'snap_manageState',
     params: {
       operation: 'get',
+      encrypted: false,
     },
   });
 
@@ -25,6 +26,7 @@ export const updateWalletAddress = (walletAddress: string) => {
     params: {
       operation: 'update',
       newState: { [LocalStorageKeys.WalletAddress]: walletAddress },
+      encrypted: false,
     },
   });
 };
@@ -34,6 +36,7 @@ export const shouldRemindApprovals = async (): Promise<boolean> => {
     method: 'snap_manageState',
     params: {
       operation: 'get',
+      encrypted: false,
     },
   });
 
@@ -52,6 +55,7 @@ export const setRemindedTrue = async () => {
     params: {
       operation: 'update',
       newState: { [LocalStorageKeys.HasRemindedApprovals]: true },
+      encrypted: false,
     },
   });
 };

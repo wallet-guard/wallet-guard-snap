@@ -10,7 +10,7 @@ export const SimulationOverviewComponent = (
   }
 
   if (recommendedAction === RecommendedActionType.Warn) {
-    return panel([heading('Heads up'), text(overview), divider()]);
+    return panel([heading('⚠️ Heads up'), text(overview), divider()]);
   } else if (recommendedAction === RecommendedActionType.Block) {
     return panel([heading('🚨 Warning'), text(overview), divider()]);
   }
