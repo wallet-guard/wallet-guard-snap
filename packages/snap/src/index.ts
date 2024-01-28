@@ -31,6 +31,7 @@ import {
   isDashboard,
   isValidEthereumAddress,
 } from './utils/helpers';
+import { RecommendedActionType } from './types/simulateApi';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -119,6 +120,10 @@ export const onTransaction: OnTransactionHandler = async ({
       StateChangesComponent(response.stateChanges, response.gas),
       RiskFactorsComponent(response.riskFactors || []),
     ]),
+    severity:
+      response.recommendedAction === RecommendedActionType.Block
+        ? 'critical'
+        : undefined,
   };
 };
 
