@@ -21,7 +21,7 @@ describe('SimulationOverviewComponent', () => {
 
   it('should return the correct panel when warningType is Warn', () => {
     const overview = 'This is a warning overview.';
-    const expected = panel([heading('Heads up'), text(overview), divider()]);
+    const expected = panel([heading('⚠️ Heads up'), text(overview), divider()]);
 
     const actual = SimulationOverviewComponent(
       overview,

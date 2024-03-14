@@ -53,6 +53,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 
   if (
     request.method === RpcRequestMethods.UpdateAccount &&
+    request.params &&
     'walletAddress' in request.params &&
     typeof request.params.walletAddress === 'string'
   ) {
