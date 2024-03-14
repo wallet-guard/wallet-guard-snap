@@ -21,7 +21,11 @@
     "snap_dialog": {},
     "endowment:rpc": {
       "dapps": true,
-      "snaps": false
+      "snaps": false,
+      "allowedOrigins": [
+        "dashboard.walletguard.app",
+        "dashboard-qa.walletguard.app"
+      ]
     },
     "endowment:transaction-insight": {
       "allowTransactionOrigin": true
