@@ -157,4 +157,6 @@ export enum StateChangeType {
   Receive = 'RECEIVE',
   Transfer = 'TRANSFER',
   Approve = 'APPROVE',
+  Revoke = 'REVOKE_APPROVE',
+  RevokeApprovalForAll = 'REVOKE_APPROVAL_FOR_ALL',
 }

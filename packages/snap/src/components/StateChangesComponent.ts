@@ -38,6 +38,12 @@ export const StateChangesComponent = (
     (stateChange) => stateChange.changeType === StateChangeType.Approve,
   );
 
+  const revokeChanges = stateChanges.filter(
+    (stateChange) =>
+      stateChange.changeType === StateChangeType.Revoke ||
+      stateChange.changeType === StateChangeType.RevokeApprovalForAll,
+  );
+
   // Show transferring assets first and show a gas estimate if there is one
   if (transferChanges.length > 0 || gas) {
     output.push(
@@ -55,6 +61,12 @@ export const StateChangesComponent = (
   // Show approval changes
   if (approvalChanges.length > 0) {
     output.push(AssetChangeComponent(StateChangeType.Approve, approvalChanges));
+    output.push(divider());
+  }
+
+  // Show revoking changes
+  if (revokeChanges.length > 0) {
+    output.push(AssetChangeComponent(StateChangeType.Revoke, revokeChanges));
     output.push(divider());
   }
 

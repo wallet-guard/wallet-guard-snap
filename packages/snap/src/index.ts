@@ -75,7 +75,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       method: 'snap_notify',
       params: {
         type: 'inApp',
-        message: `Welcome! Dashboard URL: dashboard.walletguard.app`,
+        message: `Welcome! Here's your [Dashboard URL.](https://dashboard.walletguard.app)`,
       },
     });
   } else if (request.method === RpcRequestMethods.GetAccount) {
