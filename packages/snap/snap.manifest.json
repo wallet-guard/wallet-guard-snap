@@ -22,8 +22,7 @@
     "endowment:rpc": {
       "allowedOrigins": [
         "https://dashboard.walletguard.app",
-        "https://dashboard-qa.walletguard.app",
-        "http://localhost:8000"
+        "https://dashboard-qa.walletguard.app"
       ]
     },
     "endowment:transaction-insight": {
