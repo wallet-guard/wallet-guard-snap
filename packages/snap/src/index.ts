@@ -2,6 +2,7 @@ import {
   OnCronjobHandler,
   OnRpcRequestHandler,
   OnTransactionHandler,
+  SeverityLevel,
 } from '@metamask/snaps-types';
 import { panel } from '@metamask/snaps-ui';
 import { fetchTransaction } from './http/fetchTransaction';
@@ -30,6 +31,7 @@ import {
   generateApprovalsMessage,
   isValidEthereumAddress,
 } from './utils/helpers';
+import { RecommendedActionType } from './types/simulateApi';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -117,6 +119,10 @@ export const onTransaction: OnTransactionHandler = async ({
       StateChangesComponent(response.stateChanges, response.gas),
       RiskFactorsComponent(response.riskFactors || []),
     ]),
+    severity:
+      response.recommendedAction === RecommendedActionType.Block
+        ? SeverityLevel.Critical
+        : undefined,
   };
 };
 
