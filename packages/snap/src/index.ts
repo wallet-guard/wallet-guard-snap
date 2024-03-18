@@ -44,12 +44,12 @@ import {
  */
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
-  origin,
   request,
 }): Promise<any> => {
-  if (!isDashboard(origin)) {
-    return;
-  }
+  // TODO: DO not commit htis
+  // if (isDashboard(origin)) {
+  //   return;
+  // }
 
   if (
     request.method === RpcRequestMethods.UpdateAccount &&
@@ -75,7 +75,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       method: 'snap_notify',
       params: {
         type: 'inApp',
-        message: `Welcome! Here's your [Dashboard URL.](https://dashboard.walletguard.app)`,
+        message: `[My Dashboard](https://dashboard.walletguard.app)`,
       },
     });
   } else if (request.method === RpcRequestMethods.GetAccount) {
@@ -84,6 +84,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
     // eslint-disable-next-line consistent-return
     return walletAddress;
   }
+
+  return null;
 };
 
 // Handle outgoing transactions.

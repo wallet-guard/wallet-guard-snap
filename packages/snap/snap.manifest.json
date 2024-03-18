@@ -7,7 +7,7 @@
     "url": "https://github.com/wallet-guard/wallet-guard-snap"
   },
   "source": {
-    "shasum": "pB87tpEB7Z+iMXWUuSpGEq5cAswLcAOJEDaxQq9Tcz0=",
+    "shasum": "Klvdh8U697NRm+E6Xvf5y7+nDvyIW1FabwIpdV93Qlw=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -20,8 +20,11 @@
   "initialPermissions": {
     "snap_dialog": {},
     "endowment:rpc": {
-      "dapps": true,
-      "snaps": false
+      "allowedOrigins": [
+        "https://dashboard.walletguard.app",
+        "https://dashboard-qa.walletguard.app",
+        "http://localhost:8000"
+      ]
     },
     "endowment:transaction-insight": {
       "allowTransactionOrigin": true

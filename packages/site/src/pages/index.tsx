@@ -12,6 +12,7 @@ import {
   InstallFlaskButton,
   ReconnectButton,
   Card,
+  ConnectAccountButton,
 } from '../components';
 
 const Container = styled.div`
@@ -186,6 +187,23 @@ const Index = () => {
             disabled={!state.installedSnap}
           />
         )}
+
+        <Card
+          content={{
+            title: 'Get Notifications',
+            description:
+              'Connect your wallet for a test notification. NOTE: You must remove the dashboard check',
+            button: (
+              <ConnectAccountButton
+                onClick={() =>
+                  setAccount('0x4D2DBE7a1DDCc7FE392050481e84D021D2E1F876')
+                }
+                disabled={false}
+              />
+            ),
+          }}
+          disabled={!state.installedSnap}
+        />
 
         <Notice>
           <p>
