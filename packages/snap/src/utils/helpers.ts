@@ -1,13 +1,5 @@
 import { ApprovalNotification } from '../types/approvalsApi';
 
-// isDashboard is a security check to ensure the user is interacting with the snap from the official
-// Wallet Guard Dashboard
-export const isDashboard = (url: string): boolean => {
-  const regex = /^https:\/\/dashboard\.walletguard\.app(\/.*)?$/u;
-
-  return regex.test(url);
-};
-
 export const numberWithCommas = (x: string): string => {
   return x.replace(/\B(?=(\d{3})+(?!\d))/gu, ',');
 };
