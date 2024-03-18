@@ -4,7 +4,7 @@ export const UnsupportedChainComponent = (): Panel => {
   return panel([
     heading('More chains coming soon'),
     text(
-      'Currently Wallet Guard supports ETH, Polygon, Optimism, and Arbitrum with more chains being added soon. In the meanwhile review this transaction in the Details tab.',
+      'Currently Wallet Guard supports ETH, Polygon, Optimism, Arbitrum, Optimism, and Base with more chains being added soon. In the meanwhile review this transaction in the Details tab.',
     ),
   ]);
 };
