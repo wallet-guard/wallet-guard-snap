@@ -20,11 +20,10 @@
   "initialPermissions": {
     "snap_dialog": {},
     "endowment:rpc": {
-      "dapps": true,
-      "snaps": false,
       "allowedOrigins": [
-        "dashboard.walletguard.app",
-        "dashboard-qa.walletguard.app"
+        "https://dashboard.walletguard.app",
+        "https://dashboard-qa.walletguard.app",
+        "http://localhost:8000"
       ]
     },
     "endowment:transaction-insight": {
