@@ -244,7 +244,7 @@ describe('AssetChangeComponent', () => {
       {
         assetType: SimulationAssetTypes.ERC20,
         changeType: StateChangeType.RevokeApprovalForAll,
-        address: '0x3a0b42ce6166abb05d30ddf12e726c95a83d7a16',
+        address: '0x123',
         amount: '0',
         symbol: 'WETH',
         decimals: 18,
@@ -267,7 +267,7 @@ describe('AssetChangeComponent', () => {
       {
         assetType: SimulationAssetTypes.ERC20,
         changeType: StateChangeType.Transfer,
-        address: '0xfb7c744da69aef11dfb54f31d9db12a3b086b025',
+        address: '0x456',
         amount: '0.01',
         symbol: 'WETH',
         decimals: 18,
