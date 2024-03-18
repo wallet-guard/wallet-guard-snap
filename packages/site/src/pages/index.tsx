@@ -190,7 +190,7 @@ const Index = () => {
 
         <Card
           content={{
-            title: 'Get Notifications',
+            title: 'Setup Notifications',
             description:
               'Connect your wallet for a test notification. NOTE: You must add http://localhost:8000 to the allowed origins list in the Snap manifest to use this',
             button: (
