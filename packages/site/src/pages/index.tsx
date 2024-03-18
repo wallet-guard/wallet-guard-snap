@@ -194,10 +194,7 @@ const Index = () => {
             description:
               'Connect your wallet for a test notification. NOTE: You must add http://localhost:8000 to the allowed origins list in the Snap manifest to use this',
             button: (
-              <ConnectAccountButton
-                onClick={() => connectWallet}
-                disabled={false}
-              />
+              <ConnectAccountButton onClick={connectWallet} disabled={false} />
             ),
           }}
           disabled={!state.installedSnap}
