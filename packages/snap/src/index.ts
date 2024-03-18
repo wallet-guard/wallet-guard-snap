@@ -28,7 +28,6 @@ import {
 import { fetchApprovals } from './http/fetchApprovals';
 import {
   generateApprovalsMessage,
-  isDashboard,
   isValidEthereumAddress,
 } from './utils/helpers';
 
@@ -46,11 +45,6 @@ import {
 export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }): Promise<any> => {
-  // TODO: DO not commit htis
-  // if (isDashboard(origin)) {
-  //   return;
-  // }
-
   if (
     request.method === RpcRequestMethods.UpdateAccount &&
     request.params &&
@@ -78,6 +72,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         message: `[My Dashboard](https://dashboard.walletguard.app)`,
       },
     });
+
+    return walletAddress;
   } else if (request.method === RpcRequestMethods.GetAccount) {
     const walletAddress = await getWalletAddress();
 
