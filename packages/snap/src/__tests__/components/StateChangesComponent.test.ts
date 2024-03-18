@@ -201,4 +201,47 @@ describe('StateChangesComponent', () => {
     const actual = StateChangesComponent(stateChanges, gas);
     expect(actual).toStrictEqual(expected);
   });
+
+  it('should correctly handle Revoke stateChanges only', () => {
+    const stateChanges: StateChange[] = [
+      {
+        changeType: StateChangeType.Revoke,
+        assetType: SimulationAssetTypes.ERC721,
+        address: '0x456',
+        amount: '25',
+        symbol: 'RSYMB',
+        decimals: 18,
+        contractAddress: '0x456',
+        name: 'ReceiveTokenName',
+        logo: 'http://logo2.url',
+        tokenID: '2',
+        tokenURI: 'http://token2.uri',
+        tokenName: 'TokenName2',
+        openSeaFloorPrice: 0.2,
+        openSeaVerified: false,
+        openSeaLink: 'http://opensea2.link',
+        etherscanVerified: false,
+        etherscanLink: 'http://etherscan2.link',
+        coinmarketcapLink: 'http://coinmarketcap2.link',
+        message: 'revoke message',
+        fiatValue: '200',
+      },
+    ];
+    const gas: SimulatedGas = {
+      currency: Currency.USD,
+      fiatValue: '2.50',
+      gasUsedEth: '0.000000000000000001',
+    };
+    const revokeChanges = stateChanges.filter(
+      (stateChange) =>
+        stateChange.changeType === StateChangeType.Revoke ||
+        stateChange.changeType === StateChangeType.RevokeApprovalForAll,
+    );
+    const expected = panel([
+      AssetChangeComponent(StateChangeType.Revoke, [], gas),
+      divider(),
+    ]);
+    const actual = StateChangesComponent(revokeChanges, gas);
+    expect(actual).toStrictEqual(expected);
+  });
 });

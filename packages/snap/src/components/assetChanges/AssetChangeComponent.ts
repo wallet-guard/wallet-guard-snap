@@ -48,6 +48,9 @@ const getHeader = (changeType: StateChangeType): Heading => {
       return heading('➡️ You are sending:');
     case StateChangeType.Approve:
       return heading('➡️ You are giving approval:');
+    case StateChangeType.Revoke:
+    case StateChangeType.RevokeApprovalForAll:
+      return heading('⬅️ You are revoking approval:');
     default:
       return heading('');
   }

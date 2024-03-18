@@ -69,7 +69,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       method: 'snap_notify',
       params: {
         type: 'inApp',
-        message: `Welcome! Dashboard URL: dashboard.walletguard.app`,
+        message: `[My Dashboard](https://dashboard.walletguard.app)`,
       },
     });
 

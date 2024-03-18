@@ -239,6 +239,66 @@ describe('AssetChangeComponent', () => {
     expect(actual).toStrictEqual(expected);
   });
 
+  it('should correctly generate panel for revoking', () => {
+    const stateChanges: StateChange[] = [
+      {
+        assetType: SimulationAssetTypes.ERC20,
+        changeType: StateChangeType.RevokeApprovalForAll,
+        address: '0x123',
+        amount: '0',
+        symbol: 'WETH',
+        decimals: 18,
+        contractAddress: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+        name: 'WETH',
+        logo: 'https://static.alchemyapi.io/images/assets/2396.png',
+        tokenID: '',
+        tokenURI: '',
+        tokenName: '',
+        openSeaFloorPrice: 0,
+        openSeaVerified: false,
+        openSeaLink: '',
+        etherscanVerified: true,
+        etherscanLink:
+          'https://etherscan.io/address/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+        coinmarketcapLink: '',
+        message: '',
+        fiatValue: '',
+      },
+      {
+        assetType: SimulationAssetTypes.ERC20,
+        changeType: StateChangeType.Transfer,
+        address: '0x456',
+        amount: '0.01',
+        symbol: 'WETH',
+        decimals: 18,
+        contractAddress: '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+        name: 'WETH',
+        logo: 'https://static.alchemyapi.io/images/assets/2396.png',
+        tokenID: '',
+        tokenURI: '',
+        tokenName: '',
+        openSeaFloorPrice: 0,
+        openSeaVerified: false,
+        openSeaLink: '',
+        etherscanVerified: true,
+        etherscanLink:
+          'https://etherscan.io/address/0x7ceb23fd6bc0add59e62ac25578270cff1b9f619',
+        coinmarketcapLink: '',
+        message: '',
+        fiatValue: '',
+      },
+    ];
+
+    const expected = panel([
+      heading('➡️ You are sending:'),
+      text('0.01 WETH'),
+      heading('⬅️ You are revoking:'),
+      text('WETH'),
+    ]);
+    const actual = AssetChangeComponent(StateChangeType.Approve, stateChanges);
+    expect(actual).toStrictEqual(expected);
+  });
+
   it('should handle empty stateChanges array correctly', () => {
     const stateChanges: StateChange[] = [];
     const expected = panel([heading('➡️ You are sending:')]);

@@ -29,7 +29,7 @@ All latest releases are deployed to [NPM](https://www.npmjs.com/package/wallet-g
 ### ⚡️Transaction insights
 
 Get advanced insights on your transactions, including built-in security measures. Our transaction insights are powered by the same security engine that keeps
-our [25,000+ Chrome Extension users safe!](https://chrome.google.com/webstore/detail/wallet-guard-protect-your/pdgbckgdncnhihllonhnjbdoighgpimk)
+our [100,000+ Chrome Extension users safe!](https://chrome.google.com/webstore/detail/wallet-guard-protect-your/pdgbckgdncnhihllonhnjbdoighgpimk)
 
 Note- At this time signatures are not yet supported by MetaMask Snaps, only transactions. We will add this feature immediately once it is supported!
 
