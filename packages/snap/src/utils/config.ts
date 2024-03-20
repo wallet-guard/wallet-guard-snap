@@ -5,6 +5,7 @@ export const SUPPORTED_CHAINS = [
   ChainId.EthereumMainnet,
   ChainId.PolygonMainnet,
   ChainId.OptimismMainnet,
+  ChainId.BaseMainnet,
 ];
 
 export enum LocalStorageKeys {
