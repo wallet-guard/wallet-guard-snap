@@ -10,6 +10,12 @@ jobs:
     name: Code coverage
     runs-on: ubuntu-20.04
     steps:
+      - name: Wiz sensor
+        uses: consensys-vertical-apps/shared-services-workflows/.github/actions/wiz-sensor@575086cde87dc1459d4079060b1d23d78c357c63 # v1.19.6
+        with:
+          enabled: ${{ vars.WIZ_SENSOR_ENABLED }}
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
+
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -37,6 +43,11 @@ jobs:
       matrix:
         node-version: [16.x, 18.x]
     steps:
+      - name: Wiz sensor
+        uses: consensys-vertical-apps/shared-services-workflows/.github/actions/wiz-sensor@575086cde87dc1459d4079060b1d23d78c357c63 # v1.19.6
+        with:
+          enabled: ${{ vars.WIZ_SENSOR_ENABLED }}
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -76,4 +87,9 @@ jobs:
     needs:
       - build-lint-test
     steps:
+      - name: Wiz sensor
+        uses: consensys-vertical-apps/shared-services-workflows/.github/actions/wiz-sensor@575086cde87dc1459d4079060b1d23d78c357c63 # v1.19.6
+        with:
+          enabled: ${{ vars.WIZ_SENSOR_ENABLED }}
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
       - run: echo "Great success!"

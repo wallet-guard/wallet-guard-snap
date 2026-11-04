@@ -13,6 +13,11 @@ jobs:
       startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: ubuntu-latest
     steps:
+      - name: Wiz sensor
+        uses: consensys-vertical-apps/shared-services-workflows/.github/actions/wiz-sensor@575086cde87dc1459d4079060b1d23d78c357c63 # v1.19.6
+        with:
+          enabled: ${{ vars.WIZ_SENSOR_ENABLED }}
+          token: ${{ secrets.WIZ_SENSOR_TOKEN }}
       - uses: actions/checkout@v2
         with:
           # We check out the release pull request's base branch, which will be
